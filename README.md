@@ -1,2 +1,7 @@
-# signum-name-service
-A web application for the Signum Name Service
+## Getting Started
+
+First, run the development server:
+
+```bash
+yarn dev
+```

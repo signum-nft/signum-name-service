@@ -1,0 +1,19 @@
+a {
+  text-decoration: none;
+}
+
+/* Nprogress custom styling */
+#nprogress .bar {
+  background: #7b1fa2 !important;
+  height: 2px !important;
+  z-index: 2000 !important;
+}
+
+.descriptionText {
+  white-space: pre;
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+}

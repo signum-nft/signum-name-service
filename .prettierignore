@@ -1,0 +1,9 @@
+# Ignore artifacts:
+build
+coverage
+.idea
+.husky
+.next
+.swc
+public/static
+
