@@ -2,15 +2,13 @@ import { useRouter } from "next/router";
 import { MenuOptions } from "@/app/components/MenuOptions";
 import { useAppDispatch } from "@/states/hooks";
 import { appActions } from "@/app/states/appState";
-import { getAvailableLanguages } from "@/app/i18n/getAvailableLanguages";
+import { AvailableLanguages } from "@/app/i18n/availableLanguages";
 
 import Grid from "@mui/material/Grid";
 
 interface LanguageMenuProps {
   children?: any;
 }
-
-const availableLanguages = getAvailableLanguages();
 
 export const LanguageMenu = ({ children }: LanguageMenuProps) => {
   const { setSettingsSidebar } = appActions;
@@ -28,7 +26,7 @@ export const LanguageMenu = ({ children }: LanguageMenuProps) => {
     router.push({ pathname, query }, asPath, { locale });
   };
 
-  const languages = availableLanguages.map((item) => ({
+  const languages = AvailableLanguages.map((item) => ({
     label: item.label,
     onClick: () => {
       switchLanguage(item.locale);

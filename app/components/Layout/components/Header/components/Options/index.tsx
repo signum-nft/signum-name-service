@@ -1,25 +1,17 @@
 import { useTranslation } from "next-i18next";
-import { Amount } from "@signumjs/util";
 import { useAppSelector, useAppDispatch } from "@/states/hooks";
 import { useAppContext } from "@/app/hooks/useAppContext";
-import { useActiveMarketData } from "@/app/hooks/useActiveMarketData";
 import { useAccount } from "@/app/hooks/useAccount";
-import { useTokenMetaData } from "@/app/hooks/useTokenMetaData";
-import { useTokenTransactionalData } from "@/app/hooks/useTokenTransactionalData";
 import { formatAmount } from "@/app/formatAmount";
 import { appActions } from "@/app/states/appState";
 import { selectIsWalletConnected } from "@/app/states/walletState";
 import { requestWalletConnection } from "@/app/requestWalletConnection";
-import { TokenAvatar } from "@/app/components/TokenAvatar";
 import { AccountAvatar } from "@/app/components/AccountAvatar";
 
-import Link from "next/link";
-import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
-import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -34,25 +26,11 @@ export const Options = () => {
   const { accountId, publicKey, balance } = useAccount();
   const { TokenTrtId, NativeTicker } = useAppContext();
   const dispatch = useAppDispatch();
-  const activeMarketData = useActiveMarketData();
-  const tokenTrtMetadata = useTokenMetaData(TokenTrtId);
-  const tokenTransactionalData = useTokenTransactionalData(TokenTrtId);
   const isWalletConnected = useAppSelector(selectIsWalletConnected);
 
   const openSettingsSidebar = () => dispatch(setSettingsSidebar(true));
   const openAccountSidebar = () => dispatch(setAccountSidebar(true));
   const openMobileSidebar = () => dispatch(setMobileSidebar(true));
-
-  const canShowTrtPrice = !!(
-    activeMarketData.price &&
-    tokenTrtMetadata.id &&
-    tokenTransactionalData.priceNQT
-  );
-
-  const price = canShowTrtPrice
-    ? Number(Amount.fromPlanck(tokenTransactionalData.priceNQT).getSigna()) *
-      activeMarketData.price
-    : 0;
 
   return (
     <Grid
@@ -62,54 +40,6 @@ export const Options = () => {
       justifyContent="flex-end"
       columnSpacing={3}
     >
-      <Grid item sx={{ display: { xs: "none", lg: "flex" } }}>
-        <Link href={"/tokens/" + TokenTrtId} passHref>
-          <Tooltip
-            title={`${t(canShowTrtPrice ? "tradeTRT" : "loadingPrice")}`}
-            arrow
-            placement="left"
-          >
-            <Box
-              component="a"
-              display="flex"
-              flexDirection="row"
-              alignItems="center"
-            >
-              <TokenAvatar
-                tokenId={TokenTrtId}
-                sx={{
-                  width: 28,
-                  height: 28,
-                  mr: 1,
-                  border: 1,
-                  borderColor: "divider",
-                }}
-              />
-
-              {canShowTrtPrice && (
-                <Typography
-                  fontWeight={500}
-                  variant="body2"
-                  color="textPrimary"
-                >
-                  {activeMarketData.symbol +
-                    formatAmount(price, false, "", true)}
-                </Typography>
-              )}
-
-              {!canShowTrtPrice && (
-                <Skeleton
-                  variant="rectangular"
-                  width="48px"
-                  height={20}
-                  sx={{ borderRadius: 0.5 }}
-                />
-              )}
-            </Box>
-          </Tooltip>
-        </Link>
-      </Grid>
-
       {!!(isWalletConnected && accountId) && (
         <Grid item>
           <IconButton

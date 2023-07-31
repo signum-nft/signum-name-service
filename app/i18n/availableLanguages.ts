@@ -2,7 +2,7 @@ export interface LanguageType {
   locale: string;
   label: string;
 }
-export const getAvailableLanguages = (): LanguageType[] => [
+export const AvailableLanguages: LanguageType[] = [
   { locale: "en", label: "English" },
   { locale: "de", label: "Deutsch" },
   { locale: "pt", label: "Português" },

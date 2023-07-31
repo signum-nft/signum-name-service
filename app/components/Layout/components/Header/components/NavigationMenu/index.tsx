@@ -11,10 +11,10 @@ export const NavigationMenu = () => {
       role="navigation-menu-bar"
       p={0}
     >
-      <MenuLink type="trade" />
-      <MenuLink type="pool" />
+      {/*<MenuLink type="trade" />*/}
+      {/*<MenuLink type="pool" />*/}
       <MenuLink type="alias" url="/alias" />
-      <MenuLink type="extra" />
+      {/*<MenuLink type="extra" />*/}
     </Box>
   );
 };
