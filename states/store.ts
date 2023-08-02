@@ -20,7 +20,6 @@ import { storage } from "./storage";
 
 import { appSlice } from "@/app/states/appState";
 import { walletSlice } from "@/app/states/walletState";
-import { tokenSlice } from "@/app/states/tokenState";
 import { transactionSlice } from "@/app/states/transactionState";
 import { accountSlice } from "@/app/states/accountState";
 import { marketSlice } from "@/app/states/marketState";
@@ -66,21 +65,6 @@ const walletPersistConfig: PersistConfig<any> = {
   ],
 };
 
-const tokensPersistConfig: PersistConfig<any> = {
-  key: "tokens",
-  version: 4,
-  storage,
-  whitelist: [
-    "isOpenCreateTokenModal",
-    "favoriteTokenIds",
-    "hiddenTokenIds",
-    "tokens",
-    "tradingTokenIds",
-    "latestActiveTokens",
-  ],
-  blacklist: ["isSyncingLatestActiveTokens"],
-};
-
 const accountPersistConfig: PersistConfig<any> = {
   key: "account",
   version: 1,
@@ -90,12 +74,6 @@ const accountPersistConfig: PersistConfig<any> = {
 const portfolioPersistConfig: PersistConfig<any> = {
   key: "portfolio",
   version: 5,
-  storage,
-};
-
-const spotTradePersistConfig: PersistConfig<any> = {
-  key: "spotTrade",
-  version: 4,
   storage,
 };
 
@@ -122,10 +100,6 @@ const rootReducer = combineReducers({
   walletState: persist<ReturnType<typeof walletSlice.reducer>>(
     walletPersistConfig,
     walletSlice.reducer
-  ),
-  tokenState: persist<ReturnType<typeof tokenSlice.reducer>>(
-    tokensPersistConfig,
-    tokenSlice.reducer
   ),
   accountState: persist<ReturnType<typeof accountSlice.reducer>>(
     accountPersistConfig,

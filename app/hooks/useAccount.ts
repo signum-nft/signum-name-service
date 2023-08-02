@@ -2,10 +2,7 @@ import { useAppSelector } from "@/states/hooks";
 import { Amount } from "@signumjs/util";
 import { getBalancesFromAccount } from "@/app/getBalancesFromAccount";
 import { useMemo } from "react";
-import { TokenBalance } from "@/app/types/tokenBalance";
 import { AccountBalance } from "@/app/types/accountBalance";
-import { getTokenBalancesFromAccount } from "@/app/getTokenBalancesFromAccount";
-import { selectTokenMetaDataMap } from "@/app/states/tokenState";
 import { selectCurrentAccountData } from "@/app/states/accountState";
 
 export interface EasyAccountData {
