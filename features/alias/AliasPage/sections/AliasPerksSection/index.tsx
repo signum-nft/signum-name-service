@@ -9,10 +9,19 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import TokenIcon from "@mui/icons-material/Token";
+import { ConnectionStatus, useXTWallet } from "@/app/hooks/useXTWallet";
 
 export const AliasPerksSection = () => {
   const { t } = useTranslation();
+  const { status, account, node } = useXTWallet();
 
+  if (status === ConnectionStatus.Connected) {
+    console.log(
+      "AliasPerksSection",
+      account?.address.getReedSolomonAddress(),
+      node
+    );
+  }
   return (
     <Box
       display="flex"

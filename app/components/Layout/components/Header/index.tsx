@@ -3,7 +3,6 @@ import { useAppSelector } from "@/states/hooks";
 import { selectIsDarkMode } from "@/app/states/appState";
 import { NavigationMenu } from "./components/NavigationMenu";
 import { Options } from "./components/Options";
-import { PhishingAlert } from "./components/PhishingAlert";
 import { Stamp } from "./components/Stamp";
 import { LogoLabel } from "./components/LogoLabel";
 
@@ -40,8 +39,6 @@ export const Header = () => {
         background,
       }}
     >
-      <PhishingAlert />
-
       <Toolbar
         sx={{
           position: "relative",

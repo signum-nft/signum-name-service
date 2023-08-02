@@ -16,7 +16,6 @@ export interface AppState {
   isOpenAccountSidebar: boolean;
   isOpenSettingsSidebar: boolean;
   isOpenMobileSidebar: boolean;
-  isOpenPhishingAlert: boolean;
   snackBar: SnackBarState;
 }
 
@@ -29,7 +28,6 @@ const initialState: AppState = {
   isOpenAccountSidebar: false,
   isOpenSettingsSidebar: false,
   isOpenMobileSidebar: false,
-  isOpenPhishingAlert: true,
   snackBar: { show: false, label: "", severity: "" },
 };
 
@@ -61,9 +59,6 @@ export const appSlice = createSlice({
     },
     setMobileSidebar: (state, action: PayloadAction<boolean>) => {
       state.isOpenMobileSidebar = action.payload;
-    },
-    setPhishingAlert: (state, action: PayloadAction<boolean>) => {
-      state.isOpenPhishingAlert = action.payload;
     },
     setSnackbar: (state, action: PayloadAction<SnackBarState>) => {
       state.snackBar = action.payload;

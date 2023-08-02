@@ -1,6 +1,6 @@
-import { useAppContext } from "./useAppContext";
+import { useXTWallet } from "@/app/hooks/useXTWallet";
 
 export const useExtensionWallet = () => {
-  const { Wallet } = useAppContext();
-  return Wallet.Extension;
+  const { wallet } = useXTWallet();
+  return wallet;
 };

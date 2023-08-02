@@ -1,11 +1,9 @@
 import { useTranslation } from "next-i18next";
-import { useAppSelector, useAppDispatch } from "@/states/hooks";
+import { useAppDispatch } from "@/states/hooks";
 import { useAppContext } from "@/app/hooks/useAppContext";
 import { useAccount } from "@/app/hooks/useAccount";
 import { formatAmount } from "@/app/formatAmount";
 import { appActions } from "@/app/states/appState";
-import { selectIsWalletConnected } from "@/app/states/walletState";
-import { requestWalletConnection } from "@/app/requestWalletConnection";
 import { AccountAvatar } from "@/app/components/AccountAvatar";
 
 import Stack from "@mui/material/Stack";
@@ -18,6 +16,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import MenuIcon from "@mui/icons-material/Menu";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import { ConnectionStatus, useXTWallet } from "@/app/hooks/useXTWallet";
 
 export const Options = () => {
   const { t } = useTranslation();
@@ -25,8 +24,9 @@ export const Options = () => {
     appActions;
   const { accountId, publicKey, balance } = useAccount();
   const { TokenTrtId, NativeTicker } = useAppContext();
+  const { connect, status, account } = useXTWallet();
   const dispatch = useAppDispatch();
-  const isWalletConnected = useAppSelector(selectIsWalletConnected);
+  const isWalletConnected = status === ConnectionStatus.Connected;
 
   const openSettingsSidebar = () => dispatch(setSettingsSidebar(true));
   const openAccountSidebar = () => dispatch(setAccountSidebar(true));
@@ -40,7 +40,7 @@ export const Options = () => {
       justifyContent="flex-end"
       columnSpacing={3}
     >
-      {!!(isWalletConnected && accountId) && (
+      {!!(isWalletConnected && account) && (
         <Grid item>
           <IconButton
             edge="start"
@@ -67,32 +67,8 @@ export const Options = () => {
         </Grid>
       )}
 
-      {isWalletConnected && !publicKey && (
-        <Tooltip title={`${t("inactiveAccountDescription")}`} arrow>
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={1}
-            sx={{
-              border: 1,
-              borderColor: "divider",
-              borderRadius: 2,
-              py: 1,
-              px: 2,
-              ml: 1,
-            }}
-          >
-            <ReportProblemIcon color="warning" />
-
-            <Typography fontWeight={500} variant="body2" color="warning.main">
-              {t("inactiveAccount")}
-            </Typography>
-          </Stack>
-        </Tooltip>
-      )}
-
       {!isWalletConnected && (
-        <Grid item sx={{ display: { xs: "none", md: "flex" } }}>
+        <Grid item sx={{ display: { xs: "none", sm: "flex" } }}>
           <Button
             variant="contained"
             color="primary"
@@ -102,7 +78,7 @@ export const Options = () => {
               borderRadius: 2,
               color: "white",
             }}
-            onClick={requestWalletConnection}
+            onClick={() => connect("Signum Name Service", "Signum-TESTNET")}
             startIcon={<AccountBalanceWalletIcon />}
           >
             {t("connectWallet")}
