@@ -1,25 +1,20 @@
-import { useAppDispatch, useAppSelector } from "@/states/hooks";
+import { useAppDispatch } from "@/states/hooks";
 import { useLedgerService } from "@/app/hooks/useLedgerService";
 import { accountActions } from "@/app/states/accountState";
-import { tokenActions } from "@/app/states/tokenState";
 import { useEffect } from "react";
 import useSWR from "swr";
-import { WalletState } from "@/app/states/walletState";
-import { Address } from "@signumjs/core";
+import { useXTWallet } from "@/app/hooks/useXTWallet";
 
 export const AccountInitializer = () => {
   const { ledgerService } = useLedgerService();
+  const { account } = useXTWallet();
   const dispatch = useAppDispatch();
-  const { publicKey } = useAppSelector<WalletState>(
-    (state) => state.walletState
-  );
-  const tokens = useAppSelector((state) => state.tokenState.tokens);
+  const accountId = account ? account.address.getNumericId() : null;
 
-  const { data: account } = useSWR(
-    ledgerService && publicKey ? `/fetchAccount/${publicKey}` : null,
+  const { data: accountData } = useSWR(
+    ledgerService && accountId ? `/fetchAccount/${accountId}` : null,
     () => {
-      if (!(ledgerService && publicKey)) return null;
-      const accountId = Address.fromPublicKey(publicKey).getNumericId();
+      if (!(ledgerService && accountId)) return null;
       return ledgerService.account.fetchAccount(accountId);
     },
     {
@@ -29,27 +24,13 @@ export const AccountInitializer = () => {
 
   useEffect(() => {
     if (!account) return;
-    const tokenIdsToFetch = new Set<string>(
-      account.assetBalances?.map(({ asset }) => asset) || []
-    );
-    account.unconfirmedAssetBalances?.forEach(({ asset }) =>
-      tokenIdsToFetch.add(asset)
-    );
+    dispatch(accountActions.setCurrentAccount(account.address.getPublicKey()));
+  }, [account, dispatch]);
 
-    tokenIdsToFetch.forEach((tokenId) => {
-      if (tokens[tokenId]) return;
-      ledgerService?.token
-        .fetchMetaData(tokenId)
-        .then((data) => {
-          dispatch(tokenActions.storeTokenMetaData(data));
-        })
-        .catch(console.debug);
-    });
-
-    dispatch(accountActions.setAccountData(account));
-
-    // do not add `tokens` here - otherwise it gets triggered more often
-  }, [dispatch, account, ledgerService]);
+  useEffect(() => {
+    if (!accountData) return;
+    dispatch(accountActions.setAccountData(accountData));
+  }, [accountData, dispatch]);
 
   return null;
 };

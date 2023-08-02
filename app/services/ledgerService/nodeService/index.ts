@@ -9,7 +9,14 @@ export class NodeService extends LedgerSubService {
 
   fetchBlockChainInfo() {
     return handleError(async () => {
-      return this.context.ledger.network.getBlockchainStatus();
+      return this.context.ledger.network.getNetworkInfo();
+    });
+  }
+
+  fetchLastBlock() {
+    return handleError(async () => {
+      const { blocks } = await this.context.ledger.block.getBlocks(0, 0, false);
+      return blocks[0];
     });
   }
 }

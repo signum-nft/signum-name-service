@@ -15,7 +15,7 @@ export interface EasyAccountData {
   name: string;
   description: string;
   balance: AccountBalance;
-  tokenBalances: TokenBalance[];
+  // tokenBalances: TokenBalance[];
 }
 
 const InitialAccountData: EasyAccountData = {
@@ -30,28 +30,30 @@ const InitialAccountData: EasyAccountData = {
     availableBalance: Amount.Zero(),
     reservedBalance: Amount.Zero(),
   },
-  tokenBalances: [],
+  // tokenBalances: [],
 };
 
 export const useAccount = (): EasyAccountData => {
   const account = useAppSelector(selectCurrentAccountData);
-  const tokenMetaDataMap = useAppSelector(selectTokenMetaDataMap);
+  // const tokenMetaDataMap = useAppSelector(selectTokenMetaDataMap);
+
+  console.log("account", account?.accountRS);
 
   return useMemo(() => {
     if (!account) return InitialAccountData;
     const balance = getBalancesFromAccount(account);
-    const tokenBalances = getTokenBalancesFromAccount(
-      account,
-      tokenMetaDataMap
-    );
+    // const tokenBalances = getTokenBalancesFromAccount(
+    //   account,
+    //   // tokenMetaDataMap
+    // );
     return {
       accountId: account.account,
       name: account.name,
       description: account.description,
       accountRS: account.accountRS,
       publicKey: account.publicKey,
-      tokenBalances,
+      // tokenBalances,
       balance,
     };
-  }, [account, tokenMetaDataMap]);
+  }, [account]);
 };

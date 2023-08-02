@@ -3,17 +3,17 @@ import { AccountInitializer } from "./AccountInitializer";
 import { MarketInitializer } from "./MarketInitializer";
 import { PendingTransactionsInitializer } from "./PendingTransactionsInitializer";
 import { MonitorTransactionsInitializer } from "./MonitoredTransactionsInitializer";
-import { NodeHostInitializer } from "./NodeHostInitializer";
+import { LedgerInitializer } from "./LedgerInitializer";
 import { useXTWallet } from "@/app/hooks/useXTWallet";
 
 export const AppInitializer = () => {
-  const { status } = useXTWallet();
   return (
     <>
       {/*<WalletInitializer />*/}
       {/*<NodeHostInitializer />*/}
       {/*<MarketInitializer />*/}
-      {/*<AccountInitializer />*/}
+      <AccountInitializer />
+      <LedgerInitializer />
       {/*<PendingTransactionsInitializer />*/}
       {/*<MonitorTransactionsInitializer />*/}
     </>

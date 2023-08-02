@@ -53,6 +53,7 @@ export const useXTWallet = () => {
       const { status, publicKey, watchOnly, nodeHost, network } =
         e.detail as EventPayload;
       setStatus(status);
+
       if (publicKey && publicKey !== account?.address.getPublicKey()) {
         setAccount({
           address: Address.fromPublicKey(publicKey),
@@ -161,8 +162,16 @@ export const useXTWallet = () => {
     [account, dispatchEvent, node, status]
   );
 
+  const disconnect = useCallback(() => {
+    wallet = new GenericExtensionWallet();
+    dispatchEvent({
+      status: ConnectionStatus.Disconnected,
+    });
+  }, [dispatchEvent]);
+
   return {
     wallet,
+    disconnect,
     connect,
     status,
     node,

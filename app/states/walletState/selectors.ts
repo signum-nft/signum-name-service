@@ -8,9 +8,3 @@ export const selectIsWalletConnected = (state: RootState): boolean =>
 
 export const selectNodeHost = (state: RootState): string =>
   state.walletState.nodeHost;
-
-export const selectWalletSelectedAccount = (state: RootState): string =>
-  state.walletState.publicKey;
-
-export const selectBlockHeight = (state: RootState): number =>
-  state.walletState.blockHeight;

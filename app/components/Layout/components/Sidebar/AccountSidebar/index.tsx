@@ -1,7 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { useAppSelector, useAppDispatch } from "@/states/hooks";
 import { selectIsOpenAccountSidebar, appActions } from "@/app/states/appState";
-import { requestWalletDisconnection } from "@/app/requestWalletConnection";
 import { Divider } from "@/app/components/Divider";
 import { Sidebar, CloseButton } from "../index";
 import { AccountSummary } from "./components/AccountSummary";
@@ -20,9 +19,11 @@ import HubIcon from "@mui/icons-material/Hub";
 import SendIcon from "@mui/icons-material/Send";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ContactsIcon from "@mui/icons-material/Contacts";
+import { useXTWallet } from "@/app/hooks/useXTWallet";
 
 export const AccountSidebar = () => {
   const { t } = useTranslation();
+  const { disconnect } = useXTWallet();
 
   const { setAccountSidebar } = appActions;
   const dispatch = useAppDispatch();
@@ -31,7 +32,7 @@ export const AccountSidebar = () => {
 
   const logOut = () => {
     closeSidebar();
-    requestWalletDisconnection();
+    disconnect();
   };
 
   return (

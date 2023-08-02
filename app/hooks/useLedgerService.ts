@@ -21,5 +21,7 @@ export const useLedgerService = () => {
     return service;
   }, [node, wallet]);
 
-  return { ledgerService };
+  const network = node ? node.network : "";
+
+  return { ledgerService, network };
 };

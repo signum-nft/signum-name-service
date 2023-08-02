@@ -6,10 +6,12 @@ interface AccountDataMap {
 }
 
 export interface AccountState {
+  currentAccount: string;
   accounts: AccountDataMap;
 }
 
 const initialState: AccountState = {
+  currentAccount: "",
   accounts: {},
 };
 
@@ -18,12 +20,15 @@ export const accountSlice = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
+    setCurrentAccount: (state, action: PayloadAction<string>) => {
+      state.currentAccount = action.payload;
+    },
     setAccountData: (state, action: PayloadAction<AccountData>) => {
       const { publicKey } = action.payload;
       state.accounts[publicKey] = action.payload;
     },
     resetAccountData: (state) => {
-      state.accounts = {};
+      return initialState;
     },
   },
 });

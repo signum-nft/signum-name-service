@@ -25,8 +25,7 @@ import { transactionSlice } from "@/app/states/transactionState";
 import { accountSlice } from "@/app/states/accountState";
 import { marketSlice } from "@/app/states/marketState";
 import { portfolioSlice } from "@/app/states/portfolioState";
-
-import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
+import { ledgerSlice } from "@/app/states/ledgerState";
 
 function persist<T = any>(config: PersistConfig<any>, reducer: Reducer) {
   return isClientSide()
@@ -36,10 +35,16 @@ function persist<T = any>(config: PersistConfig<any>, reducer: Reducer) {
 
 const appPersistConfig: PersistConfig<any> = {
   key: "app",
-  version: 4,
+  version: 1,
   storage,
   // persist only the mentioned fields.
-  whitelist: ["themeMode", "isOpenPhishingAlert"],
+  whitelist: ["themeMode"],
+};
+
+const ledgerPersistConfig: PersistConfig<any> = {
+  key: "ledger",
+  version: 1,
+  storage,
 };
 
 const marketPersistConfig: PersistConfig<any> = {
@@ -78,9 +83,8 @@ const tokensPersistConfig: PersistConfig<any> = {
 
 const accountPersistConfig: PersistConfig<any> = {
   key: "account",
-  version: 4,
+  version: 1,
   storage,
-  stateReconciler: autoMergeLevel2,
 };
 
 const portfolioPersistConfig: PersistConfig<any> = {
@@ -106,6 +110,10 @@ const rootReducer = combineReducers({
   appState: persist<ReturnType<typeof appSlice.reducer>>(
     appPersistConfig,
     appSlice.reducer
+  ),
+  ledgerState: persist<ReturnType<typeof ledgerSlice.reducer>>(
+    ledgerPersistConfig,
+    ledgerSlice.reducer
   ),
   marketState: persist<ReturnType<typeof marketSlice.reducer>>(
     marketPersistConfig,
