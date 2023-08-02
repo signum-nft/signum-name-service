@@ -2,7 +2,6 @@ import { useTranslation } from "next-i18next";
 import { MouseEvent } from "react";
 import { useTheme } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
-import { getNativeTicker } from "@/app/getNativeTicker";
 import { Order } from "@/app/types/order";
 import { HeadCell, Data } from "../types";
 
@@ -12,10 +11,10 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import Typography from "@mui/material/Typography";
 import TableSortLabel from "@mui/material/TableSortLabel";
+import { useAppSelector } from "@/states/hooks";
+import { selectAmountSuffix } from "@/app/states/ledgerState";
 
-const ticker = getNativeTicker();
-
-const headCells: readonly HeadCell[] = [
+const getHeadCells = (ticker: string): HeadCell[] => [
   {
     id: "registeredAlias",
     label: "registeredAlias",
@@ -56,6 +55,7 @@ interface Props {
 export const Header = ({ orderBy, order, onRequestSort }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const amountSuffix = useAppSelector(selectAmountSuffix);
 
   const createSortHandler =
     (property: keyof Data) => (event: MouseEvent<unknown>) => {
@@ -83,7 +83,7 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
           background: theme.palette.action.hover,
         }}
       >
-        {headCells.map((headCell) => (
+        {getHeadCells(amountSuffix).map((headCell) => (
           <TableCell
             key={headCell.id}
             sortDirection={orderBy === headCell.id ? order : false}

@@ -1,5 +1,4 @@
 import { useAppSelector, useAppDispatch } from "@/states/hooks";
-import { MarketService } from "@/app/services/marketService";
 import {
   selectTickerSymbol,
   marketActions,
@@ -8,12 +7,13 @@ import {
 
 import useSWR from "swr";
 import differenceInMinutes from "date-fns/differenceInMinutes";
+import { useAppContext } from "@/app/hooks/useAppContext";
 
-const marketService = new MarketService();
-
+const refreshInterval = 5 * 60 * 1000;
 export const MarketInitializer = () => {
   const activeMarketData = useAppSelector(selectActiveMarketData);
   const userTicker = useAppSelector(selectTickerSymbol);
+  const { Services } = useAppContext();
   const dispatch = useAppDispatch();
 
   useSWR(
@@ -23,12 +23,10 @@ export const MarketInitializer = () => {
       if (activeMarketData.last_updated) {
         const currentDate = new Date();
         const lastRequestDate = new Date(activeMarketData.last_updated);
-
         if (differenceInMinutes(currentDate, lastRequestDate) < 7) return;
       }
 
-      const market = await marketService.getMarket(userTicker);
-
+      const market = await Services.Market.getMarket(userTicker);
       if (market) {
         dispatch(
           marketActions.updateMarketData({
@@ -39,8 +37,10 @@ export const MarketInitializer = () => {
       }
     },
     {
-      refreshInterval: 120_000,
-      dedupingInterval: 110_000,
+      refreshInterval,
+      dedupingInterval: refreshInterval - 10_000,
+      revalidateOnFocus: false,
+      revalidateIfStale: false,
     }
   );
 

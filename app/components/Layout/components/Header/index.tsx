@@ -79,7 +79,7 @@ export const Header = () => {
 
         {!IsMaintenance && (
           <>
-            <NavigationMenu />
+            {/*<NavigationMenu />*/}
             <Box display="flex">
               <Options />
             </Box>

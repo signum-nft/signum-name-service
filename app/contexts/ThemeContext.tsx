@@ -96,7 +96,7 @@ export const ThemeContextProvider: FC<ChildrenProps> = ({ children }) => {
         button: { textTransform: "none" },
       },
       shape: {
-        borderRadius: 6,
+        borderRadius: 2,
       },
       components: {
         MuiCssBaseline: {

@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { useAppDispatch } from "@/states/hooks";
+import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { useAppContext } from "@/app/hooks/useAppContext";
 import { useAccount } from "@/app/hooks/useAccount";
 import { formatAmount } from "@/app/formatAmount";
@@ -17,13 +17,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { ConnectionStatus, useXTWallet } from "@/app/hooks/useXTWallet";
+import { selectAmountSuffix } from "@/app/states/ledgerState";
+import { FormattedNumber } from "@/app/components/FormattedNumber";
 
 export const Options = () => {
   const { t } = useTranslation();
   const { setSettingsSidebar, setAccountSidebar, setMobileSidebar } =
     appActions;
-  const { accountId, publicKey, balance } = useAccount();
-  const { TokenTrtId, NativeTicker } = useAppContext();
+  const { balance } = useAccount();
+  const suffix = useAppSelector(selectAmountSuffix);
   const { connect, status, account } = useXTWallet();
   const dispatch = useAppDispatch();
   const isWalletConnected = status === ConnectionStatus.Connected;
@@ -59,9 +61,11 @@ export const Options = () => {
               variant="body2"
               sx={{ display: { xs: "none", md: "flex" }, ml: 1 }}
             >
-              {formatAmount(balance.availableBalance.getSigna()) +
-                " " +
-                NativeTicker}
+              <FormattedNumber
+                value={balance.availableBalance.getSigna()}
+                decimals={2}
+                suffix={suffix}
+              />
             </Typography>
           </IconButton>
         </Grid>

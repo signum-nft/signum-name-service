@@ -1,4 +1,3 @@
-import { WalletInitializer } from "./WalletInitializer";
 import { AccountInitializer } from "./AccountInitializer";
 import { MarketInitializer } from "./MarketInitializer";
 import { PendingTransactionsInitializer } from "./PendingTransactionsInitializer";
@@ -9,7 +8,6 @@ import { useXTWallet } from "@/app/hooks/useXTWallet";
 export const AppInitializer = () => {
   return (
     <>
-      {/*<WalletInitializer />*/}
       {/*<NodeHostInitializer />*/}
       {/*<MarketInitializer />*/}
       <AccountInitializer />

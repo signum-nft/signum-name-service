@@ -50,56 +50,9 @@ export const AccountSidebar = () => {
             <CloseButton onClick={closeSidebar} />
           </Box>
 
-          <Typography color="textSecondary" gutterBottom>
-            {t("holdings")}
-          </Typography>
-
-          <SidebarItem
-            icon={<BusinessCenterIcon fontSize="medium" />}
-            title={t("myPortfolio")}
-            onClick={closeSidebar}
-            url="/me/portfolio"
-          />
-
-          <SidebarItem
-            icon={<SendIcon fontSize="medium" />}
-            title={t("smartTransfer")}
-            onClick={closeSidebar}
-            url="/tokens/transfer"
-          />
-
-          <Typography color="textSecondary" gutterBottom sx={{ mt: 2 }}>
-            {t("myAccount")}
-          </Typography>
-
-          <SidebarItem
-            icon={<ViewQuiltIcon fontSize="medium" />}
-            title={t("myOrder_other")}
-            onClick={closeSidebar}
-            url="/me/orders"
-          />
-
-          <Typography color="textSecondary" gutterBottom sx={{ mt: 2 }}>
-            {t("pool_other")}
-          </Typography>
-
-          <SidebarItem
-            icon={<SpokeIcon fontSize="medium" />}
-            title={t("myPool_other")}
-            onClick={closeSidebar}
-            url="/me/pools"
-          />
-
-          <SidebarItem
-            icon={<HubIcon fontSize="medium" />}
-            title={t("myDefiBalances")}
-            onClick={closeSidebar}
-            url="/me/portfolio?tab=liquidity"
-          />
-
-          <Typography color="textSecondary" gutterBottom sx={{ mt: 2 }}>
-            {t("alias")}
-          </Typography>
+          <Grid item mb={2}>
+            <AccountSummary />
+          </Grid>
 
           <SidebarItem
             icon={<ContactsIcon fontSize="medium" />}
@@ -122,10 +75,6 @@ export const AccountSidebar = () => {
               primary={t("signOut")}
             />
           </MenuItem>
-        </Grid>
-
-        <Grid item mt={4}>
-          <AccountSummary />
         </Grid>
       </Grid>
     </Sidebar>

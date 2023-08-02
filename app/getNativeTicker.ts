@@ -1,4 +1,6 @@
 import { Config } from "@/app/config";
 
-export const getNativeTicker = (): string =>
-  Config.Signum.IsTestnet ? "TSIGNA" : "SIGNA";
+/**
+ * @deprecated Use selector
+ */
+export const get = (): string => (Config.Signum.IsTestnet ? "TSIGNA" : "SIGNA");

@@ -3,7 +3,6 @@ import { GenericExtensionWallet } from "@signumjs/wallets";
 import { WalletDecorator } from "./WalletDecorator";
 import { LedgerServiceContext } from "./LedgerServiceContext";
 import { NodeService } from "./nodeService";
-import { TokenService } from "./tokenService";
 import { AccountService } from "./accountService";
 import { TransactionService } from "./transactionService";
 import { AliasService } from "./aliasService";
@@ -12,7 +11,6 @@ import { SubscriptionService } from "./subscriptionService";
 export class LedgerService {
   private readonly ledger: Ledger;
   private readonly nodeService: NodeService;
-  private readonly tokenService: TokenService;
 
   private readonly accountService: AccountService;
   private readonly transactionService: TransactionService;
@@ -33,7 +31,6 @@ export class LedgerService {
     };
 
     this.nodeService = new NodeService(context);
-    this.tokenService = new TokenService(context);
     this.accountService = new AccountService(context);
     this.transactionService = new TransactionService(context);
     this.aliasService = new AliasService(context);
@@ -49,10 +46,6 @@ export class LedgerService {
 
   get node(): NodeService {
     return this.nodeService;
-  }
-
-  get token(): TokenService {
-    return this.tokenService;
   }
 
   get account(): AccountService {

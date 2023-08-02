@@ -7,7 +7,7 @@ import { useXTWallet } from "@/app/hooks/useXTWallet";
 
 export const AccountInitializer = () => {
   const { ledgerService } = useLedgerService();
-  const { account } = useXTWallet();
+  const { account, status } = useXTWallet();
   const dispatch = useAppDispatch();
   const accountId = account ? account.address.getNumericId() : null;
 

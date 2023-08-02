@@ -9,10 +9,6 @@ const IsTestnet = toBoolean(
   process.env.NEXT_PUBLIC_SIGNUM_IS_TESTNET || "false"
 );
 
-const NativeTicker = IsTestnet ? "TSIGNA" : "SIGNA";
-
-const TokenTrtId = IsTestnet ? "13868324881938171674" : "12402415494995249540";
-
 const ReliableNodes = process.env.NEXT_PUBLIC_SIGNUM_RELIABLE_NODES?.split(
   ","
 ) || [
@@ -27,8 +23,6 @@ export const Config = {
     Explorer: process.env.NEXT_PUBLIC_SIGNUM_EXPLORER || "",
     Network: process.env.NEXT_PUBLIC_SIGNUM_NETWORK || "Signum-TESTNET",
     PlatformAccounts: {},
-    NativeTicker,
-    TokenTrtId,
     ReliableNodes,
     DefaultNode: ReliableNodes[0],
   },

@@ -12,8 +12,6 @@ export const AccountAvatar = () => {
 
   const [imageSrcUrl, setImageSrcUrl] = useState("");
 
-  console.log("account-avatar", accountId);
-
   const { data: ipfsUrl } = useSWR(
     accountId ? `account/avatar/${accountId}` : null,
     async () => {

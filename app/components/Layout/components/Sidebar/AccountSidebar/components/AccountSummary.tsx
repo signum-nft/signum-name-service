@@ -1,12 +1,9 @@
 import { useTranslation } from "next-i18next";
-import { useAppContext } from "@/app/hooks/useAppContext";
 import { useAccount } from "@/app/hooks/useAccount";
 import { useSnackbar } from "@/app/hooks/useSnackbar";
 import { asRSAddress } from "@/app/asRSAddress";
 import { openExplorer } from "@/app/explorer";
-import { asSignaString } from "@/app/asSignaString";
 
-import Link from "next/link";
 import copy from "copy-to-clipboard";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
@@ -16,10 +13,11 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { FormattedAmount } from "@/app/components/FormattedAmount";
 
 export const AccountSummary = () => {
   const { t } = useTranslation();
-  const { accountId, balance } = useAccount();
+  const { accountId, balance, accountRS } = useAccount();
   const { showInfo } = useSnackbar();
 
   const copyAccountAddress = () => {
@@ -44,7 +42,7 @@ export const AccountSummary = () => {
         mb={1}
       >
         <Typography color="textSecondary" variant="body2">
-          {asRSAddress(accountId)}
+          {accountRS}
         </Typography>
 
         <Box display="flex" flexDirection="row">
@@ -83,7 +81,7 @@ export const AccountSummary = () => {
         />
 
         <Typography fontWeight={500}>
-          {asSignaString(balance.availableBalance)}
+          <FormattedAmount value={balance.availableBalance.getSigna()} />
         </Typography>
       </Box>
     </Paper>
