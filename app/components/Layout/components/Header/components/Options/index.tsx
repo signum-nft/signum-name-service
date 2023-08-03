@@ -28,7 +28,7 @@ export const Options = () => {
   const suffix = useAppSelector(selectAmountSuffix);
   const { connect, status, account } = useXTWallet();
   const dispatch = useAppDispatch();
-  const isWalletConnected = status === ConnectionStatus.Connected;
+  const isWalletConnected = status.code === ConnectionStatus.Connected;
 
   const openSettingsSidebar = () => dispatch(setSettingsSidebar(true));
   const openAccountSidebar = () => dispatch(setAccountSidebar(true));
@@ -71,24 +71,24 @@ export const Options = () => {
         </Grid>
       )}
 
-      {!isWalletConnected && (
-        <Grid item sx={{ display: { xs: "none", sm: "flex" } }}>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{
-              px: 3,
-              py: 1,
-              borderRadius: 2,
-              color: "white",
-            }}
-            onClick={() => connect("Signum Name Service", "Signum-TESTNET")}
-            startIcon={<AccountBalanceWalletIcon />}
-          >
-            {t("connectWallet")}
-          </Button>
-        </Grid>
-      )}
+      {/*{!isWalletConnected && (*/}
+      {/*  <Grid item sx={{ display: { xs: "none", sm: "flex" } }}>*/}
+      {/*    <Button*/}
+      {/*      variant="contained"*/}
+      {/*      color="primary"*/}
+      {/*      sx={{*/}
+      {/*        px: 3,*/}
+      {/*        py: 1,*/}
+      {/*        borderRadius: 2,*/}
+      {/*        color: "white",*/}
+      {/*      }}*/}
+      {/*      onClick={() => connect("Signum Name Service", "Signum-TESTNET")}*/}
+      {/*      startIcon={<AccountBalanceWalletIcon />}*/}
+      {/*    >*/}
+      {/*      {t("connectWallet")}*/}
+      {/*    </Button>*/}
+      {/*  </Grid>*/}
+      {/*)}*/}
 
       <Grid item>
         <Tooltip title={`${t("settings")}`} arrow>

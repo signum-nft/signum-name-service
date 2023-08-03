@@ -84,9 +84,9 @@ export const ThemeContextProvider: FC<ChildrenProps> = ({ children }) => {
         mode: themeMode,
         ...selectedThemeColor,
         secondary: {
-          light: "#69c9ff",
-          main: "#0099ff",
-          dark: "#006ccb",
+          light: "#ffca84",
+          main: "#ffb856",
+          dark: "#d79937",
           contrastText,
         },
         background:

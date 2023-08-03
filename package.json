@@ -42,6 +42,7 @@
     "next-i18next": "^14.0.0",
     "nprogress": "^0.2.0",
     "react": "18.2.0",
+    "react-awesome-reveal": "^4.2.5",
     "react-device-detect": "^2.2.3",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.2",

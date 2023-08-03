@@ -1,5 +1,4 @@
-import { Alias } from "@/features/alias/AliasPage";
-
+import { Alias } from "@/features/home";
 import { GetServerSidePropsI18N, withTranslations } from "@/app/i18n/server";
 
 export async function getServerSideProps({ locale }: GetServerSidePropsI18N) {

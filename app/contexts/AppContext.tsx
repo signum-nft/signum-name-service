@@ -16,6 +16,7 @@ export interface AppContextType {
   };
   Platform: typeof Config.Platform;
   Explorer: string;
+  SignumSwap: string;
   Services: {
     Market: MarketService;
   };
@@ -31,6 +32,7 @@ const config: AppContextType = {
     Network: Config.Signum.Network,
   },
   Explorer: Config.Signum.Explorer,
+  SignumSwap: Config.Signum.SignumSwap,
   Services: {
     Market: new MarketService(),
   },

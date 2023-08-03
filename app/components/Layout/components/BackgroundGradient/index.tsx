@@ -18,7 +18,7 @@ export const BackgroundGradient = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        display: { xs: "none", lg: "block" },
+        display: "block",
       }}
     />
   );

@@ -22,6 +22,7 @@ export const Config = {
     IsTestnet,
     Explorer: process.env.NEXT_PUBLIC_SIGNUM_EXPLORER || "",
     Network: process.env.NEXT_PUBLIC_SIGNUM_NETWORK || "Signum-TESTNET",
+    SignumSwap: process.env.NEXT_PUBLIC_SIGNUM_SWAP || "",
     PlatformAccounts: {},
     ReliableNodes,
     DefaultNode: ReliableNodes[0],

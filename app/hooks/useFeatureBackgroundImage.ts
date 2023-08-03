@@ -8,7 +8,7 @@ export const useFeatureBackgroundImage = (disableGradient = false) => {
   const { pathname } = router;
   const isDarkMode = useAppSelector(selectIsDarkMode);
 
-  const backgroundImage = useMemo(() => {
+  return useMemo(() => {
     if (disableGradient) return isDarkMode ? "#1E1E1E" : "#FFFFFF";
 
     // Alias related routes
@@ -34,6 +34,4 @@ export const useFeatureBackgroundImage = (disableGradient = false) => {
       ? "linear-gradient(rgb(43, 32, 56) 0%, rgb(25, 28, 31) 85%)"
       : "radial-gradient(100% 100% at 50% 0%, rgba(183, 95, 253, 0.3) 0%, rgba(255, 255, 255, 0) 100%)";
   }, [isDarkMode, pathname, disableGradient]);
-
-  return backgroundImage;
 };

@@ -53,15 +53,13 @@ export const FooterNavLinks = ({ title, links }: FooterNavLinksProps) => {
 
         if (url)
           return (
-            <Link key={label} href={url} passHref>
-              <Typography
-                component="a"
-                target={newTab ? "_blank" : "_self"}
-                sx={textStyling}
-                rel="noopener noreferrer"
-              >
-                {label}
-              </Typography>
+            <Link
+              key={label}
+              href={url}
+              rel="noopener noreferrer"
+              target={newTab ? "_blank" : "_self"}
+            >
+              <Typography sx={textStyling}>{label}</Typography>
             </Link>
           );
       })}

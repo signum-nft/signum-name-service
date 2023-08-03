@@ -18,19 +18,20 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import NetworkIcon from "@mui/icons-material/Podcasts";
+import { useXTWallet } from "@/app/hooks/useXTWallet";
 
 export const WalletWrongNetworkModal = () => {
   const { t } = useTranslation();
-  const { Ledger } = useAppContext();
+  const { Ledger, Platform } = useAppContext();
   const { setWalletWrongNetworkModal } = appActions;
+  const { connect } = useXTWallet();
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector(selectIsOpenWalletWrongNetworkModal);
 
   const handleClose = () => dispatch(setWalletWrongNetworkModal(false));
-
   const handleConnection = () => {
-    requestWalletConnection();
     handleClose();
+    connect(Platform.Name, Ledger.Network);
   };
 
   let signumNode = "Signum (Mainnet Node)";
@@ -43,27 +44,6 @@ export const WalletWrongNetworkModal = () => {
       <DialogTitle sx={{ textAlign: "center" }}>
         {t("xtWalletInvalidNetworkDialogTitle")}
       </DialogTitle>
-
-      <DialogContent dividers>
-        <DialogContentText sx={{ textAlign: "center" }}>
-          {t("xtWalletInvalidNetworkDialogHint")}
-        </DialogContentText>
-
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          sx={{ my: 1, py: 1, color: "#ffffff" }}
-          startIcon={<AccountBalanceWalletIcon />}
-          onClick={handleConnection}
-        >
-          {t("connectWallet")}
-        </Button>
-
-        <DialogContentText sx={{ textAlign: "center" }}>
-          {t("xtWalletChooseAnotherNetwork")}
-        </DialogContentText>
-      </DialogContent>
 
       <DialogContent>
         <Alert
@@ -93,6 +73,37 @@ export const WalletWrongNetworkModal = () => {
             </Box>
           </Box>
         </Alert>
+      </DialogContent>
+
+      <DialogContent dividers>
+        <DialogContentText sx={{ textAlign: "justify" }}>
+          {t("xtWalletInvalidNetworkDialogHint")}
+        </DialogContentText>
+
+        <DialogContentText
+          fontSize={"small"}
+          sx={{ textAlign: "justify", mt: 1 }}
+        >
+          {t("xtWalletChooseAnotherNetwork")}
+        </DialogContentText>
+
+        <Box
+          sx={{
+            mx: "auto",
+            width: { xs: "100%", md: "50%" },
+          }}
+        >
+          <Button
+            variant="contained"
+            color="secondary"
+            fullWidth
+            sx={{ my: 1, py: 1, color: "#ffffff" }}
+            startIcon={<AccountBalanceWalletIcon />}
+            onClick={handleConnection}
+          >
+            {t("connectWallet")}
+          </Button>
+        </Box>
       </DialogContent>
     </Dialog>
   );

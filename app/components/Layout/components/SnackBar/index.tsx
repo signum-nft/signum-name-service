@@ -10,16 +10,21 @@ import CloseIcon from "@mui/icons-material/Close";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Slide, { SlideProps } from "@mui/material/Slide";
 
+const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 export const AppSnackBar = () => {
   const snackBarState = useAppSelector(selectSnackbarState);
-
   const { hideSnackbar } = useSnackbar();
 
   const canShowSnackBar = snackBarState.show;
 
   const handleClose = (event: SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") return;
-
     hideSnackbar();
   };
 
@@ -34,13 +39,6 @@ export const AppSnackBar = () => {
     </IconButton>
   );
 
-  const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
-    props,
-    ref
-  ) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-
   return (
     <Snackbar
       open={canShowSnackBar}
@@ -52,7 +50,7 @@ export const AppSnackBar = () => {
       <Alert
         onClose={handleClose}
         severity={snackBarState.severity || "success"}
-        sx={{ width: "100%", fontSize: 16, color: "white" }}
+        sx={{ width: "100%", fontSize: 16, color: "white", opacity: 0.9 }}
       >
         {snackBarState.label}
       </Alert>

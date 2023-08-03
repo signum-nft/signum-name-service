@@ -21,6 +21,8 @@ export class LedgerService {
     private nodeHost: string,
     private wallet: GenericExtensionWallet
   ) {
+    console.debug("Creating Ledger Service instance...");
+
     this.ledger = LedgerClientFactory.createClient({
       nodeHost,
     });

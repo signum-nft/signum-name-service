@@ -78,28 +78,32 @@ export const Footer = () => {
               mb: { xs: 1, md: 0 },
             }}
           >
-            <Link href="https://www.signum.network/" passHref>
-              <Typography component="a" target="_blank">
-                <Image
-                  src={`/assets/img/powered.svg`}
-                  width={94}
-                  height={32}
-                  alt="Signum logo"
-                  unoptimized
-                />
-              </Typography>
+            <Link
+              href="https://www.signum.network/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src={`/assets/img/powered.svg`}
+                width={94}
+                height={32}
+                alt="Signum logo"
+                unoptimized
+              />
             </Link>
 
-            <Link href="https://docs.signum.network/signum/signumjs" passHref>
-              <Typography component="a" target="_blank">
-                <Image
-                  src={`/assets/img/Signum_Badge_JS.svg`}
-                  width={35}
-                  height={35}
-                  alt="Signum logo"
-                  unoptimized
-                />
-              </Typography>
+            <Link
+              href="https://docs.signum.network/signum/signumjs"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src={`/assets/img/Signum_Badge_JS.svg`}
+                width={35}
+                height={35}
+                alt="Signum logo"
+                unoptimized
+              />
             </Link>
           </Grid>
         </Grid>

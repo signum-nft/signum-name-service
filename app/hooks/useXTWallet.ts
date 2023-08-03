@@ -1,7 +1,4 @@
-import {
-  ExtensionWalletError,
-  GenericExtensionWallet,
-} from "@signumjs/wallets";
+import { GenericExtensionWallet } from "@signumjs/wallets";
 import { useCallback, useEffect, useState } from "react";
 import { Address } from "@signumjs/core";
 
@@ -10,28 +7,36 @@ const StorageKeys = {
 };
 
 const CustomEventName = "xt-wallet:connection-status-change";
+
 export interface ConnectionError {
   type: string;
   message: string;
 }
 
+export type StatusReason =
+  | ""
+  | "user-disconnected"
+  | "permission-removed"
+  | "account-removed"
+  | "account-changed"
+  | "network-changed";
+
 export enum ConnectionStatus {
+  Errored = -1,
   Disconnected,
+  Disconnecting,
   Connecting,
   Connected,
 }
 
-type OnNetworkChangeFunction = (args: {
-  networkName: string;
-  networkHost: string;
-}) => void;
-
 interface EventPayload {
   status: ConnectionStatus;
+  statusReason?: StatusReason;
   publicKey?: string;
   watchOnly?: boolean;
   nodeHost?: string;
   network?: string;
+  error?: Error;
 }
 
 // global/singleton
@@ -45,14 +50,49 @@ export const useXTWallet = () => {
   const [node, setNode] = useState<{ host: string; network: string } | null>(
     null
   );
-  const [status, setStatus] = useState(ConnectionStatus.Disconnected);
-  const [error, setError] = useState<ConnectionError | null>(null);
+  const [status, setStatus] = useState({
+    code: ConnectionStatus.Disconnected,
+    reason: "",
+  });
+
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     function onConnectionStatus(e: any) {
-      const { status, publicKey, watchOnly, nodeHost, network } =
-        e.detail as EventPayload;
-      setStatus(status);
+      const {
+        status,
+        publicKey,
+        watchOnly,
+        nodeHost,
+        network,
+        statusReason = "",
+        error = null,
+      } = e.detail as EventPayload;
+      setStatus({
+        code: status,
+        reason: statusReason,
+      });
+
+      if (status === ConnectionStatus.Errored) {
+        setAccount(null);
+        setNode(null);
+        setStatus({
+          code: ConnectionStatus.Disconnected,
+          reason: "errored",
+        });
+        setError(error);
+        return;
+      }
+
+      if (status === ConnectionStatus.Disconnecting) {
+        setAccount(null);
+        setNode(null);
+        setStatus({
+          code: ConnectionStatus.Disconnected,
+          reason: "user-requested",
+        });
+        return;
+      }
 
       if (publicKey && publicKey !== account?.address.getPublicKey()) {
         setAccount({
@@ -84,11 +124,12 @@ export const useXTWallet = () => {
 
   const connect = useCallback(
     async (appName: string, networkName: string, isAutoConnection = true) => {
-      if (status !== ConnectionStatus.Disconnected) {
+      if (status.code !== ConnectionStatus.Disconnected) {
         return;
       }
 
       try {
+        setError(null);
         dispatchEvent({ status: ConnectionStatus.Connecting });
         wallet = new GenericExtensionWallet();
         const connection = await wallet.connect({
@@ -115,6 +156,7 @@ export const useXTWallet = () => {
           onNetworkChanged: ({ networkName, networkHost }) => {
             dispatchEvent({
               status: ConnectionStatus.Connected,
+              statusReason: "network-changed",
               watchOnly: account ? account.watchOnly : undefined,
               publicKey: account ? account.address.getPublicKey() : undefined,
               nodeHost: networkHost,
@@ -124,6 +166,7 @@ export const useXTWallet = () => {
           onAccountChanged: ({ accountPublicKey }) => {
             dispatchEvent({
               status: ConnectionStatus.Connected,
+              statusReason: "account-changed",
               watchOnly: connection.watchOnly, // missing on signumjs
               publicKey: accountPublicKey,
               nodeHost: node?.host,
@@ -131,32 +174,21 @@ export const useXTWallet = () => {
             });
           },
           onPermissionRemoved: () => {
-            dispatchEvent({ status: ConnectionStatus.Disconnected });
+            dispatchEvent({
+              status: ConnectionStatus.Disconnected,
+              statusReason: "permission-removed",
+            });
           },
           onAccountRemoved: () => {
-            dispatchEvent({ status: ConnectionStatus.Disconnected });
+            dispatchEvent({
+              status: ConnectionStatus.Disconnected,
+              statusReason: "account-removed",
+            });
           },
         });
       } catch (e: any) {
-        window.dispatchEvent(
-          new CustomEvent<EventPayload>("xt-wallet:connection-status", {
-            detail: {
-              status: ConnectionStatus.Disconnected,
-            },
-          })
-        );
-        if (e instanceof ExtensionWalletError) {
-          setError({
-            message: e.message,
-            type: e.name,
-          });
-        } else {
-          setError({
-            message: e.message,
-            type: "UnknownError",
-          });
-          console.error(e);
-        }
+        dispatchEvent({ status: ConnectionStatus.Errored, error: e });
+        console.error(e.message);
       }
     },
     [account, dispatchEvent, node, status]
@@ -165,7 +197,8 @@ export const useXTWallet = () => {
   const disconnect = useCallback(() => {
     wallet = new GenericExtensionWallet();
     dispatchEvent({
-      status: ConnectionStatus.Disconnected,
+      status: ConnectionStatus.Disconnecting,
+      statusReason: "user-disconnected",
     });
   }, [dispatchEvent]);
 

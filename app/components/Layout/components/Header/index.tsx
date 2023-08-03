@@ -31,11 +31,8 @@ export const Header = () => {
       position="sticky"
       sx={{
         transition: "all .2s ease 0s",
-        backdropFilter: { xs: "none", lg: "saturate(180%) blur(20px)" },
-        boxShadow: {
-          xs: "none",
-          lg: "inset 0 -0.5px 0 0 hsla(0, 0%, 100%, 0.05)",
-        },
+        backdropFilter: "saturate(180%) blur(20px)",
+        boxShadow: "inset 0 -0.5px 0 0 hsla(0, 0%, 100%, 0.1)",
         background,
       }}
     >
@@ -58,7 +55,6 @@ export const Header = () => {
               display="flex"
               flexDirection="row"
               alignItems="center"
-              component="a"
               sx={{ textDecoration: "none" }}
             >
               <Image

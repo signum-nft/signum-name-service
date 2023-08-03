@@ -7,10 +7,10 @@ import { useAppSelector } from "@/states/hooks";
 import { selectIsDarkMode } from "@/app/states/appState";
 
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 export const LogoLabel = () => {
   const { IsMobile } = useAppContext();
-  const theme = useTheme();
   const isDarkMode = useAppSelector(selectIsDarkMode);
 
   return (
@@ -26,31 +26,7 @@ export const LogoLabel = () => {
       {IsMobile && "SignumSwap"}
 
       {!IsMobile && (
-        <>
-          <Typography
-            component="span"
-            variant="inherit"
-            fontWeight="inherit"
-            css={css`
-              background: linear-gradient(
-                45deg,
-                ${isDarkMode ? "rgba(232, 243, 255, 1)" : "rgba(0, 0, 0, 0.9)"}
-                  62%,
-                ${theme.palette.primary.main} 100%
-              );
-
-              background-size: 100% 100%;
-              background-position-y: 0px;
-              background-clip: text;
-              -webkit-background-clip: text;
-              -moz-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              -moz-text-fill-color: transparent;
-            `}
-          >
-            Signum
-          </Typography>
-
+        <Box sx={{ position: "relative" }}>
           <Typography
             component="span"
             variant="inherit"
@@ -58,18 +34,18 @@ export const LogoLabel = () => {
             css={css`
               background: linear-gradient(
                 83deg,
-                #c0392b 0%,
-                ${theme.palette.primary.main} 50%,
-                #c0392b 100%
+                #f3b167 0%,
+                #ec38bc 33%,
+                #7303c0 66%,
+                ${isDarkMode ? "rgba(232, 243, 255, 1)" : "#03001e"} 100%
               );
-
               background-size: 400% 100%;
               background-clip: text;
               -webkit-background-clip: text;
               -moz-background-clip: text;
               -webkit-text-fill-color: transparent;
               -moz-text-fill-color: transparent;
-              animation: gradient 30s ease infinite;
+              animation: gradient 60s ease infinite;
 
               @keyframes gradient {
                 0% {
@@ -84,9 +60,9 @@ export const LogoLabel = () => {
               }
             `}
           >
-            Swap
+            SignumNS
           </Typography>
-        </>
+        </Box>
       )}
     </Typography>
   );

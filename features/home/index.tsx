@@ -1,36 +1,22 @@
 import type { NextPage } from "next";
-import styles from "./Home.module.css";
+import { TopSection } from "./sections/TopSection";
+import { AliasSection } from "./sections/AliasSection";
+import { HowToSection } from "./sections/HowToSection";
+import { WhySignumSection } from "./sections/WhySignumSection";
+import { FAQSection } from "./sections/FAQSection";
+import { Slide } from "react-awesome-reveal";
+import Box from "@mui/material/Box";
 
-export const Home: NextPage = () => {
+export const Alias: NextPage = () => {
   return (
-    <main className={styles.main}>
-      <div className={styles.grid}>
-        <a href="https://nextjs.org/docs" className={styles.card}>
-          <h2>Documentation &rarr;</h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a href="https://nextjs.org/learn" className={styles.card}>
-          <h2>Learn &rarr;</h2>
-          <p>Learn about Next.js in an interactive course with quizzes!</p>
-        </a>
-
-        <a
-          href="https://github.com/vercel/next.js/tree/canary/examples"
-          className={styles.card}
-        >
-          <h2>Examples &rarr;</h2>
-          <p>Discover and deploy boilerplate example Next.js projects.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          className={styles.card}
-        >
-          <h2>Deploy &rarr;</h2>
-          <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
-        </a>
-      </div>
-    </main>
+    <Box display="flex" flexDirection="column">
+      <TopSection />
+      <AliasSection />
+      <Slide triggerOnce direction="up">
+        <HowToSection />
+        <WhySignumSection />
+        <FAQSection />
+      </Slide>
+    </Box>
   );
 };
