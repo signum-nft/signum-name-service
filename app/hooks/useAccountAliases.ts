@@ -14,7 +14,7 @@ export const useAccountAliases = (): ReturnProps => {
   const { accountId } = useAccount();
 
   const { data, error } = useSWR(
-    ledgerService ? `account/${accountId}/alias` : null,
+    ledgerService ? `account/${accountId}/aliases` : null,
     async () => {
       if (!ledgerService || !accountId) return;
 
@@ -27,7 +27,7 @@ export const useAccountAliases = (): ReturnProps => {
       ).aliases;
     },
     {
-      refreshInterval: 30_000,
+      refreshInterval: 120_000,
     }
   );
 

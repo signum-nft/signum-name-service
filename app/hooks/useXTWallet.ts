@@ -1,5 +1,5 @@
 import { GenericExtensionWallet } from "@signumjs/wallets";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { Address } from "@signumjs/core";
 
 const StorageKeys = {
@@ -36,7 +36,7 @@ interface EventPayload {
 
 // global/singleton
 let wallet: GenericExtensionWallet | null = null;
-
+let isReadySingleton = false;
 interface ConnectArgs {
   appName: string;
   networkName: string;
@@ -57,6 +57,8 @@ export const useXTWallet = () => {
       : ConnectionStatus.Disconnected,
     reason: "",
   });
+
+  const [isReady, setIsReady] = useState(isReadySingleton);
 
   const [error, setError] = useState<Error | null>(null);
 
@@ -195,6 +197,9 @@ export const useXTWallet = () => {
         dispatchEvent({ status: ConnectionStatus.Errored, error: e });
         console.error(e.message);
         return false;
+      } finally {
+        isReadySingleton = true;
+        setIsReady(true);
       }
     },
     [account, dispatchEvent, node, status]
@@ -216,10 +221,15 @@ export const useXTWallet = () => {
     if (connectionStatus) {
       const data = JSON.parse(connectionStatus);
       connect(data);
+      // .then(() => {
+      //   isReadySingleton = true;
+      //   setIsReady(isReadySingleton)
+      // })
+    } else {
+      isReadySingleton = true;
+      setIsReady(isReadySingleton);
     }
   }, [connect]);
-
-  const isWalletConnected = status.code === ConnectionStatus.Connected;
 
   return {
     wallet,
@@ -229,6 +239,7 @@ export const useXTWallet = () => {
     node,
     account,
     error,
-    isWalletConnected,
+    isWalletConnected: status.code === ConnectionStatus.Connected,
+    isWalletReady: isReady,
   };
 };

@@ -4,23 +4,14 @@ import Chip from "@mui/material/Chip";
 import Tooltip from "@mui/material/Tooltip";
 
 interface Props {
-  icon: ReactElement;
   label: string;
-  description: string;
   isActive: boolean;
   onClick: () => void;
 }
 
-export const TabButton = ({
-  icon,
-  label,
-  description,
-  isActive,
-  onClick,
-}: Props) => (
-  <Tooltip title={description} arrow>
+export const TabButton = ({ label, isActive, onClick }: Props) => (
+  <Tooltip title="" arrow>
     <Chip
-      icon={icon}
       sx={{
         fontWeight: 500,
         fontSize: 14,

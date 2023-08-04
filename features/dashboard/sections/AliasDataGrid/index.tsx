@@ -15,19 +15,29 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
+import { Alias } from "@signumjs/core";
 
-export const AliasSection = () => {
+interface Props {
+  searchString?: string;
+  isLoading?: boolean;
+  aliases: Alias[];
+}
+
+export const AliasDataGrid = ({
+  searchString = "",
+  aliases,
+  isLoading = false,
+}: Props) => {
   const { t } = useTranslation();
   const { accountId } = useAccount();
-  const { aliases } = useAccountAliases();
   const theme = useTheme();
 
-  const { control, watch } = useForm<{ searchAlias: string }>({
+  const { control, watch } = useForm<{ searchString: string }>({
     mode: "onChange",
-    defaultValues: { searchAlias: "" },
+    defaultValues: { searchString },
   });
 
-  const searchAlias = watch("searchAlias");
+  const searchAlias = watch("searchString");
 
   const isAliasFound = !!aliases.length;
 
@@ -57,16 +67,16 @@ export const AliasSection = () => {
       };
     });
 
-    const term = searchAlias.toUpperCase();
+    const term = searchString.toUpperCase();
     return mappedAliases.filter((alias) => {
       const { id, resolvableAlias } = alias;
-      if (!searchAlias) return true;
+      if (!searchString) return true;
       return (
         id.toUpperCase().includes(term) ||
         resolvableAlias.toUpperCase().includes(term)
       );
     });
-  }, [isAliasFound, aliases, searchAlias, accountId]);
+  }, [isAliasFound, aliases, searchString, accountId]);
 
   const filteredAliasesFound = !!aliasesAllowed.length;
 
@@ -78,31 +88,31 @@ export const AliasSection = () => {
         </Grid>
       )}
 
-      {isAliasFound && (
-        <Grid item>
-          <Controller
-            name="searchAlias"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                color="secondary"
-                placeholder={t("searchAlias")}
-                variant="outlined"
-                size="small"
-                InputProps={{
-                  style: { background: theme.palette.background.paper },
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
-          />
-        </Grid>
-      )}
+      {/*{isAliasFound && (*/}
+      {/*  <Grid item>*/}
+      {/*    <Controller*/}
+      {/*      name="searchString"*/}
+      {/*      control={control}*/}
+      {/*      render={({ field }) => (*/}
+      {/*        <TextField*/}
+      {/*          {...field}*/}
+      {/*          color="secondary"*/}
+      {/*          placeholder={t("searchString")}*/}
+      {/*          variant="outlined"*/}
+      {/*          size="small"*/}
+      {/*          InputProps={{*/}
+      {/*            style: { background: theme.palette.background.paper },*/}
+      {/*            startAdornment: (*/}
+      {/*              <InputAdornment position="start">*/}
+      {/*                <SearchIcon />*/}
+      {/*              </InputAdornment>*/}
+      {/*            ),*/}
+      {/*          }}*/}
+      {/*        />*/}
+      {/*      )}*/}
+      {/*    />*/}
+      {/*  </Grid>*/}
+      {/*)}*/}
 
       {isAliasFound && !filteredAliasesFound && (
         <Grid item xs={12}>

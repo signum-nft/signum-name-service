@@ -31,6 +31,10 @@ export const TopSection = () => {
   const [isConnecting, setIsConnecting] = useState(false);
 
   useEffect(() => {
+    router.prefetch("/dashboard");
+  }, [router]);
+
+  useEffect(() => {
     if (error instanceof ExtensionWalletError) {
       switch (error.name) {
         case "NotFoundWalletError":
@@ -144,32 +148,30 @@ export const TopSection = () => {
           width="100%"
         >
           {isWalletConnected ? (
-            <Link href="/dashboard">
-              <Button
-                variant="contained"
-                sx={{
-                  px: 3,
-                  py: 1,
-                  borderRadius: { xs: "22px", sm: "28px" },
-                  color: "white",
-                  fontSize: { xs: "18px", sm: "24px" },
-                  filter: "drop-shadow(0px 2px 3px white)",
-                  backgroundColor: "#ec38bc",
-                }}
-                className={buttonStyles.glanceEffect}
-                onClick={goToDashboard}
-                startIcon={
-                  isConnecting ? (
-                    <CircularProgress variant="indeterminate" size={20} />
-                  ) : (
-                    <DashboardIcon />
-                  )
-                }
-                disabled={isConnecting}
-              >
-                {t("gotoDashboard")}
-              </Button>
-            </Link>
+            <Button
+              variant="contained"
+              sx={{
+                px: 3,
+                py: 1,
+                borderRadius: { xs: "22px", sm: "28px" },
+                color: "white",
+                fontSize: { xs: "18px", sm: "24px" },
+                filter: "drop-shadow(0px 2px 3px white)",
+                backgroundColor: "#ec38bc",
+              }}
+              className={buttonStyles.glanceEffect}
+              onClick={goToDashboard}
+              startIcon={
+                isConnecting ? (
+                  <CircularProgress variant="indeterminate" size={20} />
+                ) : (
+                  <DashboardIcon />
+                )
+              }
+              disabled={isConnecting}
+            >
+              {t("gotoDashboard")}
+            </Button>
           ) : (
             <Button
               variant="contained"
