@@ -22,48 +22,11 @@ export const Web3Chip = () => {
       }}
       css={css`
         background: #5d26c1;
-
-        -webkit-animation: AnimationName 3s ease infinite;
-        -moz-animation: AnimationName 3s ease infinite;
-        -o-animation: AnimationName 3s ease infinite;
-        animation: AnimationName 3s ease infinite;
+        animation: rolling 3s ease infinite;
         background: linear-gradient(270deg, #ffb856, #a17fe0, #5d26c1);
         background-size: 600% 600%;
 
-        @-webkit-keyframes AnimationName {
-          0% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
-        }
-        @-moz-keyframes AnimationName {
-          0% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
-        }
-        @-o-keyframes AnimationName {
-          0% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
-        }
-        @keyframes AnimationName {
+        @-webkit-keyframes rolling {
           0% {
             background-position: 0% 50%;
           }

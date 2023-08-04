@@ -866,6 +866,7 @@
   "liquidityPoolIsBeingCreated": "A Liquidity Pool is being created, please wait",
   "topSectionTitle": "Signum Name System.",
   "topSectionSubTitle": "Decentralized. Simple. Cheap.",
-  "topSectionDescription": "Use your Signum Aliases to resolve your very custom URLs in the Browser",
-  "tryTheXtWalletHint": "If you have installed the XT wallet, check in the settings, if DApps interaction is allowed."
+  "topSectionDescription": "Use your Signum Aliases to resolve your very custom URLs in the browser and account addresses in the wallets",
+  "tryTheXtWalletHint": "If you have installed the XT wallet, check in the settings, if DApps interaction is allowed.",
+  "gotoDashboard": "Open Dashboard"
 }

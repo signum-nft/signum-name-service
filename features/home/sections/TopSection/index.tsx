@@ -6,27 +6,29 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useAppContext } from "@/app/hooks/useAppContext";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import { ConnectionStatus, useXTWallet } from "@/app/hooks/useXTWallet";
-import { useAppDispatch, useAppSelector } from "@/states/hooks";
-import { selectIsDarkMode } from "@/app/states/appState";
+import { useXTWallet } from "@/app/hooks/useXTWallet";
+import { useAppDispatch } from "@/states/hooks";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ExtensionWalletError } from "@signumjs/wallets";
 import { useSnackbar } from "@/app/hooks/useSnackbar";
 import { appActions } from "@/app/states/appState";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import buttonStyles from "./fancyButtonStyle.module.css";
+import { useRouter } from "next/router";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import Link from "next/link";
 
 export const TopSection = () => {
   const { t } = useTranslation();
+  const router = useRouter();
   const {
     Platform,
     Ledger: { Network },
   } = useAppContext();
-  const { connect, status, error } = useXTWallet();
-  const isDarkMode = useAppSelector(selectIsDarkMode);
   const dispatch = useAppDispatch();
   const { showError } = useSnackbar();
-
-  const isWalletConnected = status.code === ConnectionStatus.Connected;
+  const { connect, isWalletConnected, error } = useXTWallet();
+  const [isConnecting, setIsConnecting] = useState(false);
 
   useEffect(() => {
     if (error instanceof ExtensionWalletError) {
@@ -41,11 +43,22 @@ export const TopSection = () => {
           showError(error.message);
       }
     }
-  }, [dispatch, error]);
+  }, [dispatch, error, showError]);
 
-  const handleOnWalletConnect = () => {
-    connect(Platform.Name, Network);
+  const handleOnWalletConnect = async () => {
+    setIsConnecting(true);
+    const isConnected = await connect({
+      appName: Platform.Name,
+      networkName: Network,
+    });
+    if (isConnected) {
+      await goToDashboard();
+    } else {
+      setIsConnecting(false);
+    }
   };
+
+  const goToDashboard = () => router.push("/dashboard");
 
   return (
     <Box
@@ -69,7 +82,7 @@ export const TopSection = () => {
         left={0}
         zIndex={-1}
         sx={{
-          height: "400px",
+          height: "440px",
           background: `linear-gradient(to bottom, #f3b167, #ec38bc, #7303c0, #03001e)`,
           clipPath: "url(#myCurve)",
         }}
@@ -127,32 +140,62 @@ export const TopSection = () => {
           flexWrap="nowrap"
           alignItems="stretch"
           justifyContent="center"
-          mb={2}
+          mt={2}
           width="100%"
         >
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={{
-              px: 3,
-              py: 1,
-              borderRadius: 2,
-              color: "white",
-              fontSize: { xs: "18px", sm: "24px" },
-              filter: "drop-shadow(0px 2px 3px #f3b167)",
-            }}
-            onClick={handleOnWalletConnect}
-            startIcon={
-              isWalletConnected ? (
-                <CircularProgress variant="indeterminate" size={20} />
-              ) : (
-                <AccountBalanceWalletIcon />
-              )
-            }
-            disabled={isWalletConnected}
-          >
-            {t("connectWallet")}
-          </Button>
+          {isWalletConnected ? (
+            <Link href="/dashboard">
+              <Button
+                variant="contained"
+                sx={{
+                  px: 3,
+                  py: 1,
+                  borderRadius: { xs: "22px", sm: "28px" },
+                  color: "white",
+                  fontSize: { xs: "18px", sm: "24px" },
+                  filter: "drop-shadow(0px 2px 3px white)",
+                  backgroundColor: "#ec38bc",
+                }}
+                className={buttonStyles.glanceEffect}
+                onClick={goToDashboard}
+                startIcon={
+                  isConnecting ? (
+                    <CircularProgress variant="indeterminate" size={20} />
+                  ) : (
+                    <DashboardIcon />
+                  )
+                }
+                disabled={isConnecting}
+              >
+                {t("gotoDashboard")}
+              </Button>
+            </Link>
+          ) : (
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{
+                px: 3,
+                py: 1,
+                borderRadius: { xs: "22px", sm: "28px" },
+                color: "white",
+                fontSize: { xs: "18px", sm: "24px" },
+                filter: "drop-shadow(0px 2px 3px #f3b167)",
+              }}
+              className={buttonStyles.glanceEffect}
+              onClick={handleOnWalletConnect}
+              startIcon={
+                isConnecting ? (
+                  <CircularProgress variant="indeterminate" size={20} />
+                ) : (
+                  <AccountBalanceWalletIcon />
+                )
+              }
+              disabled={isConnecting}
+            >
+              {t("connectWallet")}
+            </Button>
+          )}
         </Stack>
       </Stack>
     </Box>

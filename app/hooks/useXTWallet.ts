@@ -8,11 +8,6 @@ const StorageKeys = {
 
 const CustomEventName = "xt-wallet:connection-status-change";
 
-export interface ConnectionError {
-  type: string;
-  message: string;
-}
-
 export type StatusReason =
   | ""
   | "user-disconnected"
@@ -42,6 +37,12 @@ interface EventPayload {
 // global/singleton
 let wallet: GenericExtensionWallet | null = null;
 
+interface ConnectArgs {
+  appName: string;
+  networkName: string;
+  autoConnect?: boolean;
+}
+
 export const useXTWallet = () => {
   const [account, setAccount] = useState<{
     address: Address;
@@ -51,7 +52,9 @@ export const useXTWallet = () => {
     null
   );
   const [status, setStatus] = useState({
-    code: ConnectionStatus.Disconnected,
+    code: wallet?.connection
+      ? ConnectionStatus.Connected
+      : ConnectionStatus.Disconnected,
     reason: "",
   });
 
@@ -123,9 +126,9 @@ export const useXTWallet = () => {
   }, []);
 
   const connect = useCallback(
-    async (appName: string, networkName: string, isAutoConnection = true) => {
+    async ({ appName, networkName, autoConnect = true }: ConnectArgs) => {
       if (status.code !== ConnectionStatus.Disconnected) {
-        return;
+        return true;
       }
 
       try {
@@ -148,7 +151,7 @@ export const useXTWallet = () => {
           JSON.stringify({
             appName,
             networkName,
-            isAutoConnection,
+            autoConnect,
           })
         );
 
@@ -186,21 +189,37 @@ export const useXTWallet = () => {
             });
           },
         });
+
+        return true;
       } catch (e: any) {
         dispatchEvent({ status: ConnectionStatus.Errored, error: e });
         console.error(e.message);
+        return false;
       }
     },
     [account, dispatchEvent, node, status]
   );
 
   const disconnect = useCallback(() => {
+    window.localStorage.removeItem(StorageKeys.ConnectionInfo);
     wallet = new GenericExtensionWallet();
     dispatchEvent({
       status: ConnectionStatus.Disconnecting,
       statusReason: "user-disconnected",
     });
   }, [dispatchEvent]);
+
+  useEffect(() => {
+    const connectionStatus = window.localStorage.getItem(
+      StorageKeys.ConnectionInfo
+    );
+    if (connectionStatus) {
+      const data = JSON.parse(connectionStatus);
+      connect(data);
+    }
+  }, [connect]);
+
+  const isWalletConnected = status.code === ConnectionStatus.Connected;
 
   return {
     wallet,
@@ -210,5 +229,6 @@ export const useXTWallet = () => {
     node,
     account,
     error,
+    isWalletConnected,
   };
 };

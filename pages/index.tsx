@@ -1,4 +1,4 @@
-import { Alias } from "@/features/home";
+import { Home } from "@/features/home";
 import { GetServerSidePropsI18N, withTranslations } from "@/app/i18n/server";
 
 export async function getServerSideProps({ locale }: GetServerSidePropsI18N) {
@@ -6,5 +6,5 @@ export async function getServerSideProps({ locale }: GetServerSidePropsI18N) {
 }
 
 export default function HomePage() {
-  return <Alias />;
+  return <Home />;
 }

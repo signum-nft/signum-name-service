@@ -27,7 +27,7 @@ export const Web3Chip = () => {
           -webkit-animation: AnimationName 3s ease infinite;
           -moz-animation: AnimationName 3s ease infinite;
           -o-animation: AnimationName 3s ease infinite;
-          animation: AnimationName 3s ease infinite;
+          animation: glance 3s ease infinite;
           background: linear-gradient(270deg, #0b5d34, #a17fe0, #5d26c1);
           background-size: 600% 600%;
         }

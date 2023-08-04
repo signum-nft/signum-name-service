@@ -29,9 +29,9 @@ export const WalletWrongNetworkModal = () => {
   const isOpen = useAppSelector(selectIsOpenWalletWrongNetworkModal);
 
   const handleClose = () => dispatch(setWalletWrongNetworkModal(false));
-  const handleConnection = () => {
+  const handleConnection = async () => {
     handleClose();
-    connect(Platform.Name, Ledger.Network);
+    await connect({ appName: Platform.Name, networkName: Ledger.Network });
   };
 
   let signumNode = "Signum (Mainnet Node)";

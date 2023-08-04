@@ -7,7 +7,7 @@ import { FAQSection } from "./sections/FAQSection";
 import { Slide } from "react-awesome-reveal";
 import Box from "@mui/material/Box";
 
-export const Alias: NextPage = () => {
+export const Home: NextPage = () => {
   return (
     <Box display="flex" flexDirection="column">
       <TopSection />

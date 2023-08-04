@@ -1,0 +1,23 @@
+.glanceEffect {
+  animation: glance 5s infinite alternate-reverse;
+  background: linear-gradient(
+    270deg,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  background-size: 600% 600%;
+}
+
+@keyframes glance {
+  0% {
+    background-position: -25% 0%;
+  }
+  20%,
+  100% {
+    background-position: 100% 33%;
+  }
+}

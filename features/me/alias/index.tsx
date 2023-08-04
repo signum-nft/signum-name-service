@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useTranslation } from "next-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "@/states/hooks";
 import { useLedgerService } from "@/app/hooks/useLedgerService";
 import { useAccount } from "@/app/hooks/useAccount";
@@ -21,6 +21,8 @@ import Stack from "@mui/material/Stack";
 import ContactsIcon from "@mui/icons-material/Contacts";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useXTWallet } from "@/app/hooks/useXTWallet";
+import { useRouter } from "next/router";
 
 enum Tabs {
   Aliases,
@@ -29,9 +31,10 @@ enum Tabs {
 
 export const MyAliases: NextPage = () => {
   const { t } = useTranslation();
+  const router = useRouter();
   const { ledgerService } = useLedgerService();
+  const { isWalletConnected } = useXTWallet();
   const { accountId } = useAccount();
-  const isWalletConnected = useAppSelector(selectIsWalletConnected);
 
   const [directOffersCount, SetDirectOffersCount] = useState(0);
   const [activeTab, updateActiveTab] = useState(Tabs.Aliases);
@@ -57,7 +60,11 @@ export const MyAliases: NextPage = () => {
     }
   );
 
-  if (!isWalletConnected) return <Setup />;
+  useEffect(() => {
+    if (!isWalletConnected) {
+      router.replace("/");
+    }
+  }, [isWalletConnected]);
 
   const containerMaxWidth = 1500;
 
