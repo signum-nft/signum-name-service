@@ -36,19 +36,18 @@ export const TopSection = () => {
 
   useEffect(() => {
     console.log("error", error);
-
-    // if (error instanceof ExtensionWalletError) {
-    //   switch (error.name) {
-    //     case "NotFoundWalletError":
-    //       dispatch(appActions.setWalletModal(true));
-    //       break;
-    //     case "InvalidNetworkError":
-    //       dispatch(appActions.setWalletWrongNetworkModal(true));
-    //       break;
-    //     default:
-    //       showError(error.message);
-    //   }
-    // }
+    if (error instanceof ExtensionWalletError) {
+      switch (error.name) {
+        case "NotFoundWalletError":
+          dispatch(appActions.setWalletModal(true));
+          break;
+        case "InvalidNetworkError":
+          dispatch(appActions.setWalletWrongNetworkModal(true));
+          break;
+        default:
+          showError(error.message);
+      }
+    }
   }, [dispatch, error, showError]);
 
   const handleOnWalletConnect = async () => {

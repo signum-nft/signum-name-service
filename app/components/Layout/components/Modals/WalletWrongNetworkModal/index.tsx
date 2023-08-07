@@ -1,7 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { isMobile } from "react-device-detect";
 import { useAppContext } from "@/app/hooks/useAppContext";
-import { requestWalletConnection } from "@/app/requestWalletConnection";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import {
   appActions,
@@ -22,7 +21,7 @@ import { useXTWallet } from "@/features/xtWallet/useXTWallet";
 
 export const WalletWrongNetworkModal = () => {
   const { t } = useTranslation();
-  const { Ledger, Platform } = useAppContext();
+  const { Ledger } = useAppContext();
   const { setWalletWrongNetworkModal } = appActions;
   const { connect } = useXTWallet();
   const dispatch = useAppDispatch();
@@ -31,7 +30,7 @@ export const WalletWrongNetworkModal = () => {
   const handleClose = () => dispatch(setWalletWrongNetworkModal(false));
   const handleConnection = async () => {
     handleClose();
-    await connect({ appName: Platform.Name, networkName: Ledger.Network });
+    await connect();
   };
 
   let signumNode = "Signum (Mainnet Node)";

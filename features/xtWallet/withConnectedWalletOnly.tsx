@@ -18,8 +18,6 @@ export const WithConnectedWalletOnly = ({
   const { status, isWalletReady } = useXTWallet();
 
   useEffect(() => {
-    console.log("with conect", status);
-
     if (
       isWalletReady &&
       !(
