@@ -18,7 +18,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import NetworkIcon from "@mui/icons-material/Podcasts";
-import { useXTWallet } from "@/app/hooks/useXTWallet";
+import { useXTWallet } from "@/features/xtWallet/useXTWallet";
 
 export const WalletWrongNetworkModal = () => {
   const { t } = useTranslation();

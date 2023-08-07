@@ -3,11 +3,11 @@ import { useLedgerService } from "@/app/hooks/useLedgerService";
 import { accountActions } from "@/app/states/accountState";
 import { useEffect } from "react";
 import useSWR from "swr";
-import { useXTWallet } from "@/app/hooks/useXTWallet";
+import { useXTWallet } from "@/features/xtWallet/useXTWallet";
 
 export const AccountInitializer = () => {
   const { ledgerService } = useLedgerService();
-  const { account, status } = useXTWallet();
+  const { account } = useXTWallet();
   const dispatch = useAppDispatch();
   const accountId = account ? account.address.getNumericId() : null;
 

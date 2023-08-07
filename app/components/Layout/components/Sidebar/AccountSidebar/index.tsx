@@ -19,7 +19,7 @@ import HubIcon from "@mui/icons-material/Hub";
 import SendIcon from "@mui/icons-material/Send";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ContactsIcon from "@mui/icons-material/Contacts";
-import { useXTWallet } from "@/app/hooks/useXTWallet";
+import { useXTWallet } from "@/features/xtWallet/useXTWallet";
 
 export const AccountSidebar = () => {
   const { t } = useTranslation();

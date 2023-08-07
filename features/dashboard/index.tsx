@@ -18,7 +18,7 @@ import Stack from "@mui/material/Stack";
 import ContactsIcon from "@mui/icons-material/Contacts";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useXTWallet } from "@/app/hooks/useXTWallet";
+import { useXTWallet } from "@/features/xtWallet/useXTWallet";
 import { useRouter } from "next/router";
 import { useAccountAliases } from "@/app/hooks/useAccountAliases";
 import { groupBy } from "lodash";

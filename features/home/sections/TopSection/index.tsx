@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useAppContext } from "@/app/hooks/useAppContext";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import { useXTWallet } from "@/app/hooks/useXTWallet";
+import { useXTWallet } from "@/features/xtWallet/useXTWallet";
 import { useAppDispatch } from "@/states/hooks";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ExtensionWalletError } from "@signumjs/wallets";
@@ -27,7 +27,7 @@ export const TopSection = () => {
   } = useAppContext();
   const dispatch = useAppDispatch();
   const { showError } = useSnackbar();
-  const { connect, isWalletConnected, error } = useXTWallet();
+  const { connect, isWalletConnected, error, status, wallet } = useXTWallet();
   const [isConnecting, setIsConnecting] = useState(false);
 
   useEffect(() => {
@@ -35,26 +35,25 @@ export const TopSection = () => {
   }, [router]);
 
   useEffect(() => {
-    if (error instanceof ExtensionWalletError) {
-      switch (error.name) {
-        case "NotFoundWalletError":
-          dispatch(appActions.setWalletModal(true));
-          break;
-        case "InvalidNetworkError":
-          dispatch(appActions.setWalletWrongNetworkModal(true));
-          break;
-        default:
-          showError(error.message);
-      }
-    }
+    console.log("error", error);
+
+    // if (error instanceof ExtensionWalletError) {
+    //   switch (error.name) {
+    //     case "NotFoundWalletError":
+    //       dispatch(appActions.setWalletModal(true));
+    //       break;
+    //     case "InvalidNetworkError":
+    //       dispatch(appActions.setWalletWrongNetworkModal(true));
+    //       break;
+    //     default:
+    //       showError(error.message);
+    //   }
+    // }
   }, [dispatch, error, showError]);
 
   const handleOnWalletConnect = async () => {
     setIsConnecting(true);
-    const isConnected = await connect({
-      appName: Platform.Name,
-      networkName: Network,
-    });
+    const isConnected = await connect();
     if (isConnected) {
       await goToDashboard();
     } else {
@@ -64,6 +63,7 @@ export const TopSection = () => {
 
   const goToDashboard = () => router.push("/dashboard");
 
+  console.log("wallet", wallet);
   return (
     <Box
       display="flex"

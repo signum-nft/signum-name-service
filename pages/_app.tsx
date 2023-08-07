@@ -14,6 +14,7 @@ import { MaintenancePage } from "@/features/exceptions/maintenance";
 
 import nextI18nConfig from "../next-i18next.config";
 import "../styles/globals.css";
+import { SignumXTWalletProvider } from "@/features/xtWallet/SignumXTWalletProvider";
 
 const DefaultTitle = "Signum Name Service - Decentralized URL Resolution";
 
@@ -48,7 +49,15 @@ const App = (props: AppProps) => {
           <>
             <PersistGate loading={null} persistor={storePersistor}>
               <AppInitializer />
-              <ThemeContextProvider>{content}</ThemeContextProvider>
+              <ThemeContextProvider>
+                <SignumXTWalletProvider
+                  appName={Config.Platform.Name}
+                  networkName={Config.Signum.Network}
+                  autoConnect={true}
+                >
+                  {content}
+                </SignumXTWalletProvider>
+              </ThemeContextProvider>
             </PersistGate>
           </>
         )}

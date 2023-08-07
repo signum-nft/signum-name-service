@@ -1,24 +1,19 @@
 import { useTranslation } from "next-i18next";
 import { useAppDispatch, useAppSelector } from "@/states/hooks";
-import { useAppContext } from "@/app/hooks/useAppContext";
 import { useAccount } from "@/app/hooks/useAccount";
-import { formatAmount } from "@/app/formatAmount";
 import { appActions } from "@/app/states/appState";
 import { AccountAvatar } from "@/app/components/AccountAvatar";
 
-import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MenuIcon from "@mui/icons-material/Menu";
-import ReportProblemIcon from "@mui/icons-material/ReportProblem";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import { ConnectionStatus, useXTWallet } from "@/app/hooks/useXTWallet";
+import { useXTWallet } from "@/features/xtWallet/useXTWallet";
 import { selectAmountSuffix } from "@/app/states/ledgerState";
 import { FormattedNumber } from "@/app/components/FormattedNumber";
+import { WalletConnectionStatus } from "@/features/xtWallet/types";
 
 export const Options = () => {
   const { t } = useTranslation();
@@ -26,9 +21,9 @@ export const Options = () => {
     appActions;
   const { balance } = useAccount();
   const suffix = useAppSelector(selectAmountSuffix);
-  const { connect, status, account } = useXTWallet();
+  const { status, account } = useXTWallet();
   const dispatch = useAppDispatch();
-  const isWalletConnected = status.code === ConnectionStatus.Connected;
+  const isWalletConnected = status.code === WalletConnectionStatus.Connected;
 
   const openSettingsSidebar = () => dispatch(setSettingsSidebar(true));
   const openAccountSidebar = () => dispatch(setAccountSidebar(true));

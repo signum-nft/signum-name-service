@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { LedgerService } from "@/app/services/ledgerService";
-import { useXTWallet } from "@/app/hooks/useXTWallet";
+import { useXTWallet } from "@/features/xtWallet/useXTWallet";
 
 let service: LedgerService;
 export const useLedgerService = () => {
