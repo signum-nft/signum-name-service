@@ -35,7 +35,6 @@ export const TopSection = () => {
   }, [router]);
 
   useEffect(() => {
-    console.log("error", error);
     if (error instanceof ExtensionWalletError) {
       switch (error.name) {
         case "NotFoundWalletError":
@@ -62,7 +61,6 @@ export const TopSection = () => {
 
   const goToDashboard = () => router.push("/dashboard");
 
-  console.log("wallet", wallet);
   return (
     <Box
       display="flex"

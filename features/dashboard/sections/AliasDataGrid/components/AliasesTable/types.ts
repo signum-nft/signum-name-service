@@ -1,7 +1,7 @@
 import { AliasStatus } from "@/app/types/aliasStatus";
 import { AliasUpdateMode } from "@/app/types/aliasUpdateMode";
 
-export interface Data {
+export interface MappedAlias {
   id: string;
   registeredAlias: string;
   resolvableAlias: string;
@@ -13,7 +13,7 @@ export interface Data {
 }
 
 export interface HeadCell {
-  id: keyof Data;
+  id: keyof MappedAlias;
   label: string;
   secondLabel?: string;
 }

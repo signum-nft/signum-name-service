@@ -9,11 +9,14 @@ export const AccountInitializer = () => {
   const { ledgerService } = useLedgerService();
   const { account } = useXTWallet();
   const dispatch = useAppDispatch();
+
   const accountId = account ? account.address.getNumericId() : null;
 
   const { data: accountData } = useSWR(
     ledgerService && accountId ? `/fetchAccount/${accountId}` : null,
     () => {
+      console.log("fetchData", accountId);
+
       if (!(ledgerService && accountId)) return null;
       return ledgerService.account.fetchAccount(accountId);
     },
@@ -23,7 +26,9 @@ export const AccountInitializer = () => {
   );
 
   useEffect(() => {
+    console.log("update account", account);
     if (!account) return;
+
     dispatch(accountActions.setCurrentAccount(account.address.getPublicKey()));
   }, [account, dispatch]);
 

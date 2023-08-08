@@ -3,7 +3,7 @@ import { formatAmount } from "@/app/formatAmount";
 import { StyledTableRow } from "@/app/components/Table/StyledTableRow";
 import { useActiveMarketData } from "@/app/hooks/useActiveMarketData";
 import { AliasActionButtons } from "@/app/components/AliasActionButtons";
-import { Data } from "../../types";
+import { MappedAlias } from "../../types";
 import { AliasTypeChip } from "./components/AliasTypeChip";
 
 import Chip from "@mui/material/Chip";
@@ -20,7 +20,7 @@ export const BodyRow = ({
   type,
   price,
   status,
-}: Data) => {
+}: MappedAlias) => {
   const { t } = useTranslation();
   const activeMarketData = useActiveMarketData();
 

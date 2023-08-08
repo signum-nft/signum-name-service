@@ -46,20 +46,16 @@ const App = (props: AppProps) => {
 
       <ReduxProvider store={store}>
         {ready && (
-          <>
+          <SignumXTWalletProvider
+            appName={Config.Platform.Name}
+            networkName={Config.Signum.Network}
+            autoConnect={true}
+          >
             <PersistGate loading={null} persistor={storePersistor}>
               <AppInitializer />
-              <ThemeContextProvider>
-                <SignumXTWalletProvider
-                  appName={Config.Platform.Name}
-                  networkName={Config.Signum.Network}
-                  autoConnect={true}
-                >
-                  {content}
-                </SignumXTWalletProvider>
-              </ThemeContextProvider>
+              <ThemeContextProvider>{content}</ThemeContextProvider>
             </PersistGate>
-          </>
+          </SignumXTWalletProvider>
         )}
       </ReduxProvider>
     </AppContextProvider>

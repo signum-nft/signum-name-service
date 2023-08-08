@@ -3,7 +3,7 @@ import { MouseEvent } from "react";
 import { useTheme } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
 import { Order } from "@/app/types/order";
-import { HeadCell, Data } from "../types";
+import { HeadCell, MappedAlias } from "../types";
 
 import Box from "@mui/material/Box";
 import TableRow from "@mui/material/TableRow";
@@ -47,9 +47,12 @@ const getHeadCells = (ticker: string): HeadCell[] => [
 ];
 
 interface Props {
-  orderBy: keyof Data;
+  orderBy: keyof MappedAlias;
   order: Order;
-  onRequestSort: (event: MouseEvent<unknown>, property: keyof Data) => void;
+  onRequestSort: (
+    event: MouseEvent<unknown>,
+    property: keyof MappedAlias
+  ) => void;
 }
 
 export const Header = ({ orderBy, order, onRequestSort }: Props) => {
@@ -58,7 +61,7 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
   const amountSuffix = useAppSelector(selectAmountSuffix);
 
   const createSortHandler =
-    (property: keyof Data) => (event: MouseEvent<unknown>) => {
+    (property: keyof MappedAlias) => (event: MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
@@ -66,7 +69,7 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
     display: { xs: "none", lg: "table-cell" },
   };
 
-  const allowedColumnsInMobile: (keyof Data)[] = [
+  const allowedColumnsInMobile: (keyof MappedAlias)[] = [
     "registeredAlias",
     "resolvableAlias",
     "stld",

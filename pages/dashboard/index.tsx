@@ -12,7 +12,7 @@ export default function DashboardPage() {
   const { t } = useTranslation();
 
   return (
-    <WithConnectedWalletOnly>
+    <WithConnectedWalletOnly redirectUrl="/">
       <SEOMetaTags clientSideTitle={`${t("alias")} • Signum Name Service`} />
       <Dashboard />
     </WithConnectedWalletOnly>

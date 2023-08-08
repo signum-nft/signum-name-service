@@ -71,11 +71,6 @@ export const SignumXTWalletProvider = ({
   const [error, setError] = useState<Error | null>(null);
 
   const connect = useCallback(async () => {
-    if (!wallet.current) {
-      console.warn("Wallet Reference not ready yet...");
-      return false;
-    }
-
     if (wallet.current.connection) {
       console.warn("Wallet already connected... ignoring.");
       return true;
@@ -150,10 +145,10 @@ export const SignumXTWalletProvider = ({
       console.error(e.message);
       return false;
     }
-  }, [wallet, appName, networkName, autoConnect]);
+  }, [appName, networkName, autoConnect]);
 
   const disconnect = useCallback(() => {
-    if (!wallet.current) {
+    if (!wallet) {
       console.warn("Wallet Reference not ready yet...");
       return;
     }
@@ -167,7 +162,7 @@ export const SignumXTWalletProvider = ({
       code: WalletConnectionStatus.Disconnected,
       reason: "user-disconnected",
     });
-  }, [wallet]);
+  }, []);
 
   useEffect(() => {
     async function init() {
@@ -189,11 +184,8 @@ export const SignumXTWalletProvider = ({
         });
       }
     }
-
-    if (wallet.current) {
-      init();
-    }
-  }, [wallet, connect]);
+    init();
+  }, [connect]);
 
   return (
     <SignumXTWalletContext.Provider

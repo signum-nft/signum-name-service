@@ -2,7 +2,7 @@ import { useMemo, useState, MouseEvent } from "react";
 import { Order } from "@/app/types/order";
 import { stableSort, getComparator } from "@/app/tableMethods";
 import { PaperCard } from "@/app/components/PaperCard";
-import { Data } from "./types";
+import { MappedAlias } from "./types";
 import { Header as TableHeader } from "./components/Header";
 import { BodyRow } from "./components/BodyRow";
 
@@ -11,16 +11,16 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 
 interface Props {
-  aliases: Data[];
+  aliases: MappedAlias[];
 }
 
 export const AliasesTable = ({ aliases }: Props) => {
-  const [orderBy, setOrderBy] = useState<keyof Data>("registeredAlias");
+  const [orderBy, setOrderBy] = useState<keyof MappedAlias>("registeredAlias");
   const [order, setOrder] = useState<Order>("asc");
 
   const handleRequestSort = (
     _event: MouseEvent<unknown>,
-    property: keyof Data
+    property: keyof MappedAlias
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
