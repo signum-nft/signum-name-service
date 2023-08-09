@@ -6,13 +6,14 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 
-export const AliasNotFound = () => {
+export const AliasLoading = () => {
   const { t } = useTranslation();
 
   return (
     <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
       <Grid item xs={12} justifyContent="flex-start">
         <Box
+          position="relative"
           display="flex"
           alignItems="center"
           justifyContent="flex-start"
@@ -24,11 +25,19 @@ export const AliasNotFound = () => {
             alt="No Domain"
             width={100}
             height={100}
-            unoptimized
+            className="blink-effect"
+          />
+
+          <Image
+            src="/assets/img/domain.png"
+            alt="No Domain"
+            width={100}
+            height={100}
+            className="pulse-effect"
           />
 
           <Typography color="textSecondary" align="center">
-            {t("noAliasNotice")}
+            {t("loading")}
           </Typography>
         </Box>
       </Grid>

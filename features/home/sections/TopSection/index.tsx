@@ -13,10 +13,8 @@ import { ExtensionWalletError } from "@signumjs/wallets";
 import { useSnackbar } from "@/app/hooks/useSnackbar";
 import { appActions } from "@/app/states/appState";
 import { useEffect, useState } from "react";
-import buttonStyles from "./fancyButtonStyle.module.css";
 import { useRouter } from "next/router";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import Link from "next/link";
 
 export const TopSection = () => {
   const { t } = useTranslation();
@@ -156,7 +154,7 @@ export const TopSection = () => {
                 filter: "drop-shadow(0px 2px 3px white)",
                 backgroundColor: "#ec38bc",
               }}
-              className={buttonStyles.glanceEffect}
+              className="glance-effect"
               onClick={goToDashboard}
               startIcon={
                 isConnecting ? (
@@ -181,7 +179,7 @@ export const TopSection = () => {
                 fontSize: { xs: "18px", sm: "24px" },
                 filter: "drop-shadow(0px 2px 3px #f3b167)",
               }}
-              className={buttonStyles.glanceEffect}
+              className="glance-effect"
               onClick={handleOnWalletConnect}
               startIcon={
                 isConnecting ? (

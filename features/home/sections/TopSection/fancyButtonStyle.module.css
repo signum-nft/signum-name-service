@@ -1,4 +1,4 @@
-.glanceEffect {
+.glance-effect {
   animation: glance 5s infinite alternate-reverse;
   background: linear-gradient(
     270deg,
