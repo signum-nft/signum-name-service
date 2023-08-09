@@ -1,15 +1,9 @@
 import { useAccount } from "@/app/hooks/useAccount";
-import { Alias } from "@signumjs/core";
 import { useLedgerService } from "@/app/hooks/useLedgerService";
 
 import useSWR from "swr";
 
-interface ReturnProps {
-  aliases: Alias[];
-  isLoading: boolean;
-}
-
-export const useAccountAliases = (): ReturnProps => {
+export const useAccountAliases = () => {
   const { ledgerService } = useLedgerService();
   const { accountId } = useAccount();
 
@@ -33,5 +27,5 @@ export const useAccountAliases = (): ReturnProps => {
 
   const isLoading = !error && !data;
 
-  return { aliases: data || [], isLoading };
+  return { aliases: data || [], isLoading, accountId };
 };

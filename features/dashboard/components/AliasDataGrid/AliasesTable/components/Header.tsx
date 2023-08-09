@@ -3,7 +3,6 @@ import { MouseEvent } from "react";
 import { useTheme } from "@mui/material/styles";
 import { visuallyHidden } from "@mui/utils";
 import { Order } from "@/app/types/order";
-import { HeadCell, MappedAlias } from "../types";
 
 import Box from "@mui/material/Box";
 import TableRow from "@mui/material/TableRow";
@@ -13,6 +12,13 @@ import Typography from "@mui/material/Typography";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { useAppSelector } from "@/states/hooks";
 import { selectAmountSuffix } from "@/app/states/ledgerState";
+import { MappedAlias } from "../../../../types/mappedAlias";
+
+interface HeadCell {
+  id: keyof MappedAlias;
+  label: string;
+  secondLabel?: string;
+}
 
 const getHeadCells = (ticker: string): HeadCell[] => [
   {

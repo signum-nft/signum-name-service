@@ -3,7 +3,6 @@ import { formatAmount } from "@/app/formatAmount";
 import { StyledTableRow } from "@/app/components/Table/StyledTableRow";
 import { useActiveMarketData } from "@/app/hooks/useActiveMarketData";
 import { AliasActionButtons } from "@/app/components/AliasActionButtons";
-import { MappedAlias } from "../../types";
 import { AliasTypeChip } from "./components/AliasTypeChip";
 
 import Chip from "@mui/material/Chip";
@@ -11,6 +10,7 @@ import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import TableCell from "@mui/material/TableCell";
 import Typography from "@mui/material/Typography";
+import { MappedAlias } from "@/features/dashboard/types/mappedAlias";
 
 export const BodyRow = ({
   id,

@@ -2,13 +2,13 @@ import { useMemo, useState, MouseEvent } from "react";
 import { Order } from "@/app/types/order";
 import { stableSort, getComparator } from "@/app/tableMethods";
 import { PaperCard } from "@/app/components/PaperCard";
-import { MappedAlias } from "./types";
 import { Header as TableHeader } from "./components/Header";
 import { BodyRow } from "./components/BodyRow";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
+import { MappedAlias } from "@/features/dashboard/types/mappedAlias";
 
 interface Props {
   aliases: MappedAlias[];
