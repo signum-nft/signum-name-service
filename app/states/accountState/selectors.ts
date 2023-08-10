@@ -7,3 +7,7 @@ export const selectCurrentAccountData = (
   if (!state.accountState.currentAccount) return null;
   return state.accountState.accounts[state.accountState.currentAccount] || null;
 };
+
+export const selectIsLoadingAccountData = (state: RootState): boolean => {
+  return state.accountState.isLoadingData;
+};

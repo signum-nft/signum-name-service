@@ -43,6 +43,8 @@ export const Config = {
   Platform: {
     IsMaintenance: toBoolean(process.env.NEXT_PUBLIC_IS_MAINTENANCE || "false"),
     Name: process.env.NEXT_PUBLIC_PLATFORM_NAME || "signumswap.com",
+    MaxAliasLoad: toNumber(process.env.NEXT_PUBLIC_MAX_ALIASES || "1000"),
+    MaxSubdomains: toNumber(process.env.NEXT_PUBLIC_MAX_SUBDOMAINS || "100"),
     SignumArtUrl: process.env.NEXT_PUBLIC_SIGNUM_ART || "",
     DocumentationUrl:
       process.env.NEXT_PUBLIC_PLATFORM_DOCUMENTATION_URL ||

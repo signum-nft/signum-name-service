@@ -69,6 +69,7 @@ const accountPersistConfig: PersistConfig<any> = {
   key: "account",
   version: 1,
   storage,
+  blacklist: ["isLoadingData"],
 };
 
 const portfolioPersistConfig: PersistConfig<any> = {

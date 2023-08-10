@@ -34,7 +34,7 @@ export const Dashboard: NextPage = () => {
 
       const status = getAliasStatus(priceNQT, alias?.buyer, accountId, true);
 
-      const usageMode = getAliasModeUsage(aliasURI);
+      // const usageMode = getAliasModeUsage(aliasURI);
 
       const price = priceNQT
         ? Number(Amount.fromPlanck(priceNQT).getSigna())
@@ -45,8 +45,8 @@ export const Dashboard: NextPage = () => {
         registeredAlias: aliasName,
         resolvableAlias: aliasName + "." + tldName,
         stld: tldName,
-        renewalFee: "",
-        type: usageMode,
+        subdomainCount: 0,
+        // type: usageMode,
         status,
         price,
       };

@@ -1,3 +1,5 @@
+import { DescriptorData } from "@signumjs/standards";
+
 interface AssetBalance {
   asset: string;
   balanceQNT: string;
@@ -6,6 +8,23 @@ interface AssetBalance {
 interface UnconfirmedAssetBalance {
   asset: string;
   unconfirmedBalanceQNT: string;
+}
+
+interface DomainData {
+  name: string; // nm
+  url: string; // hp
+  account: string; // ac
+}
+
+export interface AccountDomainList {
+  id: string;
+  name: string;
+  tld?: string;
+  data?: DomainData;
+  status: string;
+  price: number;
+  previousDomain?: AccountDomainList;
+  nextDomain?: AccountDomainList;
 }
 
 export interface AccountData {
@@ -22,4 +41,5 @@ export interface AccountData {
   description: string;
   assetBalances?: AssetBalance[];
   unconfirmedAssetBalances?: UnconfirmedAssetBalance[];
+  domains?: AccountDomainList[];
 }
