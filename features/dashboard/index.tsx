@@ -14,14 +14,20 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useAccountAliases } from "@/app/hooks/useAccountAliases";
 import { AliasSearchField } from "@/features/dashboard/components/AliasSearchField";
 import { useAppContext } from "@/app/hooks/useAppContext";
-import { getAliasStatus } from "@/app/getAliasStatus";
-import { getAliasModeUsage } from "@/app/getAliasModeUsage";
-import { Amount } from "@signumjs/util";
-import { MappedAlias } from "./types/mappedAlias";
 import { useAccountDomains } from "@/app/hooks/useAccountDomains";
+import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
+import LinkedList from "fast-linked-list";
 import { AccountDomain } from "@/app/types/accountData";
 
 const DefaultTld = "signum";
+
+function countSubDomains(domainList: LinkedList<AccountDomain>): number {
+  let count = 0;
+  for (let d of domainList) {
+    count++;
+  }
+  return count - 1; // first is parent domain
+}
 
 export const Dashboard: NextPage = () => {
   const { t } = useTranslation();
@@ -33,24 +39,28 @@ export const Dashboard: NextPage = () => {
 
   console.log("domain lists", domainLists);
 
-  const { tlds, filteredAliases } = useMemo(() => {
+  const { tlds, filteredDomains } = useMemo(() => {
     const term = searchTerm.toUpperCase();
     const tlds: Record<string, number> = {};
-    const filteredAliases: AccountDomain[] = [];
+    const filteredDomains: MappedDomain[] = [];
 
-    for (let ac of domainLists) {
-      const ma = ac.first;
-      const tld = ma.tld || DefaultTld;
+    for (let list of domainLists) {
+      const subdomainCount = countSubDomains(list);
+      const mappedDomain: MappedDomain = {
+        ...list.first,
+        subdomainCount,
+      };
+      const tld = mappedDomain.tld || DefaultTld;
       tlds[tld] = !tlds[tld] ? 1 : tlds[tld] + 1;
       if (
-        ma.id.toUpperCase().includes(term) ||
-        ma.name.toUpperCase().includes(term)
+        mappedDomain.id.toUpperCase().includes(term) ||
+        mappedDomain.name.toUpperCase().includes(term)
       ) {
-        filteredAliases.push(ma);
+        filteredDomains.push(mappedDomain);
       }
     }
 
-    return { tlds, filteredAliases };
+    return { tlds, filteredDomains };
   }, [domainLists, searchTerm]);
 
   useEffect(() => {
@@ -112,7 +122,7 @@ export const Dashboard: NextPage = () => {
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0,
                   }}
-                  disabled={filteredAliases.length > 0}
+                  disabled={filteredDomains.length > 0}
                 >
                   {t("getIt")}
                 </Button>
@@ -151,7 +161,7 @@ export const Dashboard: NextPage = () => {
         px={2}
         mb={20}
       >
-        <DomainDataGrid domains={filteredAliases} isLoading={isLoading} />
+        <DomainDataGrid domains={filteredDomains} isLoading={isLoading} />
       </Box>
     </>
   );

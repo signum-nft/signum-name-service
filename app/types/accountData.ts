@@ -1,5 +1,6 @@
 import { DescriptorData } from "@signumjs/standards";
 import LinkedList from "fast-linked-list";
+import { AliasStatus } from "@/app/types/aliasStatus";
 
 interface AssetBalance {
   asset: string;
@@ -22,7 +23,7 @@ export interface AccountDomain {
   name: string;
   tld?: string;
   data?: DomainData;
-  status: string;
+  status: AliasStatus;
   price: number;
 }
 

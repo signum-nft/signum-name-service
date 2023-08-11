@@ -1,14 +1,13 @@
 import { AliasNotFound } from "./AliasNotFound";
-import { DomainsTable } from "./AliasesTable";
+import { DomainsTable } from "./DomainsTable";
 
 import Grid from "@mui/material/Grid";
-import { MappedAlias } from "../../types/mappedAlias";
 import { AliasLoading } from "./AliasLoading";
-import { AccountDomain } from "@/app/types/accountData";
+import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
 
 interface Props {
   isLoading?: boolean;
-  domains: AccountDomain[];
+  domains: MappedDomain[];
 }
 
 export const DomainDataGrid = ({ domains, isLoading = false }: Props) => {

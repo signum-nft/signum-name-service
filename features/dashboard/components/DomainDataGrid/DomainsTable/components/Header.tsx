@@ -12,10 +12,10 @@ import Typography from "@mui/material/Typography";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { useAppSelector } from "@/states/hooks";
 import { selectAmountSuffix } from "@/app/states/ledgerState";
-import { AccountDomain } from "@/app/types/accountData";
+import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
 
 interface HeadCell {
-  id: keyof AccountDomain;
+  id: keyof MappedDomain;
   label: string;
   secondLabel?: string;
 }
@@ -23,24 +23,16 @@ interface HeadCell {
 const getHeadCells = (ticker: string): HeadCell[] => [
   {
     id: "name",
-    label: "registeredAlias",
+    label: "name",
   },
   {
     id: "tld",
     label: "STLD",
   },
-  // {
-  //   id: "resolvableAlias",
-  //   label: "resolvableAlias",
-  // },
-  // {
-  //   id: "renewalFee",
-  //   label: "renewalFee",
-  // },
-  // {
-  //   id: "type",
-  //   label: "type",
-  // },
+  {
+    id: "subdomainCount",
+    label: "subdomainCount",
+  },
   {
     id: "status",
     label: "status",
@@ -52,22 +44,20 @@ const getHeadCells = (ticker: string): HeadCell[] => [
   },
 ];
 
-const AllowedColumnsInMobile: (keyof AccountDomain)[] = [
+const AllowedColumnsInMobile: (keyof MappedDomain)[] = [
   "name",
-  // "resolvableAlias",
   "tld",
-  // "renewalFee",
-  // "type",
+  "subdomainCount",
   "status",
   "price",
 ];
 
 interface Props {
-  orderBy: keyof AccountDomain;
+  orderBy: keyof MappedDomain;
   order: Order;
   onRequestSort: (
     event: MouseEvent<unknown>,
-    property: keyof AccountDomain
+    property: keyof MappedDomain
   ) => void;
 }
 
@@ -77,7 +67,7 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
   const amountSuffix = useAppSelector(selectAmountSuffix);
 
   const createSortHandler =
-    (property: keyof AccountDomain) => (event: MouseEvent<unknown>) => {
+    (property: keyof MappedDomain) => (event: MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 

@@ -871,5 +871,10 @@
   "gotoDashboard": "Open Dashboard",
   "domain_zero": "Domains",
   "domain_one": "Domain",
-  "domain_other": "Domains"
+  "domain_other": "Domains",
+  "paginationRowsPerPage": "Rows Per Page:",
+  "paginationDisplayedRows": "{{from}}-{{to}} of {{count}}",
+  "successfullyCopied": "Successfully copied text to clipboard",
+  "clickToCopyToClipboard": "Click to copy text to clipboard",
+  "subdomainCount": "Subdomains"
 }

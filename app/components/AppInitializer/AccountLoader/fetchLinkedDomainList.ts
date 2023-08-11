@@ -2,6 +2,7 @@ import { DescriptorData } from "@signumjs/standards";
 import { Alias, Ledger } from "@signumjs/core";
 import { AccountDomain, AccountDomainList } from "@/app/types/accountData";
 import LinkedList, { Token } from "fast-linked-list";
+import { AliasStatus } from "@/app/types/aliasStatus";
 
 function getSRC44(aliasContent: string) {
   try {
@@ -11,10 +12,17 @@ function getSRC44(aliasContent: string) {
   }
 }
 
-function getStatus(alias: Alias) {
-  // FIXME: implement get Status
-  return "";
-}
+export const getStatus = (alias: Alias): AliasStatus => {
+  const { priceNQT, buyer, account } = alias;
+
+  if (priceNQT && buyer && buyer !== account) {
+    return "onPrivateSale";
+  }
+
+  if (priceNQT) return "onSale";
+
+  return "notOnSale";
+};
 
 function getSubdomainData(d: DescriptorData) {
   return {
