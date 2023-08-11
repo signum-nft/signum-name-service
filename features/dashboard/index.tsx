@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import { useEffect, useMemo, useState } from "react";
 import { Divider } from "@/app/components/Divider";
 import { TabButton } from "@/app/components/TabButton";
-import { AliasDataGrid } from "./components/AliasDataGrid";
+import { DomainDataGrid } from "./components/DomainDataGrid";
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -18,59 +18,40 @@ import { getAliasStatus } from "@/app/getAliasStatus";
 import { getAliasModeUsage } from "@/app/getAliasModeUsage";
 import { Amount } from "@signumjs/util";
 import { MappedAlias } from "./types/mappedAlias";
+import { useAccountDomains } from "@/app/hooks/useAccountDomains";
+import { AccountDomain } from "@/app/types/accountData";
 
 const DefaultTld = "signum";
 
 export const Dashboard: NextPage = () => {
   const { t } = useTranslation();
   const { isLoading, aliases, accountId } = useAccountAliases();
+  const { domainLists } = useAccountDomains();
   const { SignumSwap } = useAppContext();
   const [activeTab, setActiveTab] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const mappedAliases: MappedAlias[] = useMemo(() => {
-    return aliases.map((alias) => {
-      const { aliasName, tldName = "", priceNQT, aliasURI } = alias;
-
-      const status = getAliasStatus(priceNQT, alias?.buyer, accountId, true);
-
-      // const usageMode = getAliasModeUsage(aliasURI);
-
-      const price = priceNQT
-        ? Number(Amount.fromPlanck(priceNQT).getSigna())
-        : 0;
-
-      return {
-        id: alias.alias,
-        registeredAlias: aliasName,
-        resolvableAlias: aliasName + "." + tldName,
-        stld: tldName,
-        subdomainCount: 0,
-        // type: usageMode,
-        status,
-        price,
-      };
-    });
-  }, [accountId, aliases]);
+  console.log("domain lists", domainLists);
 
   const { tlds, filteredAliases } = useMemo(() => {
     const term = searchTerm.toUpperCase();
     const tlds: Record<string, number> = {};
-    const filteredAliases: MappedAlias[] = [];
+    const filteredAliases: AccountDomain[] = [];
 
-    for (let ma of mappedAliases) {
-      const tld = ma.stld || DefaultTld;
+    for (let ac of domainLists) {
+      const ma = ac.first;
+      const tld = ma.tld || DefaultTld;
       tlds[tld] = !tlds[tld] ? 1 : tlds[tld] + 1;
       if (
         ma.id.toUpperCase().includes(term) ||
-        ma.resolvableAlias.toUpperCase().includes(term)
+        ma.name.toUpperCase().includes(term)
       ) {
         filteredAliases.push(ma);
       }
     }
 
     return { tlds, filteredAliases };
-  }, [mappedAliases, searchTerm]);
+  }, [domainLists, searchTerm]);
 
   useEffect(() => {
     if (!searchTerm) {
@@ -170,7 +151,7 @@ export const Dashboard: NextPage = () => {
         px={2}
         mb={20}
       >
-        <AliasDataGrid aliases={filteredAliases} isLoading={isLoading} />
+        <DomainDataGrid domains={filteredAliases} isLoading={isLoading} />
       </Box>
     </>
   );

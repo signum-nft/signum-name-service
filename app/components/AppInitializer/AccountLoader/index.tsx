@@ -4,7 +4,7 @@ import { accountActions } from "@/app/states/accountState";
 import { useCallback, useEffect } from "react";
 import useSWR from "swr";
 import { useXTWallet } from "@/features/xtWallet/useXTWallet";
-import { AccountDomainList } from "@/app/types/accountData";
+import { AccountDomain } from "@/app/types/accountData";
 import { useAppContext } from "@/app/hooks/useAppContext";
 import { fetchLinkedDomainList } from "./fetchLinkedDomainList";
 import { AvgBlocktimeInMilliseconds } from "@/app/types/avgBlocktime";
@@ -51,14 +51,14 @@ export const AccountLoader = () => {
           count: Math.min(500, MaxAliasLoad - domainCount),
         });
 
-      const domains: AccountDomainList[] = [];
+      const domains: AccountDomain[][] = [];
       const subdomainRequests = aliases.map(async (alias) => {
-        const { head } = await fetchLinkedDomainList({
+        const { list } = await fetchLinkedDomainList({
           ledger: ledgerService.ledgerInstance,
           alias,
           maxSubdomains: MaxSubdomains,
         });
-        domains.push(head);
+        domains.push(list.toArray());
       });
       await Promise.all(subdomainRequests);
       startIndex = nextIndex;
@@ -70,9 +70,6 @@ export const AccountLoader = () => {
         })
       );
       dispatch(accountActions.setIsLoadingData(false));
-      // if(domainCount >= MaxAliasLoad){
-      //   break;
-      // }
     }
   }, [MaxAliasLoad, MaxSubdomains, accountData, dispatch, ledgerService]);
 

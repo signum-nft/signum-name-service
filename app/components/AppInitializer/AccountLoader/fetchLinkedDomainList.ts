@@ -1,6 +1,7 @@
 import { DescriptorData } from "@signumjs/standards";
 import { Alias, Ledger } from "@signumjs/core";
-import { AccountDomainList } from "@/app/types/accountData";
+import { AccountDomain, AccountDomainList } from "@/app/types/accountData";
+import LinkedList, { Token } from "fast-linked-list";
 
 function getSRC44(aliasContent: string) {
   try {
@@ -23,17 +24,14 @@ function getSubdomainData(d: DescriptorData) {
   };
 }
 
-function linkDomains(previous: AccountDomainList, alias: Alias) {
-  const newDomain: AccountDomainList = {
+function aliasToDomainAccount(alias: Alias): AccountDomain {
+  return {
     tld: alias.tldName,
     name: alias.aliasName,
     price: Number(alias.priceNQT ?? "0"),
     status: getStatus(alias),
     id: alias.alias,
   };
-  previous.nextDomain = newDomain;
-  newDomain.previousDomain = previous;
-  return newDomain;
 }
 
 export enum StopCode {
@@ -49,7 +47,7 @@ interface FetchSubdomainsArgs {
 }
 
 interface DomainListResult {
-  head: AccountDomainList;
+  list: AccountDomainList;
   stopCode: StopCode;
 }
 
@@ -61,18 +59,19 @@ export async function fetchLinkedDomainList({
   alias,
   maxSubdomains,
 }: FetchSubdomainsArgs): Promise<DomainListResult> {
-  const head: AccountDomainList = {
+  const head: AccountDomain = {
     tld: alias.tldName,
     name: alias.aliasName,
     id: alias.alias,
     status: getStatus(alias),
     price: Number(alias.priceNQT ?? "0"),
   };
+  const list = new LinkedList<AccountDomain>(head);
 
   let descriptor = getSRC44(alias.aliasURI);
   if (!descriptor) {
     return Promise.resolve({
-      head,
+      list,
       stopCode: StopCode.Normal,
     });
   }
@@ -80,7 +79,7 @@ export async function fetchLinkedDomainList({
   head.data = getSubdomainData(descriptor);
   if (!descriptor.alias) {
     return Promise.resolve({
-      head,
+      list,
       stopCode: StopCode.Normal,
     });
   }
@@ -88,23 +87,23 @@ export async function fetchLinkedDomainList({
   // to control circular references
   const visitedAliasIds = new Set<string>();
   visitedAliasIds.add(alias.alias);
-  let currentEl: AccountDomainList = head;
+  let currentEl: Token<AccountDomain> = list.firstToken;
   let stopCode: StopCode = StopCode.Normal;
   try {
     const [aliasName, tld] = descriptor.alias.split(":");
     let alias = await ledger.alias.getAliasByName(aliasName, tld);
-    currentEl = linkDomains(currentEl, alias);
+    currentEl = list.push(aliasToDomainAccount(alias));
     descriptor = DescriptorData.parse(alias.aliasURI); // throws
-    currentEl.data = getSubdomainData(descriptor);
+    currentEl.value.data = getSubdomainData(descriptor);
     let stopSearch = !descriptor.alias;
     let iterationCount = 0;
     while (!stopSearch) {
       // @ts-ignore
       const [aliasName, tld] = descriptor.alias.split(":");
       alias = await ledger.alias.getAliasByName(aliasName, tld);
-      currentEl = linkDomains(currentEl, alias);
+      currentEl = list.push(aliasToDomainAccount(alias));
       descriptor = DescriptorData.parse(alias.aliasURI);
-      currentEl.data = getSubdomainData(descriptor);
+      currentEl.value.data = getSubdomainData(descriptor);
 
       stopSearch = !descriptor.alias;
       stopCode = StopCode.Normal;
@@ -123,7 +122,7 @@ export async function fetchLinkedDomainList({
   }
 
   return {
-    head,
+    list,
     stopCode,
   };
 }

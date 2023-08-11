@@ -11,42 +11,35 @@ import Tooltip from "@mui/material/Tooltip";
 import TableCell from "@mui/material/TableCell";
 import Typography from "@mui/material/Typography";
 import { MappedAlias } from "@/features/dashboard/types/mappedAlias";
+import { AccountDomain } from "@/app/types/accountData";
 
-export const BodyRow = ({
-  id,
-  registeredAlias,
-  resolvableAlias,
-  stld,
-  type,
-  price,
-  status,
-}: MappedAlias) => {
+export const BodyRow = ({ id, name, tld, price, status }: AccountDomain) => {
   const { t } = useTranslation();
   const activeMarketData = useActiveMarketData();
 
   return (
     <StyledTableRow key={id}>
       <TableCell>
-        <Typography variant="body2">{registeredAlias}</Typography>
+        <Typography variant="body2">{name}</Typography>
       </TableCell>
 
       <TableCell>
-        <Typography variant="body2">{stld || t("noStld")}</Typography>
+        <Typography variant="body2">{tld || t("noStld")}</Typography>
       </TableCell>
 
       <TableCell>
         <Stack direction="column" spacing={1}>
           <Tooltip title={`${t("thisWayInteractAlias")}`} arrow placement="top">
-            <Chip variant="outlined" label={resolvableAlias} />
+            <Chip variant="outlined" label={`${name}:${tld}`} />
           </Tooltip>
 
-          {stld === "signum" && (
+          {tld === "signum" && (
             <Tooltip
               title={`${t("thisWayInteractAlias")}`}
               arrow
               placement="top"
             >
-              <Chip variant="outlined" label={registeredAlias} />
+              <Chip variant="outlined" label={name} />
             </Tooltip>
           )}
         </Stack>
@@ -56,9 +49,9 @@ export const BodyRow = ({
       {/*  <RenewalFeeIndicator id={id} />*/}
       {/*</TableCell>*/}
 
-      <TableCell>
-        <AliasTypeChip type={type} />
-      </TableCell>
+      {/*<TableCell>*/}
+      {/*  <AliasTypeChip type={type} />*/}
+      {/*</TableCell>*/}
 
       <TableCell>
         <Typography variant="body2">{t(status)}</Typography>
@@ -84,7 +77,7 @@ export const BodyRow = ({
           display: { xs: "none", lg: "table-cell" },
         }}
       >
-        <AliasActionButtons id={id} name={resolvableAlias} status={status} />
+        <AliasActionButtons id={id} name={name} status={status} />
       </TableCell>
     </StyledTableRow>
   );

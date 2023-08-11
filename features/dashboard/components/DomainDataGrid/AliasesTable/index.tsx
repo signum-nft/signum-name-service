@@ -9,18 +9,19 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import { MappedAlias } from "@/features/dashboard/types/mappedAlias";
+import { AccountDomain } from "@/app/types/accountData";
 
 interface Props {
-  aliases: MappedAlias[];
+  domains: AccountDomain[];
 }
 
-export const AliasesTable = ({ aliases }: Props) => {
-  const [orderBy, setOrderBy] = useState<keyof MappedAlias>("registeredAlias");
+export const DomainsTable = ({ domains }: Props) => {
+  const [orderBy, setOrderBy] = useState<keyof AccountDomain>("name");
   const [order, setOrder] = useState<Order>("asc");
 
   const handleRequestSort = (
     _event: MouseEvent<unknown>,
-    property: keyof MappedAlias
+    property: keyof AccountDomain
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -28,10 +29,10 @@ export const AliasesTable = ({ aliases }: Props) => {
   };
 
   const rows = useMemo(() => {
-    return stableSort(aliases, getComparator(order, orderBy)).map((row) => (
+    return stableSort(domains, getComparator(order, orderBy)).map((row) => (
       <BodyRow key={row.id} {...row} />
     ));
-  }, [order, orderBy, aliases]);
+  }, [order, orderBy, domains]);
 
   return (
     <PaperCard>

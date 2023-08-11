@@ -1,9 +1,9 @@
-import { AccountData, AccountDomainList } from "@/app/types/accountData";
+import { AccountData, AccountDomain } from "@/app/types/accountData";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface SetAccountDomainsPayload {
   publicKey: string;
-  domains: AccountDomainList[];
+  domains: AccountDomain[][];
 }
 interface AccountDataMap {
   [key: string]: AccountData;

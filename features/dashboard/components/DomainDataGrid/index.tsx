@@ -1,17 +1,18 @@
 import { AliasNotFound } from "./AliasNotFound";
-import { AliasesTable } from "./AliasesTable";
+import { DomainsTable } from "./AliasesTable";
 
 import Grid from "@mui/material/Grid";
 import { MappedAlias } from "../../types/mappedAlias";
-import { AliasLoading } from "@/features/dashboard/components/AliasDataGrid/AliasLoading";
+import { AliasLoading } from "./AliasLoading";
+import { AccountDomain } from "@/app/types/accountData";
 
 interface Props {
   isLoading?: boolean;
-  aliases: MappedAlias[];
+  domains: AccountDomain[];
 }
 
-export const AliasDataGrid = ({ aliases, isLoading = false }: Props) => {
-  const hasAliases = aliases.length > 0;
+export const DomainDataGrid = ({ domains, isLoading = false }: Props) => {
+  const hasAliases = domains.length > 0;
 
   if (isLoading) {
     return (
@@ -31,7 +32,7 @@ export const AliasDataGrid = ({ aliases, isLoading = false }: Props) => {
         </Grid>
       ) : (
         <Grid item xs={12} width="100%">
-          <AliasesTable aliases={aliases} />
+          <DomainsTable domains={domains} />
         </Grid>
       )}
     </Grid>

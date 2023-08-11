@@ -1,4 +1,5 @@
 import { DescriptorData } from "@signumjs/standards";
+import LinkedList from "fast-linked-list";
 
 interface AssetBalance {
   asset: string;
@@ -16,16 +17,16 @@ interface DomainData {
   account: string; // ac
 }
 
-export interface AccountDomainList {
+export interface AccountDomain {
   id: string;
   name: string;
   tld?: string;
   data?: DomainData;
   status: string;
   price: number;
-  previousDomain?: AccountDomainList;
-  nextDomain?: AccountDomainList;
 }
+
+export type AccountDomainList = LinkedList<AccountDomain>;
 
 export interface AccountData {
   balanceNQT: string;
@@ -41,5 +42,5 @@ export interface AccountData {
   description: string;
   assetBalances?: AssetBalance[];
   unconfirmedAssetBalances?: UnconfirmedAssetBalance[];
-  domains?: AccountDomainList[];
+  domains?: AccountDomain[][];
 }

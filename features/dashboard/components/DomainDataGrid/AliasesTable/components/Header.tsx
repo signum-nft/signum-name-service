@@ -12,35 +12,35 @@ import Typography from "@mui/material/Typography";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { useAppSelector } from "@/states/hooks";
 import { selectAmountSuffix } from "@/app/states/ledgerState";
-import { MappedAlias } from "../../../../types/mappedAlias";
+import { AccountDomain } from "@/app/types/accountData";
 
 interface HeadCell {
-  id: keyof MappedAlias;
+  id: keyof AccountDomain;
   label: string;
   secondLabel?: string;
 }
 
 const getHeadCells = (ticker: string): HeadCell[] => [
   {
-    id: "registeredAlias",
+    id: "name",
     label: "registeredAlias",
   },
   {
-    id: "stld",
+    id: "tld",
     label: "STLD",
   },
-  {
-    id: "resolvableAlias",
-    label: "resolvableAlias",
-  },
-  {
-    id: "renewalFee",
-    label: "renewalFee",
-  },
-  {
-    id: "type",
-    label: "type",
-  },
+  // {
+  //   id: "resolvableAlias",
+  //   label: "resolvableAlias",
+  // },
+  // {
+  //   id: "renewalFee",
+  //   label: "renewalFee",
+  // },
+  // {
+  //   id: "type",
+  //   label: "type",
+  // },
   {
     id: "status",
     label: "status",
@@ -52,12 +52,22 @@ const getHeadCells = (ticker: string): HeadCell[] => [
   },
 ];
 
+const AllowedColumnsInMobile: (keyof AccountDomain)[] = [
+  "name",
+  // "resolvableAlias",
+  "tld",
+  // "renewalFee",
+  // "type",
+  "status",
+  "price",
+];
+
 interface Props {
-  orderBy: keyof MappedAlias;
+  orderBy: keyof AccountDomain;
   order: Order;
   onRequestSort: (
     event: MouseEvent<unknown>,
-    property: keyof MappedAlias
+    property: keyof AccountDomain
   ) => void;
 }
 
@@ -67,23 +77,13 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
   const amountSuffix = useAppSelector(selectAmountSuffix);
 
   const createSortHandler =
-    (property: keyof MappedAlias) => (event: MouseEvent<unknown>) => {
+    (property: keyof AccountDomain) => (event: MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
   const stylingColumnInMobile = {
     display: { xs: "none", lg: "table-cell" },
   };
-
-  const allowedColumnsInMobile: (keyof MappedAlias)[] = [
-    "registeredAlias",
-    "resolvableAlias",
-    "stld",
-    "renewalFee",
-    "type",
-    "status",
-    "price",
-  ];
 
   return (
     <TableHead>
@@ -97,7 +97,7 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
             key={headCell.id}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
-              display: !allowedColumnsInMobile.includes(headCell.id)
+              display: !AllowedColumnsInMobile.includes(headCell.id)
                 ? stylingColumnInMobile.display
                 : null,
             }}
