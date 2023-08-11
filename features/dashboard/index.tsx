@@ -31,13 +31,10 @@ function countSubDomains(domainList: LinkedList<AccountDomain>): number {
 
 export const Dashboard: NextPage = () => {
   const { t } = useTranslation();
-  const { isLoading, aliases, accountId } = useAccountAliases();
   const { domainLists } = useAccountDomains();
   const { SignumSwap } = useAppContext();
   const [activeTab, setActiveTab] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-
-  console.log("domain lists", domainLists);
 
   const { tlds, filteredDomains } = useMemo(() => {
     const term = searchTerm.toUpperCase();
@@ -161,7 +158,7 @@ export const Dashboard: NextPage = () => {
         px={2}
         mb={20}
       >
-        <DomainDataGrid domains={filteredDomains} isLoading={isLoading} />
+        <DomainDataGrid domains={filteredDomains} isLoading={false} />
       </Box>
     </>
   );

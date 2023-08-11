@@ -13,7 +13,7 @@ interface Props {
   tld?: string;
 }
 
-export const BodyRow = ({
+export const DomainItemRow = ({
   id,
   name,
   tld,

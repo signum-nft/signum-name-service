@@ -1,9 +1,9 @@
-import { useMemo, useState, MouseEvent } from "react";
+import { useMemo, useState, MouseEvent, useRef } from "react";
 import { Order } from "@/app/types/order";
 import { stableSort, getComparator } from "@/app/tableMethods";
 import { PaperCard } from "@/app/components/PaperCard";
 import { Header as TableHeader } from "./components/Header";
-import { BodyRow } from "./components/BodyRow";
+import { DomainItemRow } from "./components/DomainItemRow";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,17 +12,21 @@ import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
 import { TablePagination } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "next-i18next";
+import chunk from "lodash/chunk";
 
 interface Props {
   domains: MappedDomain[];
 }
 
+const DefaultRowsPerPage = 10;
+
 export const DomainsTable = ({ domains }: Props) => {
+  const rowsPerPage = useRef(DefaultRowsPerPage);
+  const page = useRef(0);
   const { t } = useTranslation();
   const [orderBy, setOrderBy] = useState<keyof MappedDomain>("name");
   const [order, setOrder] = useState<Order>("asc");
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(0);
+  const [paginationChanged, setPaginationChanged] = useState(0);
 
   const handleRequestSort = (
     _event: MouseEvent<unknown>,
@@ -33,20 +37,27 @@ export const DomainsTable = ({ domains }: Props) => {
     setOrderBy(property);
   };
 
-  const handleChangePage = (e: any) => {
-    setPage(e.target.value);
+  const handleChangePage = (_: any, p: any) => {
+    page.current = p;
+    setPaginationChanged(paginationChanged + 1);
   };
 
   const handleChangeRowsPerPage = (e: any) => {
-    setRowsPerPage(e.target.value);
+    rowsPerPage.current = e.target.value;
+    page.current = 0;
+    setPaginationChanged(paginationChanged + 1);
   };
 
-  const rows = useMemo(() => {
+  const sortedRows = useMemo(() => {
     // @ts-ignore
     return stableSort<MappedDomain>(domains, getComparator(order, orderBy)).map(
-      (row) => <BodyRow key={row.id} {...row} />
+      (row) => <DomainItemRow key={row.id} {...row} />
     );
   }, [order, orderBy, domains]);
+
+  const pagedRows = useMemo(() => {
+    return chunk(sortedRows, rowsPerPage.current);
+  }, [paginationChanged, sortedRows]);
 
   return (
     <PaperCard>
@@ -58,15 +69,15 @@ export const DomainsTable = ({ domains }: Props) => {
             orderBy={orderBy}
           />
 
-          <TableBody>{rows}</TableBody>
+          <TableBody>{pagedRows[page.current]}</TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
+        count={sortedRows.length}
+        rowsPerPage={rowsPerPage.current}
+        page={page.current}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
         labelDisplayedRows={(args) => (
