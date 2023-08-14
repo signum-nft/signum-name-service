@@ -50,7 +50,7 @@ export enum StopCode {
 
 interface CreateLinkedDomainList {
   domain: Alias;
-  loadedAliases: Alias[];
+  lookupMap: Map<string, Alias>;
   maxSubdomains: number;
 }
 
@@ -59,21 +59,9 @@ interface DomainListResult {
   stopCode: StopCode;
 }
 
-function mountAliasNameWithTld(alias: Alias) {
-  return `${alias.aliasName}:${alias.tldName}`;
-}
-
-function createToLookupMapFromAliasArray(aliases: Alias[]) {
-  const map = new Map<string, Alias>();
-  for (let a of aliases) {
-    map.set(mountAliasNameWithTld(a), a);
-  }
-  return map;
-}
-
 export function createLinkedDomainList({
   domain,
-  loadedAliases,
+  lookupMap,
   maxSubdomains,
 }: CreateLinkedDomainList): DomainListResult {
   const head: AccountDomain = {
@@ -83,9 +71,7 @@ export function createLinkedDomainList({
     status: getStatus(domain),
     price: Number(domain.priceNQT ?? "0"),
   };
-  const lookupMap = createToLookupMapFromAliasArray(loadedAliases);
   const list = new LinkedList<AccountDomain>(head);
-
   let descriptor = getSRC44(domain.aliasURI);
   if (!descriptor) {
     return {

@@ -10,6 +10,16 @@ import { createLinkedDomainList } from "@/app/components/AppInitializer/AccountL
 import { Alias } from "@signumjs/core";
 import { AccountDomain } from "@/app/types/accountData";
 
+function createToLookupMapFromAliasArray(aliases: Alias[]) {
+  const map = new Map<string, Alias>();
+  for (let a of aliases) {
+    const aliasName =
+      a.tldName === "signum" ? a.aliasName : `${a.aliasName}:${a.tldName}`;
+    map.set(aliasName, a);
+  }
+  return map;
+}
+
 export const AccountLoader = () => {
   const {
     Platform: { MaxAliasLoad, MaxSubdomains },
@@ -57,6 +67,7 @@ export const AccountLoader = () => {
     // organize subdomains
     let domains: AccountDomain[][] = [];
     let ignoreAliasIds = new Set<string>();
+    const lookupMap = createToLookupMapFromAliasArray(loadedAliases);
     for (let a of loadedAliases) {
       // skip aliases which are already identified as subdomains.
       if (ignoreAliasIds.has(a.alias)) {
@@ -66,7 +77,7 @@ export const AccountLoader = () => {
       // create domain list: first in list are main domains, tail is related subdomain list.
       const { list } = createLinkedDomainList({
         domain: a,
-        loadedAliases,
+        lookupMap,
         maxSubdomains: MaxSubdomains,
       });
 
