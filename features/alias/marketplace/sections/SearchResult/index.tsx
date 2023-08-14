@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { Config } from "@/app/config";
 
 interface Props {
   searchTerm: string;
@@ -91,7 +92,7 @@ export const SearchResult = ({
     // Show updated results with priority list
     let updatedMergedTlds = [];
 
-    if (specificTld && searchTermTLD !== "signum")
+    if (specificTld && searchTermTLD !== Config.Signum.DefaultTld)
       updatedMergedTlds.push(specificTld);
 
     if (signaTld) updatedMergedTlds.push(signaTld);

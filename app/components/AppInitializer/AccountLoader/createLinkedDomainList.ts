@@ -3,6 +3,7 @@ import { Alias } from "@signumjs/core";
 import { AccountDomain, AccountDomainList } from "@/app/types/accountData";
 import LinkedList, { Token } from "fast-linked-list";
 import { AliasStatus } from "@/app/types/aliasStatus";
+import { Config } from "@/app/config";
 
 function getSRC44(aliasContent: string) {
   try {
@@ -64,6 +65,7 @@ export function createLinkedDomainList({
   lookupMap,
   maxSubdomains,
 }: CreateLinkedDomainList): DomainListResult {
+  const DefaultTld = Config.Signum.DefaultTld;
   const head: AccountDomain = {
     tld: domain.tldName,
     name: domain.aliasName,
@@ -121,7 +123,7 @@ export function createLinkedDomainList({
       stopCode = StopCode.CircularReference;
       console.warn(
         `Circular Reference detected for ${alias.aliasName}:${
-          alias.tldName || "signum"
+          alias.tldName || DefaultTld
         } - aborted`
       );
     }
@@ -130,7 +132,7 @@ export function createLinkedDomainList({
       stopCode = StopCode.MaxDomainsReached;
       console.warn(
         `Maximum Amount of Subdomains reached for ${alias.aliasName}:${
-          alias.tldName || "signum"
+          alias.tldName || DefaultTld
         } - stopped`
       );
     }

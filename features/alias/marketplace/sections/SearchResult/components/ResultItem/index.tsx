@@ -17,7 +17,9 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import { Config } from "@/app/config";
 
+const DefaultTld = Config.Signum.DefaultTld;
 export const ResultItem = (alias: Alias) => {
   const { t } = useTranslation();
   const { accountId } = useAccount();
@@ -97,7 +99,7 @@ export const ResultItem = (alias: Alias) => {
         </Stack>
 
         <Stack direction="row" alignItems="center">
-          {tldName === "signum" && (
+          {tldName === DefaultTld && (
             <Typography fontSize={12} color="textSecondary" mr={0.4}>
               {isAliasOwner && `${aliasName} ${t("and")}`}
 

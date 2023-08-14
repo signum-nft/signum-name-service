@@ -11,16 +11,15 @@ import Button from "@mui/material/Button";
 import Badge from "@mui/material/Badge";
 import Stack from "@mui/material/Stack";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useAccountAliases } from "@/app/hooks/useAccountAliases";
 import { AliasSearchField } from "@/features/dashboard/components/AliasSearchField";
 import { useAppContext } from "@/app/hooks/useAppContext";
 import { useAccountDomains } from "@/app/hooks/useAccountDomains";
 import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
 import LinkedList from "fast-linked-list";
 import { AccountDomain } from "@/app/types/accountData";
+import { Config } from "@/app/config";
 
-const DefaultTld = "signum";
-
+const ContainerMaxWidth = 1500;
 function countSubDomains(domainList: LinkedList<AccountDomain>): number {
   let count = 0;
   for (let d of domainList) {
@@ -47,12 +46,13 @@ export const Dashboard: NextPage = () => {
         ...list.first,
         subdomainCount,
       };
-      const tld = mappedDomain.tld || DefaultTld;
-      tlds[tld] = !tlds[tld] ? 1 : tlds[tld] + 1;
+      const tld = mappedDomain.tld || Config.Signum.DefaultTld;
+      const aliasName = `${mappedDomain.name}:${tld}`;
       if (
         mappedDomain.id.toUpperCase().includes(term) ||
-        mappedDomain.name.toUpperCase().includes(term)
+        aliasName.toUpperCase().includes(term)
       ) {
+        tlds[tld] = !tlds[tld] ? 1 : tlds[tld] + 1;
         filteredDomains.push(mappedDomain);
       }
     }
@@ -71,15 +71,13 @@ export const Dashboard: NextPage = () => {
     }
   }, [tlds, searchTerm]);
 
-  const containerMaxWidth = 1500;
-
   return (
     <>
       <Box
         display="flex"
         flexDirection="column"
         mx="auto"
-        maxWidth={containerMaxWidth}
+        maxWidth={ContainerMaxWidth}
         px={2}
         mt={4}
       >
@@ -154,7 +152,7 @@ export const Dashboard: NextPage = () => {
         display="flex"
         flexDirection="column"
         mx="auto"
-        maxWidth={containerMaxWidth}
+        maxWidth={ContainerMaxWidth}
         px={2}
         mb={20}
       >

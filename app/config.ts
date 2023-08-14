@@ -26,6 +26,7 @@ export const Config = {
     PlatformAccounts: {},
     ReliableNodes,
     DefaultNode: ReliableNodes[0],
+    DefaultTld: "signum",
   },
   Contracts: {
     StakingContract: {

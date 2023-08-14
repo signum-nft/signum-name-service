@@ -9,12 +9,15 @@ import { AvgBlocktimeInMilliseconds } from "@/app/types/avgBlocktime";
 import { createLinkedDomainList } from "@/app/components/AppInitializer/AccountLoader/createLinkedDomainList";
 import { Alias } from "@signumjs/core";
 import { AccountDomain } from "@/app/types/accountData";
+import { Config } from "@/app/config";
 
 function createToLookupMapFromAliasArray(aliases: Alias[]) {
   const map = new Map<string, Alias>();
   for (let a of aliases) {
     const aliasName =
-      a.tldName === "signum" ? a.aliasName : `${a.aliasName}:${a.tldName}`;
+      a.tldName === Config.Signum.DefaultTld
+        ? a.aliasName
+        : `${a.aliasName}:${a.tldName}`;
     map.set(aliasName, a);
   }
   return map;
