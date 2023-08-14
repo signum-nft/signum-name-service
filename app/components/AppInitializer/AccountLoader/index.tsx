@@ -4,10 +4,11 @@ import { accountActions } from "@/app/states/accountState";
 import { useCallback, useEffect } from "react";
 import useSWR from "swr";
 import { useXTWallet } from "@/features/xtWallet/useXTWallet";
-import { AccountDomain } from "@/app/types/accountData";
 import { useAppContext } from "@/app/hooks/useAppContext";
-import { fetchLinkedDomainList } from "./fetchLinkedDomainList";
 import { AvgBlocktimeInMilliseconds } from "@/app/types/avgBlocktime";
+import { createLinkedDomainList } from "@/app/components/AppInitializer/AccountLoader/createLinkedDomainList";
+import { Alias } from "@signumjs/core";
+import { AccountDomain } from "@/app/types/accountData";
 
 export const AccountLoader = () => {
   const {
@@ -23,10 +24,7 @@ export const AccountLoader = () => {
     ledgerService && accountId ? `/account/${accountId}` : null,
     async () => {
       if (!(ledgerService && accountId)) return null;
-      dispatch(accountActions.setIsLoadingData(true));
-      const account = await ledgerService.account.fetchAccount(accountId);
-      dispatch(accountActions.setIsLoadingData(false));
-      return account;
+      return await ledgerService.account.fetchAccount(accountId);
     },
     {
       refreshInterval: AvgBlocktimeInMilliseconds,
@@ -39,9 +37,10 @@ export const AccountLoader = () => {
   const fetchAccountDomains = useCallback(async () => {
     if (!(ledgerService && accountData)) return;
 
-    dispatch(accountActions.setIsLoadingData(true));
     let domainCount = 0;
     let startIndex: number | undefined = 0;
+    let loadedAliases: Alias[] = [];
+    // fetching up to maximum aliases from ledger
     while (startIndex !== undefined && domainCount <= MaxAliasLoad) {
       // @ts-ignore
       const { nextIndex, aliases } =
@@ -50,27 +49,39 @@ export const AccountLoader = () => {
           startIndex: startIndex ?? 0,
           count: Math.min(500, MaxAliasLoad - domainCount),
         });
-
-      const domains: AccountDomain[][] = [];
-      const subdomainRequests = aliases.map(async (alias) => {
-        const { list } = await fetchLinkedDomainList({
-          ledger: ledgerService.ledgerInstance,
-          alias,
-          maxSubdomains: MaxSubdomains,
-        });
-        domains.push(list.toArray());
-      });
-      await Promise.all(subdomainRequests);
+      loadedAliases.push(...aliases);
       startIndex = nextIndex;
       domainCount += aliases.length;
-      dispatch(
-        accountActions.setAccountDomains({
-          publicKey: accountData.publicKey,
-          domains,
-        })
-      );
-      dispatch(accountActions.setIsLoadingData(false));
     }
+
+    // organize subdomains
+    let domains: AccountDomain[][] = [];
+    let ignoreAliasIds = new Set<string>();
+    for (let a of loadedAliases) {
+      // skip aliases which are already identified as subdomains.
+      if (ignoreAliasIds.has(a.alias)) {
+        continue;
+      }
+
+      // create domain list: first in list are main domains, tail is related subdomain list.
+      const { list } = createLinkedDomainList({
+        domain: a,
+        loadedAliases,
+        maxSubdomains: MaxSubdomains,
+      });
+
+      domains.push(list.toArray());
+      // add domain and its subdomain to ignore list
+      for (let d of list) {
+        ignoreAliasIds.add(d.id);
+      }
+    }
+    dispatch(
+      accountActions.setAccountDomains({
+        publicKey: accountData.publicKey,
+        domains,
+      })
+    );
   }, [MaxAliasLoad, MaxSubdomains, accountData, dispatch, ledgerService]);
 
   useEffect(() => {

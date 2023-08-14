@@ -57,7 +57,7 @@ export const DomainsTable = ({ domains }: Props) => {
 
   const pagedRows = useMemo(() => {
     return chunk(sortedRows, rowsPerPage.current);
-  }, [paginationChanged, sortedRows]);
+  }, [paginationChanged, sortedRows]); // keep paginationChanged as trigger!
 
   return (
     <PaperCard>

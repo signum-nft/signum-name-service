@@ -8,6 +8,6 @@ export const selectCurrentAccountData = (
   return state.accountState.accounts[state.accountState.currentAccount] || null;
 };
 
-export const selectIsLoadingAccountData = (state: RootState): boolean => {
-  return state.accountState.isLoadingData;
+export const selectIsInitialLoading = (state: RootState): boolean => {
+  return state.accountState.isInitialLoadingData;
 };

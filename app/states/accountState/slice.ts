@@ -11,13 +11,13 @@ interface AccountDataMap {
 
 export interface AccountState {
   currentAccount: string;
-  isLoadingData: boolean;
+  isInitialLoadingData: boolean;
   accounts: AccountDataMap;
 }
 
 const initialState: AccountState = {
   currentAccount: "",
-  isLoadingData: true,
+  isInitialLoadingData: true,
   accounts: {},
 };
 
@@ -28,9 +28,6 @@ export const accountSlice = createSlice({
     reset: () => initialState,
     setCurrentAccount: (state, action: PayloadAction<string>) => {
       state.currentAccount = action.payload;
-    },
-    setIsLoadingData: (state, action: PayloadAction<boolean>) => {
-      state.isLoadingData = action.payload;
     },
     setAccountData: (state, action: PayloadAction<AccountData>) => {
       const { publicKey } = action.payload;
@@ -44,18 +41,9 @@ export const accountSlice = createSlice({
       if (state.accounts[publicKey]) {
         state.accounts[publicKey].domains = domains;
       }
+      // only entirely loaded, when account domains are loaded also
+      state.isInitialLoadingData = false;
     },
-    addAccountDomains: (
-      state,
-      action: PayloadAction<SetAccountDomainsPayload>
-    ) => {
-      const { domains, publicKey } = action.payload;
-      const account = state.accounts[publicKey];
-      if (account && account.domains) {
-        account.domains.push(...domains);
-      }
-    },
-
     resetAccountData: (state) => {
       return initialState;
     },
