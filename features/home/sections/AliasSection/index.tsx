@@ -67,7 +67,7 @@ export const AliasSection = () => {
         <Fade delay={500} triggerOnce>
           <Typography
             component="h1"
-            color={isDarkMode ? "#ec38bc" : "secondary"}
+            color={isDarkMode ? "#ec38bc" : "primary"}
             fontWeight={700}
             sx={{
               fontSize: { xs: 20, md: 32 },

@@ -1,22 +1,26 @@
-import { useTranslation } from "next-i18next";
-import { SEOMetaTags } from "@/app/components/SEOMetaTags";
 import { GetServerSidePropsI18N, withTranslations } from "@/app/i18n/server";
-import { Dashboard } from "@/features/dashboard";
-import { WithConnectedWalletOnly } from "@/features/xtWallet/withConnectedWalletOnly";
+import { useTranslation } from "next-i18next";
+import { WithConnectedWalletOnly } from "@/features/xtWallet";
+import { SEOMetaTags } from "@/app/components/SEOMetaTags";
+import { useRouter } from "next/router";
+import { Domain } from "@/features/domain";
+import { getAsString } from "@/app/getAsString";
 
 export async function getServerSideProps({ locale }: GetServerSidePropsI18N) {
   return withTranslations(locale)();
 }
 
-export default function DashboardPage() {
+export default function DomainPage() {
   const { t } = useTranslation();
+  const { query } = useRouter();
 
+  const domainName = getAsString(query.domainName || "");
   return (
     <WithConnectedWalletOnly redirectUrl="/">
       <SEOMetaTags
         clientSideTitle={`${t("domain_other")} • Signum Name Service`}
       />
-      <Dashboard />
+      <Domain domainName={domainName} />
     </WithConnectedWalletOnly>
   );
 }

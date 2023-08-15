@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
 import { CopyableText } from "@/app/components/CopyableText";
 import { asDomainString } from "@/app/asDomainString";
+import { useRouter } from "next/router";
 
 interface Props {
   name: string;
@@ -22,10 +23,13 @@ export const DomainItemRow = ({
   subdomainCount,
 }: MappedDomain) => {
   const { t } = useTranslation();
-  // const activeMarketData = useActiveMarketData();
+  const router = useRouter();
+  const handleOnRowClick = () => {
+    router.push(`/domains/${name.toLowerCase()}:${tld?.toLowerCase()}`);
+  };
 
   return (
-    <StyledTableRow key={id}>
+    <StyledTableRow key={id} onClick={handleOnRowClick}>
       <TableCell>
         <Typography variant="body2">{name}</Typography>
         <CopyableText textToCopy={asDomainString({ name, tld })} />

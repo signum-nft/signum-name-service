@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { ChildrenProps } from "@/types/ChildrenProps";
 import { useXTWallet } from "./useXTWallet";
 import { WalletConnectionStatus } from "./types";
+import { useRouter } from "next/router";
 
 const DefaultWalletLoader = () => <h1>Waiting for Wallet</h1>;
 

@@ -3,6 +3,13 @@ import { useMemo } from "react";
 import { useAppSelector } from "@/states/hooks";
 import { selectIsDarkMode } from "@/app/states/appState";
 
+const Colors = {
+  Orange: (alpha = 1.0) => `rgb(243,177,103, ${alpha})`,
+  Pink: (alpha = 1.0) => `rgb(236,56,188, ${alpha})`,
+  Violet: (alpha = 1.0) => `rgb(115,3,192, ${alpha})`,
+  DarkViolet: (alpha = 1.0) => `rgb(3,0,30, ${alpha})`,
+};
+
 export const useFeatureBackgroundImage = (disableGradient = false) => {
   const router = useRouter();
   const { pathname } = router;
@@ -11,23 +18,23 @@ export const useFeatureBackgroundImage = (disableGradient = false) => {
   return useMemo(() => {
     if (disableGradient) return isDarkMode ? "#1E1E1E" : "#FFFFFF";
 
-    // Alias related routes
-    if (pathname.includes("/alias"))
+    if (pathname.includes("/dashboard"))
       return isDarkMode
-        ? "linear-gradient(rgba(30, 150, 0,0.3) 0%, rgb(25, 28, 31) 85%)"
-        : "radial-gradient(100% 100% at 50% 0%, rgba(82, 194, 52,0.3) 0%, rgba(255, 255, 255, 0) 100%)";
+        ? `linear-gradient(${Colors.Orange()} 0%, ${Colors.Pink(
+            0.6
+          )} 66%, ${Colors.Violet(0.1)})`
+        : `radial-gradient(100% 100% at 50% 0%, ${Colors.Orange()} 0%, ${Colors.Pink(
+            0.5
+          )} 50%, rgba(255, 255, 255, 0) 100%)`;
 
-    // Staking pool related routes
-    if (pathname.includes("/staking-pools"))
+    if (pathname.includes("/domains"))
       return isDarkMode
-        ? "linear-gradient(rgba(243, 144, 79, 0.3) 0%, rgb(25, 28, 31) 85%)"
-        : "radial-gradient(100% 100% at 50% 0%, rgba(252, 160, 101,0.3) 0%, rgba(255, 255, 255, 0) 100%)";
-
-    // Liquidity pool related routes
-    if (pathname.includes("/liquidity-pools"))
-      return isDarkMode
-        ? "linear-gradient(rgba(59, 67, 113, 0.3) 0%, rgb(22, 25, 44) 85%)"
-        : "radial-gradient(100% 100% at 50% 0%, rgba(98, 104, 141, 0.3) 0%, rgba(255, 255, 255, 0) 100%)";
+        ? `linear-gradient(${Colors.Orange()} 0%, ${Colors.Pink(
+            0.6
+          )} 66%, ${Colors.Violet(0.1)})`
+        : `radial-gradient(100% 100% at 50% 0%, ${Colors.Orange()} 0%, ${Colors.Pink(
+            0.5
+          )} 50%, rgba(255, 255, 255, 0) 100%)`;
 
     // Default route
     return isDarkMode

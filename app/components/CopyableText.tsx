@@ -6,13 +6,19 @@ import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { Variant } from "@mui/material/styles/createTypography";
 
 interface Props {
   textToCopy: string;
   label?: string;
+  variant?: Variant;
 }
 
-export const CopyableText = ({ textToCopy, label }: Props) => {
+export const CopyableText = ({
+  textToCopy,
+  label,
+  variant = "caption",
+}: Props) => {
   const { showInfo } = useSnackbar();
   const { t } = useTranslation();
 
@@ -28,7 +34,7 @@ export const CopyableText = ({ textToCopy, label }: Props) => {
       alignItems="center"
       sx={{ color: "grey" }}
     >
-      <Typography variant="caption">{label ?? textToCopy}</Typography>
+      <Typography variant={variant}>{label ?? textToCopy}</Typography>
       <Tooltip title={`${t("clickToCopyToClipboard")}`} arrow placement="top">
         <Box onClick={handleCopy} sx={{ ml: 0.25 }}>
           {/*// @ts-ignore*/}

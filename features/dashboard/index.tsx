@@ -15,19 +15,10 @@ import { AliasSearchField } from "@/features/dashboard/components/AliasSearchFie
 import { useAppContext } from "@/app/hooks/useAppContext";
 import { useAccountDomains } from "@/app/hooks/useAccountDomains";
 import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
-import LinkedList from "fast-linked-list";
-import { AccountDomain } from "@/app/types/accountData";
 import { Config } from "@/app/config";
+import { countSubDomains } from "@/app/countSubDomains";
 
 const ContainerMaxWidth = 1500;
-function countSubDomains(domainList: LinkedList<AccountDomain>): number {
-  let count = 0;
-  for (let d of domainList) {
-    count++;
-  }
-  return count - 1; // first is parent domain
-}
-
 export const Dashboard: NextPage = () => {
   const { t } = useTranslation();
   const { domainLists } = useAccountDomains();
@@ -76,8 +67,8 @@ export const Dashboard: NextPage = () => {
       <Box
         display="flex"
         flexDirection="column"
-        mx="auto"
         maxWidth={ContainerMaxWidth}
+        mx="auto"
         px={2}
         mt={4}
       >

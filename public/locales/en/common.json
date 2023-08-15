@@ -415,7 +415,7 @@
   "nfts": "NFTs",
   "no": "No",
   "noAliasesDirectSalesAvailable": "There are no private sales for this account",
-  "noAliasNotice": "It looks like this account does not have aliases!",
+  "noAliasNotice": "No domain found.",
   "noCurrentFee": "No current fee",
   "noDecimalsAllowed": "Decimals are not allowed, you must enter whole numbers",
   "noIssuedTokensNotice": "This account has not created any tokens!",
@@ -876,5 +876,10 @@
   "paginationDisplayedRows": "{{from}}-{{to}} of {{count}}",
   "successfullyCopied": "Successfully copied text to clipboard",
   "clickToCopyToClipboard": "Click to copy text to clipboard",
-  "subdomainCount": "Subdomains"
+  "aliasName": "Alias Name",
+  "subdomainName": "Subdomain Name",
+  "subdomainCount": "Subdomains",
+  "subdomainCountOf": "{{subdomainCount}} of {{maxSubdomains}} subdomains",
+  "url": "URL",
+  "linkedUrl": "Linked URL"
 }
