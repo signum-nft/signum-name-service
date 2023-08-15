@@ -3,7 +3,7 @@ import { Order } from "@/app/types/order";
 import { stableSort, getComparator } from "@/app/tableMethods";
 import { PaperCard } from "@/app/components/PaperCard";
 import { Header as TableHeader } from "./components/Header";
-import { SubdomainItemRow } from "./components/SubdomainItemRow";
+import { SubdomainItemRow } from "./components/SubdomainItemRow/SubdomainItemRow";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";

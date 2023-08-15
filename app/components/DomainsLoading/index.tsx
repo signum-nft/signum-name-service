@@ -6,7 +6,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 
-export const AliasLoading = () => {
+export const DomainsLoading = () => {
   const { t } = useTranslation();
 
   return (

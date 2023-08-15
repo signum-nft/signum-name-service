@@ -8,10 +8,11 @@ import { useRef, useState } from "react";
 import debounce from "lodash/debounce";
 
 interface Props {
+  placeholder?: string;
   onChange: (searchTerm: string) => void;
 }
 
-export const AliasSearchField = ({ onChange }: Props) => {
+export const SearchField = ({ onChange, placeholder }: Props) => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
   const theme = useTheme();
@@ -31,7 +32,7 @@ export const AliasSearchField = ({ onChange }: Props) => {
       value={searchTerm}
       fullWidth
       onChange={handleOnChange}
-      placeholder={t("searchAliasPlaceHolder")}
+      placeholder={placeholder ?? t("searchAliasPlaceHolder")}
       variant="outlined"
       InputProps={{
         style: { background: theme.palette.background.paper },

@@ -31,9 +31,9 @@ export class AliasService extends LedgerSubService {
     );
   }
 
-  fetchAliasByName(aliasName: string) {
+  fetchAliasByName(aliasName: string, tld?: string) {
     return handleError(async () =>
-      this.context.ledger.alias.getAliasByName(aliasName)
+      this.context.ledger.alias.getAliasByName(aliasName, tld)
     );
   }
 
@@ -149,9 +149,9 @@ export class AliasService extends LedgerSubService {
     });
   }
 
-  async exists(aliasName: string): Promise<boolean> {
+  async exists(aliasName: string, tld?: string): Promise<boolean> {
     try {
-      await this.context.ledger.alias.getAliasByName(aliasName);
+      await this.context.ledger.alias.getAliasByName(aliasName, tld);
       return true;
     } catch (e: any) {
       return false;

@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
 import { asSubdomainString } from "@/app/asSubdomainString";
 import Link from "next/link";
+import { ActionButtons } from "./ActionButtons";
 
 interface Props {
   name: string;
@@ -58,7 +59,9 @@ export const SubdomainItemRow = ({
             <CopyableText textToCopy={accountId} />
           </>
         ) : (
-          <Typography variant="body2">-</Typography>
+          <Typography variant="body2" color="grey">
+            {t("valueNotSet")}
+          </Typography>
         )}
       </TableCell>
 
@@ -68,7 +71,9 @@ export const SubdomainItemRow = ({
             {url}
           </Link>
         ) : (
-          <Typography variant="body2">-</Typography>
+          <Typography variant="body2" color="#222">
+            {t("valueNotSet")}
+          </Typography>
         )}
       </TableCell>
 
@@ -77,7 +82,7 @@ export const SubdomainItemRow = ({
           display: { xs: "none", lg: "table-cell" },
         }}
       >
-        {/*<AliasActionButtons id={aliasId} name={name} status={status} />*/}
+        <ActionButtons id={aliasId} name={aliasName} />
       </TableCell>
     </StyledTableRow>
   );

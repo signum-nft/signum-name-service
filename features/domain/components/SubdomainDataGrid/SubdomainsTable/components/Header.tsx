@@ -12,7 +12,6 @@ import Typography from "@mui/material/Typography";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { useAppSelector } from "@/states/hooks";
 import { selectAmountSuffix } from "@/app/states/ledgerState";
-import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
 import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
 
 interface HeadCell {

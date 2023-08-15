@@ -3,8 +3,15 @@ import Grid from "@mui/material/Grid";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import Tooltip from "@mui/material/Tooltip";
 
-type Link = { icon?: any; label: string; onClick: any; disabled?: boolean };
+type Link = {
+  icon?: any;
+  label: string;
+  onClick: any;
+  disabled?: boolean;
+  tooltip?: string;
+};
 
 interface MenuOptionsProps {
   links: Link[];
@@ -28,18 +35,20 @@ export const MenuOptions = ({ links, children }: MenuOptionsProps) => {
 
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {links.map((item) => (
-          <MenuItem
-            key={item.label}
-            sx={{ minWidth: containerRef?.current?.offsetWidth || "auto" }}
-            disabled={item.disabled}
-            onClick={() => {
-              item.onClick();
-              handleClose();
-            }}
-          >
-            {item.icon ? <ListItemIcon>{item.icon}</ListItemIcon> : null}
-            {item.label}
-          </MenuItem>
+          <Tooltip key={item.label} title={item.tooltip ?? ""}>
+            <MenuItem
+              key={item.label}
+              sx={{ minWidth: containerRef?.current?.offsetWidth || "auto" }}
+              disabled={item.disabled}
+              onClick={() => {
+                item.onClick();
+                handleClose();
+              }}
+            >
+              {item.icon ? <ListItemIcon>{item.icon}</ListItemIcon> : null}
+              {item.label}
+            </MenuItem>
+          </Tooltip>
         ))}
       </Menu>
     </Grid>

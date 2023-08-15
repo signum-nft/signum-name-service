@@ -11,12 +11,12 @@ import Button from "@mui/material/Button";
 import Badge from "@mui/material/Badge";
 import Stack from "@mui/material/Stack";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { AliasSearchField } from "@/features/dashboard/components/AliasSearchField";
 import { useAppContext } from "@/app/hooks/useAppContext";
 import { useAccountDomains } from "@/app/hooks/useAccountDomains";
 import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
 import { Config } from "@/app/config";
 import { countSubDomains } from "@/app/countSubDomains";
+import { SearchField } from "@/app/components/SearchField";
 
 const ContainerMaxWidth = 1500;
 export const Dashboard: NextPage = () => {
@@ -91,7 +91,10 @@ export const Dashboard: NextPage = () => {
             py={0}
           >
             <Box sx={{ width: { xs: "80%", md: "50%" } }}>
-              <AliasSearchField onChange={setSearchTerm} />
+              <SearchField
+                onChange={setSearchTerm}
+                placeholder={t("searchAliasPlaceHolder")}
+              />
             </Box>
             <Box height="100%">
               <Link

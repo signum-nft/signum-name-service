@@ -2,29 +2,21 @@ import type { NextPage } from "next";
 import { useTranslation } from "next-i18next";
 import { useEffect, useMemo, useState } from "react";
 import { Divider } from "@/app/components/Divider";
-import { TabButton } from "@/app/components/TabButton";
 import { SubdomainDataGrid } from "./components/SubdomainDataGrid";
-import Link from "next/link";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Badge from "@mui/material/Badge";
 import Stack from "@mui/material/Stack";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { AliasSearchField } from "@/features/dashboard/components/AliasSearchField";
 import { useAppContext } from "@/app/hooks/useAppContext";
-import { useAccountDomains } from "@/app/hooks/useAccountDomains";
-import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
 import { Config } from "@/app/config";
-import { countSubDomains } from "@/app/countSubDomains";
 import { useAccountDomain } from "@/app/hooks/useAccountDomain";
-import { router } from "next/client";
-import { voidFn } from "@/app/voidFn";
 import Chip from "@mui/material/Chip";
-import { isClientSide } from "@/app/isClientSide";
 import { useRouter } from "next/router";
 import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
 import { Address } from "@signumjs/core";
+import { SearchField } from "@/app/components/SearchField";
+import useSWR from "swr";
+import { useLedgerService } from "@/app/hooks/useLedgerService";
+import { useSnackbar } from "@/app/hooks/useSnackbar";
 
 const ContainerMaxWidth = 1500;
 
@@ -34,21 +26,31 @@ interface Props {
 
 export const Domain: NextPage<Props> = ({ domainName }) => {
   const { t } = useTranslation();
+  const { ledgerService } = useLedgerService();
+  const { showError } = useSnackbar();
   const { domain, domainList, tld, isReady } = useAccountDomain(domainName);
   const {
     Platform: { MaxSubdomains },
   } = useAppContext();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const [isCheckingAlias, setIsCheckingAlias] = useState(true);
 
-  // useEffect(() => {
-  //   console.log('domain page', domainList, isReady)
-  //   if (isReady && !domainList) {
-  //     router.replace('/404')
-  //   }
-  //   }, [domainList, isReady, router]);
+  useEffect(() => {
+    if (!ledgerService) return;
 
-  // countSubDomains(domainList)
+    const [aliasName, tld] = domainName.split(":");
+    setIsCheckingAlias(true);
+    ledgerService.alias
+      .fetchAliasByName(aliasName, tld)
+      .catch((e: any) => {
+        console.error(e);
+        showError(
+          t("errorLoadingDomain", { domain: domainName, error: e.message })
+        );
+      })
+      .finally(() => setIsCheckingAlias(false));
+  }, [domainName, ledgerService]);
 
   const { filteredSubdomains } = useMemo(() => {
     if (!domainList) {
@@ -57,7 +59,7 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
       };
     }
 
-    const term = searchTerm.toUpperCase();
+    const term = searchTerm.toLowerCase();
     const filteredSubdomains: MappedSubdomain[] = [];
     for (let d of domainList) {
       if (d === domainList.first) {
@@ -84,19 +86,21 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
         name: (d.data?.name ?? "").toLowerCase(),
         domainName: domain,
       };
+
       if (
         mappedSubdomain.aliasId.includes(term) ||
         mappedSubdomain.aliasName.includes(term) ||
         mappedSubdomain.name.includes(term) ||
         mappedSubdomain.accountId.includes(term) ||
-        mappedSubdomain.accountAddress.toLowerCase().includes(term)
+        mappedSubdomain.accountAddress.toLowerCase().includes(term) ||
+        mappedSubdomain.url.toLowerCase().includes(term)
       ) {
         filteredSubdomains.push(mappedSubdomain);
       }
     }
 
     return { filteredSubdomains };
-  }, [domainList, searchTerm]);
+  }, [domain, domainList, searchTerm]);
 
   if (!isReady) {
     return null;
@@ -156,7 +160,10 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
             py={0}
           >
             <Box sx={{ width: { xs: "80%", md: "50%" } }}>
-              <AliasSearchField onChange={setSearchTerm} />
+              <SearchField
+                onChange={setSearchTerm}
+                placeholder={t("searchSubdomainsPlaceholder")}
+              />
             </Box>
           </Stack>
         </Stack>

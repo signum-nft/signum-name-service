@@ -1,9 +1,9 @@
-import { AliasNotFound } from "./AliasNotFound";
 import { SubdomainsTable } from "./SubdomainsTable";
 
 import Grid from "@mui/material/Grid";
-import { AliasLoading } from "./AliasLoading";
 import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
+import { DomainsLoading } from "@/app/components/DomainsLoading";
+import { DomainNotFound } from "@/app/components/DomainNotFound";
 
 interface Props {
   isLoading?: boolean;
@@ -17,7 +17,7 @@ export const SubdomainDataGrid = ({ subdomains, isLoading = false }: Props) => {
     return (
       <Grid container direction="column" spacing={2}>
         <Grid item xs={12}>
-          <AliasLoading />
+          <DomainsLoading />
         </Grid>
       </Grid>
     );
@@ -27,7 +27,7 @@ export const SubdomainDataGrid = ({ subdomains, isLoading = false }: Props) => {
     <Grid container direction="column" spacing={2}>
       {!hasAliases ? (
         <Grid item xs={12}>
-          <AliasNotFound />
+          <DomainNotFound />
         </Grid>
       ) : (
         <Grid item xs={12} width="100%">
