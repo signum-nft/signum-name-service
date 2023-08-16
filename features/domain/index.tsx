@@ -65,9 +65,9 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
 
     const term = searchTerm.toLowerCase();
     const filteredSubdomains: MappedSubdomain[] = [];
-    for (let d of domainList) {
+    domainList.forEach((d, token) => {
       if (d === domainList.first) {
-        continue;
+        return;
       }
 
       let accountId = d.data?.account ?? "";
@@ -89,6 +89,7 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
         accountAddress,
         name: (d.data?.name ?? "").toLowerCase(),
         domainName: domain,
+        __listElement: token,
       };
 
       if (
@@ -101,7 +102,7 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
       ) {
         filteredSubdomains.push(mappedSubdomain);
       }
-    }
+    });
 
     return { filteredSubdomains };
   }, [domain, domainList, searchTerm]);

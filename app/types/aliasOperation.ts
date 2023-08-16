@@ -1,10 +1,11 @@
 export type action =
   | ""
+  | "add"
   | "view"
   | "edit"
   | "sale"
   | "transfer"
-  | "cancelRenewalFee";
+  | "delete";
 
 export type AliasOperationState = {
   show: boolean;

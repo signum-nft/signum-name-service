@@ -89,12 +89,10 @@ export const AliasOperationModal = () => {
       successOperationDescription = t("transferAliasSuccesfullDescription");
       break;
 
-    case "cancelRenewalFee":
-      label = t("cancelRenewalFee");
-      successOperationTitle = t("cancelRenewalFeeAliasSuccesfull");
-      successOperationDescription = t(
-        "cancelRenewalFeeAliasSuccesfullDescription"
-      );
+    case "delete":
+      label = t("releaseSubDomain");
+      successOperationTitle = t("releaseSubDomainSuccessful");
+      successOperationDescription = t("releaseSubDomainSuccesfullDescription");
       break;
 
     default:
@@ -175,7 +173,7 @@ export const AliasOperationModal = () => {
         <Transfer onComplete={setOperationAsCompleted} />
       )}
 
-      {action === "cancelRenewalFee" && (
+      {action === "delete" && (
         <CancelRenewalFees onComplete={setOperationAsCompleted} />
       )}
     </Dialog>

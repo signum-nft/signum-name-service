@@ -8,14 +8,11 @@ import { portfolioActions } from "@/app/states/portfolioState";
 import { action as actionTypes } from "@/app/types/aliasOperation";
 import { MenuOptions } from "@/app/components/MenuOptions";
 import { ProcessingIndicatorChip } from "@/app/components/ProcessingIndicatorChip";
-// import { PreviousOwnerRenewalFeeFeedback } from "../SubdomainActionButtons/PreviousOwnerRenewalFeeFeedback";
-
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import EditIcon from "@mui/icons-material/Edit";
-import WidgetsIcon from "@mui/icons-material/Widgets";
 import DangerousIcon from "@mui/icons-material/Dangerous";
 import InfoIcon from "@mui/icons-material/Info";
 import DeleteIcon from "@mui/icons-material/DeleteForever";
@@ -24,20 +21,24 @@ import AddBelowIcon from "@mui/icons-material/PlaylistAdd";
 import { selectIsDarkMode } from "@/app/states/appState";
 import IconButton from "@mui/material/IconButton";
 import { MoreVert } from "@mui/icons-material";
+import Typography from "@mui/material/Typography";
+import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
 
 interface Props {
-  id: string;
-  name: string;
+  subdomain: MappedSubdomain;
 }
 
-export const ActionButtons = ({ id, name }: Props) => {
+export const ActionButtons = ({ subdomain }: Props) => {
   const { t } = useTranslation();
   const isDarkMode = useAppSelector(selectIsDarkMode);
   const { accountId } = useAccount();
   const { setAliasOperation } = portfolioActions;
-  const { subscription } = useSubscription(id);
+  // const { subscription } = useSubscription(id);
   const dispatch = useAppDispatch();
   const monitoredTransactions = useAppSelector(selectMonitoredTransactions);
+
+  const id = subdomain.aliasId;
+  const name = subdomain.aliasName;
 
   const [isOpenRenewalFeeDialog, setIsOpenRenewalFeeDialog] = useState(false);
   const openDialog = () => setIsOpenRenewalFeeDialog(true);
@@ -49,12 +50,11 @@ export const ActionButtons = ({ id, name }: Props) => {
 
   const openViewModal = () => openModal(id, name, "view");
   const openEditModal = () => openModal(id, name, "edit");
-  const openCancelRenewalFeeModal = () =>
-    openModal(id, name, "cancelRenewalFee");
-  const openDeleteModal = openCancelRenewalFeeModal;
+  const openDeleteModal = () => openModal(id, name, "delete");
   const openUnlinkModal = () => {
     throw new Error("Implement me");
   };
+  const openNewSubdomainModal = () => openModal(id, name, "add");
 
   // const saleLabel = status === "notOnSale" ? "setOnSale" : "updateSaleDetails";
 
@@ -110,28 +110,28 @@ export const ActionButtons = ({ id, name }: Props) => {
       ];
     }
 
-    if (subscription && subscription.sender !== accountId) {
-      return [
-        {
-          icon: <InfoIcon color="warning" />,
-          label: t("previousOwnerIsPayingFees"),
-          onClick: openDialog,
-        },
-      ];
-    }
-
-    if (subscription) {
-      return [
-        {
-          icon: <DangerousIcon />,
-          label: t("cancelRenewal"),
-          onClick: openCancelRenewalFeeModal,
-        },
-      ];
-    }
+    // if (subscription && subscription.sender !== accountId) {
+    //   return [
+    //     {
+    //       icon: <InfoIcon color="warning" />,
+    //       label: t("previousOwnerIsPayingFees"),
+    //       onClick: openDialog,
+    //     },
+    //   ];
+    // }
+    //
+    // if (subscription) {
+    //   return [
+    //     {
+    //       icon: <DangerousIcon />,
+    //       label: t("cancelRenewal"),
+    //       onClick: openDeleteModal,
+    //     },
+    //   ];
+    // }
 
     return [];
-  }, [isCancelingSubscription, subscription, accountId, t]);
+  }, [isCancelingSubscription, accountId]);
 
   if (isTransferingAlias) {
     return <ProcessingIndicatorChip label={t("aliasTransferingFeedback")} />;
@@ -142,7 +142,7 @@ export const ActionButtons = ({ id, name }: Props) => {
   return (
     <Stack
       direction="row"
-      spacing={2}
+      spacing={0}
       justifyContent="center"
       alignItems="center"
     >
@@ -150,14 +150,16 @@ export const ActionButtons = ({ id, name }: Props) => {
       {/*  isOpen={isOpenRenewalFeeDialog}*/}
       {/*  handleClose={closeDialog}*/}
       {/*/>*/}
-
       <Tooltip title={`${t("viewContent")}`} arrow placement="top">
         <Button
           startIcon={<RemoveRedEyeIcon />}
           color={iconColor}
           onClick={openViewModal}
+          sx={{ minWidth: { sm: "24px", md: "unset" }, px: { sm: 0, md: 1 } }}
         >
-          {t("view")}
+          <Typography sx={{ display: { sm: "none", md: "inherit" } }}>
+            {t("view")}
+          </Typography>
         </Button>
       </Tooltip>
 
@@ -166,8 +168,11 @@ export const ActionButtons = ({ id, name }: Props) => {
           startIcon={<EditIcon />}
           color={iconColor}
           onClick={openEditModal}
+          sx={{ minWidth: { sm: "24px", md: "unset" }, px: { sm: 0, md: 1 } }}
         >
-          {t("edit")}
+          <Typography sx={{ display: { sm: "none", md: "inherit" } }}>
+            {t("edit")}
+          </Typography>
         </Button>
       </Tooltip>
 
@@ -177,7 +182,7 @@ export const ActionButtons = ({ id, name }: Props) => {
             icon: <AddBelowIcon />,
             label: t("addSubdomainBelow"),
             tooltip: t("addSubdomainBelowHint"),
-            onClick: openDeleteModal,
+            onClick: openNewSubdomainModal,
           },
           {
             icon: <UnlinkIcon />,
@@ -200,7 +205,10 @@ export const ActionButtons = ({ id, name }: Props) => {
         ]}
       >
         <Tooltip title={t("moreOptions")} arrow placement="top">
-          <IconButton color={iconColor}>
+          <IconButton
+            color={iconColor}
+            sx={{ minWidth: { sm: "24px", md: "px" }, px: { sm: 0, md: 1 } }}
+          >
             <MoreVert />
           </IconButton>
         </Tooltip>

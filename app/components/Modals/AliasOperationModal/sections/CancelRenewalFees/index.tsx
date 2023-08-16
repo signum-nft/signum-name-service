@@ -13,7 +13,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import DialogContent from "@mui/material/DialogContent";
-import DangerousIcon from "@mui/icons-material/Dangerous";
+import DeleteIcon from "@mui/icons-material/DeleteForever";
 
 interface Props {
   onComplete: () => void;
@@ -81,12 +81,12 @@ export const CancelRenewalFees = ({ onComplete }: Props) => {
           variant="contained"
           color="error"
           sx={{ color: "white" }}
-          startIcon={<DangerousIcon />}
+          startIcon={<DeleteIcon />}
           onClick={cancelFees}
           fullWidth
           disabled={isCancelingSubscription}
         >
-          {t("continue")}
+          {t("deleteSubdomain")}
         </Button>
       </DialogContent>
     </Box>

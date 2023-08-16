@@ -900,5 +900,8 @@
   "save": "Save",
   "editSubdomain": "Edit Subdomain",
   "invalidName": "Name is invalid",
-  "invalidURL": "URL is invalid"
+  "invalidURL": "URL is invalid",
+  "releaseSubdomain": "Release Subdomain",
+  "subdomainInvalidTitle": "Invalid Content",
+  "subdomainInvalidDescription": "The content for the subdomain is invalid and cannot be saved. Please review the content and correct the errors."
 }

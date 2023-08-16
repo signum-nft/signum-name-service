@@ -25,7 +25,6 @@ export const useAccountDomain = (domainName: string) => {
       });
 
       if (foundDomain) {
-        console.log("found Domain", domainName);
         setIsReady(true);
         return new LinkedList<AccountDomain>(...foundDomain);
       }

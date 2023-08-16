@@ -48,8 +48,7 @@ export const AliasActionButtons = ({ id, name, status }: Props) => {
   const openEditModal = () => openModal(id, name, "edit");
   const openSaleModal = () => openModal(id, name, "sale");
   const openTransferModal = () => openModal(id, name, "transfer");
-  const openCancelRenewalFeeModal = () =>
-    openModal(id, name, "cancelRenewalFee");
+  const openCancelRenewalFeeModal = () => openModal(id, name, "delete");
 
   const saleLabel = status === "notOnSale" ? "setOnSale" : "updateSaleDetails";
 

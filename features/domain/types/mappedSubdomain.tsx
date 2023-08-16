@@ -1,3 +1,6 @@
+import { Token } from "fast-linked-list";
+import { AccountDomain } from "@/app/types/accountData";
+
 export interface MappedSubdomain {
   aliasId: string;
   aliasName: string;
@@ -7,4 +10,5 @@ export interface MappedSubdomain {
   accountId: string;
   accountAddress: string;
   url: string;
+  __listElement: Token<AccountDomain>;
 }

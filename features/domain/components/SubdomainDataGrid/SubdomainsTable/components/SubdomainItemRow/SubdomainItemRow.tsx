@@ -8,17 +8,22 @@ import { asSubdomainString } from "@/app/asSubdomainString";
 import Link from "next/link";
 import { ActionButtons } from "./ActionButtons";
 
-export const SubdomainItemRow = ({
-  aliasId,
-  name,
-  aliasName,
-  url,
-  aliasTld,
-  domainName,
-  accountAddress,
-  accountId,
-}: MappedSubdomain) => {
+interface Props {
+  subdomain: MappedSubdomain;
+}
+
+export const SubdomainItemRow = ({ subdomain }: Props) => {
   const { t } = useTranslation();
+  const {
+    aliasId,
+    name,
+    aliasName,
+    url,
+    aliasTld,
+    domainName,
+    accountAddress,
+    accountId,
+  } = subdomain;
 
   return (
     <StyledTableRow key={aliasId} clickable={false}>
@@ -64,11 +69,11 @@ export const SubdomainItemRow = ({
 
       <TableCell
         sx={{
-          display: { xs: "none", lg: "table-cell" },
-          width: "90px",
+          display: "table-cell",
+          width: { sm: "50px", md: "90px" },
         }}
       >
-        <ActionButtons id={aliasId} name={aliasName} />
+        <ActionButtons subdomain={subdomain} />
       </TableCell>
     </StyledTableRow>
   );

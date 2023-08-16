@@ -58,10 +58,6 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
       onRequestSort(event, property);
     };
 
-  const stylingColumnInMobile = {
-    display: { xs: "none", lg: "table-cell" },
-  };
-
   return (
     <TableHead>
       <TableRow
@@ -103,7 +99,7 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
           </TableCell>
         ))}
 
-        <TableCell sx={{ display: stylingColumnInMobile.display }}>
+        <TableCell sx={{ display: "table-cell" }}>
           <Typography variant="body2">{t("action_other")}</Typography>
         </TableCell>
       </TableRow>

@@ -26,7 +26,8 @@ import Typography from "@mui/material/Typography";
 import { WizardSubmitter } from "@/app/components/Modals/AliasOperationModal/sections/Edit/WizardSubmitter";
 import { mapValidationError } from "@/app/mapValidationError";
 import { sanitizeUrl } from "@braintree/sanitize-url";
-import { Alias } from "@signumjs/core";
+import { Address, Alias } from "@signumjs/core";
+import { transactionActions } from "@/app/states/transactionState";
 
 interface Props {
   onComplete: () => void;
@@ -56,7 +57,7 @@ export const Edit = ({ onComplete, onCancel, alias, onNameChange }: Props) => {
   const { ledgerService } = useLedgerService();
   const { showError } = useSnackbar();
   const dispatch = useAppDispatch();
-  const [isAddressValid, setIsAddressValid] = useState(false);
+  const [isAddressValid, setIsAddressValid] = useState(true);
   const [isSRC44, setIsSRC44] = useState(true);
   const aliasOperation = useAppSelector(selectAliasOperation);
   const formInstance = useForm<FormData>({
@@ -72,6 +73,9 @@ export const Edit = ({ onComplete, onCancel, alias, onNameChange }: Props) => {
   } = formInstance;
 
   const subdomainName = watch("name");
+  const url = watch("url");
+  const account = watch("account");
+
   useEffect(() => {
     onNameChange(subdomainName);
   }, [onNameChange, subdomainName]);
@@ -82,7 +86,8 @@ export const Edit = ({ onComplete, onCancel, alias, onNameChange }: Props) => {
 
     try {
       const src44 = DescriptorData.parse(alias.aliasURI, false);
-      setValue("url", sanitizeUrl(src44.homePage));
+      const url = sanitizeUrl(src44.homePage);
+      setValue("url", url);
       setValue("account", src44.account);
       setValue("name", src44.name);
       setIsSRC44(true);
@@ -94,31 +99,39 @@ export const Edit = ({ onComplete, onCancel, alias, onNameChange }: Props) => {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (!alias || !ledgerService) return;
 
-    // TODO: handle warning on non-SRC44 compliant data.
+    const accountId = Address.create(data.account).getNumericId();
+
+    let updatedData: DescriptorData;
     try {
-      const descriptor = DescriptorData.parse(alias.aliasURI, false);
+      const oldData = DescriptorData.parse(alias.aliasURI, false);
+      updatedData = DescriptorDataBuilder.createWith(oldData)
+        .setAccount(accountId)
+        .setName(data.name)
+        .setHomePage(data.url)
+        .build();
     } catch (e) {
-      // ignore, as non compliant
+      // previous data is non-SRC44, so we create a complete new one.
+      updatedData = DescriptorDataBuilder.create(data.name)
+        .setAccount(accountId)
+        .setHomePage(data.url)
+        .build();
     }
 
-    console.log("onSubmit", data);
-
-    // try {
-    //   const confirmation = await ledgerService.alias
-    //     .with(alias)
-    //     .updateAlias(payload.customContent);
-    //     dispatch(
-    //       transactionActions.addMonitor({
-    //         transactionId: confirmation.transactionId,
-    //         referenceId,
-    //         type: "alias-content-update",
-    //       })
-    //     );
-    //     onComplete();
-    //   }
-    // } catch (e: any) {
-    //   showError(t(e.message || e));
-    // }
+    try {
+      const confirmation = await ledgerService.alias
+        .with(alias)
+        .updateAlias(updatedData.stringify());
+      dispatch(
+        transactionActions.addMonitor({
+          transactionId: confirmation.transactionId,
+          referenceId: alias.alias,
+          type: "alias-content-update",
+        })
+      );
+      onComplete();
+    } catch (e: any) {
+      showError(t(e.message || e));
+    }
   };
 
   const handleOnCancel = () => {
@@ -144,7 +157,7 @@ export const Edit = ({ onComplete, onCancel, alias, onNameChange }: Props) => {
     );
   }
 
-  const allowSubmit = true;
+  const allowSubmit = !errors.name && !errors.url && isAddressValid;
 
   return (
     <DialogContent>
@@ -225,25 +238,49 @@ export const Edit = ({ onComplete, onCancel, alias, onNameChange }: Props) => {
               />
             </Stack>
 
-            <Collapse in={!isSRC44}>
-              <Alert severity="warning" sx={{ mb: 2 }}>
-                <AlertTitle>{t("subdomainNonSrc44WarningTitle")}</AlertTitle>
+            <Stack gap={0}>
+              <Collapse in={!isSRC44}>
+                <Alert severity="warning" sx={{ mb: 2 }}>
+                  <AlertTitle>{t("subdomainNonSrc44WarningTitle")}</AlertTitle>
 
-                <Typography variant="body2" whiteSpace="pre-line" gutterBottom>
-                  {t("subdomainNonSrc44Warning")}
-                </Typography>
-              </Alert>
-            </Collapse>
+                  <Typography
+                    variant="body2"
+                    whiteSpace="pre-line"
+                    gutterBottom
+                  >
+                    {t("subdomainNonSrc44Warning")}
+                  </Typography>
+                </Alert>
+              </Collapse>
 
-            <Collapse in={allowSubmit}>
-              <Alert severity="success" sx={{ mb: 2 }}>
-                <AlertTitle>{t("summary")}</AlertTitle>
+              <Collapse in={!allowSubmit}>
+                <Alert severity="error" sx={{ mb: 2 }}>
+                  <AlertTitle>{t("subdomainInvalidTitle")}</AlertTitle>
 
-                <Typography variant="body2" whiteSpace="pre-line" gutterBottom>
-                  {t("whatYouCanDoWithSubdomainSummary")} 😊
-                </Typography>
-              </Alert>
-            </Collapse>
+                  <Typography
+                    variant="body2"
+                    whiteSpace="pre-line"
+                    gutterBottom
+                  >
+                    {t("subdomainInvalidDescription")}
+                  </Typography>
+                </Alert>
+              </Collapse>
+
+              <Collapse in={allowSubmit}>
+                <Alert severity="success" sx={{ mb: 2 }}>
+                  <AlertTitle>{t("summary")}</AlertTitle>
+
+                  <Typography
+                    variant="body2"
+                    whiteSpace="pre-line"
+                    gutterBottom
+                  >
+                    {t("whatYouCanDoWithSubdomainSummary")} 😊
+                  </Typography>
+                </Alert>
+              </Collapse>
+            </Stack>
 
             <WizardSubmitter
               allowSubmit={allowSubmit}

@@ -53,11 +53,12 @@ export const SubdomainsTable = ({ domains }: Props) => {
     if (orderBy) {
       subdomains = stableSort<MappedSubdomain>(
         domains,
+        // @ts-ignore
         getComparator(order, orderBy)
       );
     }
-    return subdomains.map((row) => (
-      <SubdomainItemRow key={row.aliasId} {...row} />
+    return subdomains.map((subdomain) => (
+      <SubdomainItemRow key={subdomain.aliasId} subdomain={subdomain} />
     ));
   }, [order, orderBy, domains]);
 
