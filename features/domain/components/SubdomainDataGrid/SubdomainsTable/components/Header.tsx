@@ -40,7 +40,7 @@ const getHeadCells = (): HeadCell[] => [
 ];
 
 interface Props {
-  orderBy: keyof MappedSubdomain;
+  orderBy: keyof MappedSubdomain | "";
   order: Order;
   onRequestSort: (
     event: MouseEvent<unknown>,

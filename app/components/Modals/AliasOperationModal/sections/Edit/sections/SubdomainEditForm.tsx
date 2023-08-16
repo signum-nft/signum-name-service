@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { useState, useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import { Controller, useForm, useFormContext } from "react-hook-form";
 import { TextLabel } from "@/app/components/TextLabel";
 import { AccountAddressField } from "@/app/components/AccountAddressField";
 import { mapValidationError } from "@/app/mapValidationError";
@@ -12,43 +12,84 @@ import Alert from "@mui/material/Alert";
 import Collapse from "@mui/material/Collapse";
 import AlertTitle from "@mui/material/AlertTitle";
 import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import { DescriptorData } from "@signumjs/standards";
 
 interface Props {
   onCancel: () => void;
+  aliasPayload: DescriptorData;
 }
 
-export const AccountForm = ({ onCancel }: Props) => {
+interface FormData {
+  url: string;
+  account: string;
+}
+
+export const SubdomainEditForm = ({ onCancel, aliasPayload }: Props) => {
   const { t } = useTranslation();
 
   const [isAddressValid, setIsAddressValid] = useState(false);
 
   const {
+    control,
     watch,
-    setValue,
     formState: { errors },
-  } = useFormContext<EditAlias>();
+  } = useForm<FormData>({
+    defaultValues: {
+      url: "",
+      account: "",
+    },
+  });
+  const account = watch("account");
+  const url = watch("url");
 
-  const receiverAddress = watch("receiverAddress");
-
-  useEffect(() => setValue("canInsertReceiverAddress", true), []);
-
-  let receiverAddressFieldError = "";
-
-  // Normal validation
-  if (errors.receiverAddress?.message) {
-    receiverAddressFieldError = t(
-      mapValidationError(errors.receiverAddress?.message)
+  let urlFieldError = "";
+  const urlFieldHelperText = t("urlFieldHelper");
+  if (errors.url?.message) {
+    urlFieldError = t(
+      mapValidationError(errors.url.message),
+      mapValidationError(errors.url.message, true)
     );
   }
 
+  // const allowSubmit = !!(url && !urlFieldError);
+  // useEffect(() => setValue("canInsertReceiverAddress", true), []);
+  //
+  let receiverAddressFieldError = "";
+
+  // Normal validation
+  if (errors.account?.message) {
+    receiverAddressFieldError = t(mapValidationError(errors.account?.message));
+  }
+
   const allowSubmit = !!(
-    receiverAddress &&
+    account &&
     isAddressValid &&
     !receiverAddressFieldError
   );
 
   return (
     <Stack>
+      <TextLabel text={t("enterTheUrlOrLink")} required />
+
+      <Controller
+        name="url"
+        control={control}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            type="url"
+            autoComplete="off"
+            fullWidth
+            label={t("enterTheUrlOrLink")}
+            helperText={urlFieldError || urlFieldHelperText}
+            error={!!urlFieldError}
+            variant="outlined"
+            color="secondary"
+            InputLabelProps={{ shrink: !!field.value }}
+          />
+        )}
+      />
       <TextLabel text={t("enterTheReceiverAddress")} required gutterBottom />
       <AccountAddressField
         isAddressValid={isAddressValid}

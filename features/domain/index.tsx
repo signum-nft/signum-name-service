@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useTranslation } from "next-i18next";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { Divider } from "@/app/components/Divider";
 import { SubdomainDataGrid } from "./components/SubdomainDataGrid";
 import Box from "@mui/material/Box";
@@ -14,9 +14,12 @@ import { useRouter } from "next/router";
 import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
 import { Address } from "@signumjs/core";
 import { SearchField } from "@/app/components/SearchField";
-import useSWR from "swr";
 import { useLedgerService } from "@/app/hooks/useLedgerService";
 import { useSnackbar } from "@/app/hooks/useSnackbar";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/PlaylistAdd";
+import { useAppSelector } from "@/states/hooks";
+import { selectIsDarkMode } from "@/app/states/appState";
 
 const ContainerMaxWidth = 1500;
 
@@ -28,11 +31,11 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
   const { t } = useTranslation();
   const { ledgerService } = useLedgerService();
   const { showError } = useSnackbar();
-  const { domain, domainList, tld, isReady } = useAccountDomain(domainName);
+  const { domain, domainList, tld } = useAccountDomain(domainName);
   const {
     Platform: { MaxSubdomains },
   } = useAppContext();
-  const router = useRouter();
+  const isDarkMode = useAppSelector(selectIsDarkMode);
   const [searchTerm, setSearchTerm] = useState("");
   const [isCheckingAlias, setIsCheckingAlias] = useState(true);
 
@@ -54,6 +57,7 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
 
   const { filteredSubdomains } = useMemo(() => {
     if (!domainList) {
+      console.log("No domain list");
       return {
         filteredSubdomains: [],
       };
@@ -102,10 +106,6 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
     return { filteredSubdomains };
   }, [domain, domainList, searchTerm]);
 
-  if (!isReady) {
-    return null;
-  }
-
   return (
     <>
       <Box
@@ -151,19 +151,36 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
               })}
             </Typography>
           </Box>
-
           <Stack
             flexDirection={"row"}
             alignItems="center"
             width="100%"
             justifyContent="flex-end"
             py={0}
+            gap={2}
           >
             <Box sx={{ width: { xs: "80%", md: "50%" } }}>
               <SearchField
                 onChange={setSearchTerm}
                 placeholder={t("searchSubdomainsPlaceholder")}
               />
+            </Box>
+            <Box height="100%">
+              <Button
+                className="glance-effect"
+                variant="contained"
+                startIcon={<AddIcon />}
+                color="secondary"
+                sx={{
+                  color: "#222",
+                  height: "55px",
+                  borderTopLeftRadius: 0,
+                  borderBottomLeftRadius: 0,
+                }}
+                disabled={filteredSubdomains.length >= MaxSubdomains}
+              >
+                {t("addNewSubdomain")}
+              </Button>
             </Box>
           </Stack>
         </Stack>

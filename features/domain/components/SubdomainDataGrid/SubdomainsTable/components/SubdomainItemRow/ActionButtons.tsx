@@ -22,6 +22,8 @@ import DeleteIcon from "@mui/icons-material/DeleteForever";
 import UnlinkIcon from "@mui/icons-material/LinkOff";
 import AddBelowIcon from "@mui/icons-material/PlaylistAdd";
 import { selectIsDarkMode } from "@/app/states/appState";
+import IconButton from "@mui/material/IconButton";
+import { MoreVert } from "@mui/icons-material";
 
 interface Props {
   id: string;
@@ -129,12 +131,7 @@ export const ActionButtons = ({ id, name }: Props) => {
     }
 
     return [];
-  }, [
-    subscription,
-    openCancelRenewalFeeModal,
-    isCancelingSubscription,
-    accountId,
-  ]);
+  }, [isCancelingSubscription, subscription, accountId, t]);
 
   if (isTransferingAlias) {
     return <ProcessingIndicatorChip label={t("aliasTransferingFeedback")} />;
@@ -168,7 +165,7 @@ export const ActionButtons = ({ id, name }: Props) => {
         <Button
           startIcon={<EditIcon />}
           color={iconColor}
-          onClick={openViewModal}
+          onClick={openEditModal}
         >
           {t("edit")}
         </Button>
@@ -176,6 +173,12 @@ export const ActionButtons = ({ id, name }: Props) => {
 
       <MenuOptions
         links={[
+          {
+            icon: <AddBelowIcon />,
+            label: t("addSubdomainBelow"),
+            tooltip: t("addSubdomainBelowHint"),
+            onClick: openDeleteModal,
+          },
           {
             icon: <UnlinkIcon />,
             label: t(
@@ -193,19 +196,13 @@ export const ActionButtons = ({ id, name }: Props) => {
             tooltip: t("deleteSubdomainHint"),
             onClick: openDeleteModal,
           },
-          {
-            icon: <AddBelowIcon />,
-            label: t("addSubdomainBelow"),
-            tooltip: t("addSubdomainBelowHint"),
-            onClick: openDeleteModal,
-          },
           ...dynamicMenuOptions,
         ]}
       >
         <Tooltip title={t("moreOptions")} arrow placement="top">
-          <Button startIcon={<WidgetsIcon />} color={iconColor}>
-            {t("more")}
-          </Button>
+          <IconButton color={iconColor}>
+            <MoreVert />
+          </IconButton>
         </Tooltip>
       </MenuOptions>
     </Stack>

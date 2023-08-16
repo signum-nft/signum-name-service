@@ -24,7 +24,7 @@ export const SubdomainsTable = ({ domains }: Props) => {
   const rowsPerPage = useRef(DefaultRowsPerPage);
   const page = useRef(0);
   const { t } = useTranslation();
-  const [orderBy, setOrderBy] = useState<keyof MappedSubdomain>("name");
+  const [orderBy, setOrderBy] = useState<keyof MappedSubdomain | "">("");
   const [order, setOrder] = useState<Order>("asc");
   const [paginationChanged, setPaginationChanged] = useState(0);
 
@@ -49,10 +49,16 @@ export const SubdomainsTable = ({ domains }: Props) => {
   };
 
   const sortedRows = useMemo(() => {
-    // @ts-ignore
-    return stableSort<MappedDomain>(domains, getComparator(order, orderBy)).map(
-      (row) => <SubdomainItemRow key={row.id} {...row} />
-    );
+    let subdomains = domains;
+    if (orderBy) {
+      subdomains = stableSort<MappedSubdomain>(
+        domains,
+        getComparator(order, orderBy)
+      );
+    }
+    return subdomains.map((row) => (
+      <SubdomainItemRow key={row.aliasId} {...row} />
+    ));
   }, [order, orderBy, domains]);
 
   const pagedRows = useMemo(() => {

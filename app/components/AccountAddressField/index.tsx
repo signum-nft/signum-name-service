@@ -127,7 +127,7 @@ export const AccountAddressField = ({
           onChange={(e) => field.onChange(e.target.value.toLocaleUpperCase())}
           fullWidth
           autoComplete="off"
-          label={t("enterTheReceiverAddress")}
+          label={t("addressOrAccountId")}
           variant="outlined"
           color="secondary"
           placeholder={t("example") + " S-6SJC-..., 17332"}
@@ -135,8 +135,9 @@ export const AccountAddressField = ({
           error={!!receiverAddressFieldError}
           sx={{ mb: 2 }}
           inputProps={{
-            maxLength: 64,
+            maxLength: 32,
           }}
+          InputLabelProps={{ shrink: !!field.value }}
         />
       )}
     />

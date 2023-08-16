@@ -1,7 +1,7 @@
 import { useLedgerService } from "@/app/hooks/useLedgerService";
 import useSWR from "swr";
 
-export const useAlias = (aliasId: string) => {
+export const useAlias = (aliasId: string, refresh = true) => {
   const { ledgerService } = useLedgerService();
 
   const { data, error } = useSWR(
@@ -11,7 +11,7 @@ export const useAlias = (aliasId: string) => {
       return ledgerService.alias.fetchAliasById(aliasId);
     },
     {
-      refreshInterval: 30_000,
+      refreshInterval: refresh ? 30_000 : undefined,
     }
   );
 

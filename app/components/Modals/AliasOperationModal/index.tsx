@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/states/hooks";
 import {
   selectAliasOperation,
@@ -19,7 +19,13 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import LinkIcon from "@mui/icons-material/Link";
 import BlurCircularIcon from "@mui/icons-material/BlurCircular";
+import { useAlias } from "@/app/hooks/useAlias";
+import { Config } from "@/app/config";
+import { DescriptorData } from "@signumjs/standards";
+import { asDomainString } from "@/app/asDomainString";
+import { asSubdomainString } from "@/app/asSubdomainString";
 
 export const AliasOperationModal = () => {
   const { t } = useTranslation();
@@ -27,10 +33,33 @@ export const AliasOperationModal = () => {
   const dispatch = useAppDispatch();
 
   const [isOperationCompleted, setIsOperationCompleted] = useState(false);
-  const setOperationAsCompleted = () => setIsOperationCompleted(true);
+  const [subdomainName, setSubdomainName] = useState("");
+  const setOperationAsCompleted = (isCompleted = true) =>
+    setIsOperationCompleted(isCompleted);
 
   const aliasOperation = useAppSelector(selectAliasOperation);
-  const { show, name, action } = aliasOperation;
+  const { show, name, action, id } = aliasOperation;
+  const { alias, isLoading } = useAlias(id, false);
+
+  const fullAliasName = useMemo(() => {
+    if (!alias) return "";
+    return asDomainString({ name: alias.aliasName, tld: alias.tldName });
+  }, [alias]);
+
+  const fullSubdomainName = useMemo(() => {
+    if (!alias) return "";
+    if (!subdomainName) return "";
+
+    try {
+      return asSubdomainString({
+        subdomain: subdomainName,
+        tld: alias?.tldName,
+        domain: alias?.aliasName,
+      });
+    } catch (e) {
+      return "";
+    }
+  }, [alias, subdomainName]);
 
   const closeModal = () => {
     dispatch(setAliasOperation({ show: false, id: "", name: "", action: "" }));
@@ -47,7 +76,7 @@ export const AliasOperationModal = () => {
       break;
 
     case "edit":
-      label = t("editAlias");
+      label = t("editSubdomain");
       break;
 
     case "sale":
@@ -100,7 +129,6 @@ export const AliasOperationModal = () => {
           justifyContent="space-between"
         >
           {label}
-
           <IconButton aria-label="close" onClick={closeModal}>
             <CloseIcon />
           </IconButton>
@@ -108,9 +136,9 @@ export const AliasOperationModal = () => {
       </DialogTitle>
 
       <Paper
-        elevation={0}
+        elevation={3}
         sx={{
-          p: 2,
+          p: 3,
           flexDirection: "column",
           borderRadius: 0,
         }}
@@ -118,7 +146,15 @@ export const AliasOperationModal = () => {
         <DataRow
           icon={<BlurCircularIcon fontSize="small" />}
           label={t("alias")}
-          value={name}
+          value={fullAliasName}
+          sx={{ mb: 1 }}
+          isLoading={isLoading}
+        />
+        <DataRow
+          icon={<LinkIcon fontSize="small" />}
+          label={t("url")}
+          value={fullSubdomainName}
+          isLoading={isLoading}
         />
       </Paper>
 
@@ -126,7 +162,14 @@ export const AliasOperationModal = () => {
 
       {action === "sale" && <Sale onComplete={setOperationAsCompleted} />}
 
-      {action === "edit" && <Edit onComplete={setOperationAsCompleted} />}
+      {action === "edit" && alias && (
+        <Edit
+          onNameChange={setSubdomainName}
+          onComplete={setOperationAsCompleted}
+          onCancel={closeModal}
+          alias={alias}
+        />
+      )}
 
       {action === "transfer" && (
         <Transfer onComplete={setOperationAsCompleted} />

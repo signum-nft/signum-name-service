@@ -25,7 +25,7 @@ export const DomainItemRow = ({
   const { t } = useTranslation();
   const router = useRouter();
   const handleOnRowClick = () => {
-    router.push(`/domains/${name.toLowerCase()}:${tld?.toLowerCase()}`);
+    router.push(`/domain/${name.toLowerCase()}:${tld?.toLowerCase()}`);
   };
 
   return (

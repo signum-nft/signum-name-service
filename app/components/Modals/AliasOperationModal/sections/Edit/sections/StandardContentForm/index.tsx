@@ -8,7 +8,7 @@ import { AccountAddressField } from "@/app/components/AccountAddressField";
 import { FileHashField } from "@/app/components/FileHashField";
 import { useAlias } from "@/app/hooks/useAlias";
 import { EditAlias } from "../../../../validation/types";
-import { WizardSubmitter } from "../../components/WizardSubmitter";
+import { WizardSubmitter } from "../../WizardSubmitter";
 import { AccountTypeMap, AccountTypesList } from "../../types";
 import { SocialNetworkField } from "./components/SocialNetworkField";
 

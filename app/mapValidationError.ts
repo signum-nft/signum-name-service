@@ -19,6 +19,9 @@ export const mapValidationError = (message: any, getValue?: boolean): any => {
     case "positive":
       return "fieldMustHavePositiveValue";
 
+    case "invalidName":
+      return "invalidName";
+
     default:
       return "invalidField";
   }

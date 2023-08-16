@@ -3,7 +3,7 @@ import { useFormContext, Controller } from "react-hook-form";
 import { TextLabel } from "@/app/components/TextLabel";
 import { mapValidationError } from "@/app/mapValidationError";
 import { EditAlias } from "../../../validation/types";
-import { WizardSubmitter } from "../components/WizardSubmitter";
+import { WizardSubmitter } from "../WizardSubmitter";
 
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";

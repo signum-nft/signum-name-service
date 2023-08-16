@@ -4,7 +4,7 @@ import { TextLabel } from "@/app/components/TextLabel";
 import { mapValidationError } from "@/app/mapValidationError";
 import { formatAmount } from "@/app/formatAmount";
 import { EditAlias } from "../../../validation/types";
-import { WizardSubmitter } from "../components/WizardSubmitter";
+import { WizardSubmitter } from "../WizardSubmitter";
 
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";

@@ -1,191 +1,257 @@
 import { useTranslation } from "next-i18next";
 import { useState, useEffect } from "react";
-import { DescriptorDataBuilder } from "@signumjs/standards";
-import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { DescriptorData, DescriptorDataBuilder } from "@signumjs/standards";
+import {
+  useForm,
+  FormProvider,
+  SubmitHandler,
+  Controller,
+  useFormContext,
+} from "react-hook-form";
 import { useLedgerService } from "@/app/hooks/useLedgerService";
 import { useSnackbar } from "@/app/hooks/useSnackbar";
 import { useAppSelector, useAppDispatch } from "@/states/hooks";
-import { transactionActions } from "@/app/states/transactionState";
-import { asAccountId } from "@/app/asAccountId";
 import { selectAliasOperation } from "@/app/states/portfolioState";
 import { useAlias } from "@/app/hooks/useAlias";
-import { AliasUpdateMode } from "@/app/types/aliasUpdateMode";
-import { editAliasSchema } from "../../validation/schemas";
-import { EditAlias } from "../../validation/types";
-import { TypeSelector } from "./sections/TypeSelector";
-import { AccountForm } from "./sections/AccountForm";
-import { LinkForm } from "./sections/LinkForm";
-import { StandardContentForm } from "./sections/StandardContentForm";
-import { FreestyleContentForm } from "./sections/FreestyleContentForm";
 
 import DialogContent from "@mui/material/DialogContent";
+import Stack from "@mui/material/Stack";
+import { TextLabel } from "@/app/components/TextLabel";
+import TextField from "@mui/material/TextField";
+import { AccountAddressField } from "@/app/components/AccountAddressField";
+import Collapse from "@mui/material/Collapse";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import Typography from "@mui/material/Typography";
+import { WizardSubmitter } from "@/app/components/Modals/AliasOperationModal/sections/Edit/WizardSubmitter";
+import { mapValidationError } from "@/app/mapValidationError";
+import { sanitizeUrl } from "@braintree/sanitize-url";
+import { Alias } from "@signumjs/core";
 
 interface Props {
   onComplete: () => void;
+  onCancel: () => void;
+  alias: Alias;
+  onNameChange: (newName: string) => void;
 }
 
-enum Steps {
-  TypeSelection,
-  Form,
+interface FormData {
+  name: string;
+  url: string;
+  account: string;
 }
 
-export const Edit = ({ onComplete }: Props) => {
+function isValidUrl(value: string): boolean | string {
+  if (!value) return true;
+  try {
+    new URL(value);
+    return true;
+  } catch (e: any) {
+    return "invalidURL";
+  }
+}
+
+export const Edit = ({ onComplete, onCancel, alias, onNameChange }: Props) => {
   const { t } = useTranslation();
   const { ledgerService } = useLedgerService();
   const { showError } = useSnackbar();
   const dispatch = useAppDispatch();
-
-  const [activeStep, updateActiveStep] = useState(Steps.TypeSelection);
-  const openTypeSelectionStep = () => updateActiveStep(Steps.TypeSelection);
-  const openFormStep = () => updateActiveStep(Steps.Form);
-
-  const [updateMode, SetUpdateMode] = useState<AliasUpdateMode>("");
-
+  const [isAddressValid, setIsAddressValid] = useState(false);
+  const [isSRC44, setIsSRC44] = useState(true);
   const aliasOperation = useAppSelector(selectAliasOperation);
-  const { id } = aliasOperation;
-  const { alias } = useAlias(id);
-
-  const defaultFormData = {
-    type: "",
-    name: "",
-    description: "",
-    canInsertAvatar: false,
-    avatar: "",
-    avatarMimeType: "",
-    canInsertHomePage: false,
-    homePage: "",
-    canInsertReceiverAddress: false,
-    receiverAddress: "",
-    canInsertSocialNetwork: false,
-    socialNetworks: [],
-    canInsertSendRule: false,
-    sendRule: "",
-    customContent: "",
-  };
-
-  const methods = useForm<EditAlias>({
+  const formInstance = useForm<FormData>({
     mode: "onChange",
-    resolver: yupResolver(editAliasSchema),
-    // @ts-ignore
-    defaultValues: defaultFormData,
   });
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { errors },
+  } = formInstance;
 
-  const { reset, handleSubmit } = methods;
+  const subdomainName = watch("name");
+  useEffect(() => {
+    onNameChange(subdomainName);
+  }, [onNameChange, subdomainName]);
 
   useEffect(() => {
-    // @ts-ignore
-    reset(defaultFormData);
-  }, [activeStep, reset]);
-
-  const onSubmit: SubmitHandler<EditAlias> = async (data) => {
-    if (activeStep === Steps.TypeSelection || !ledgerService || !alias) return;
-
-    // Process and format data inputted by user
-    const payload = {
-      ...data,
-      receiverAddress: asAccountId(data.receiverAddress) || "",
-      socialNetworks: data.socialNetworks.map((network) => network.url),
-    };
-
-    let confirmation: any = null;
-    let referenceId = "";
+    if (!alias) return;
+    if (!alias.aliasURI) return;
 
     try {
-      switch (updateMode) {
-        // Set SRC-44 compliant content
-        case "account":
-        case "link":
-        case "standard":
-          const descriptorData = DescriptorDataBuilder.create(
-            payload.name || undefined
-          );
-
-          if (payload.type) descriptorData.setType(payload.type);
-
-          if (payload.description)
-            descriptorData.setDescription(payload.description);
-
-          if (payload.avatar && payload.avatarMimeType)
-            descriptorData.setAvatar(payload.avatar, payload.avatarMimeType);
-
-          if (payload.homePage) descriptorData.setHomePage(payload.homePage);
-
-          if (payload.sendRule) descriptorData.setSendRule(payload.sendRule);
-
-          if (payload.socialNetworks.length)
-            descriptorData.setSocialMediaLinks(payload.socialNetworks);
-
-          if (payload.receiverAddress)
-            descriptorData.setAccount(payload.receiverAddress);
-
-          confirmation = await ledgerService.alias
-            .with(alias)
-            .updateAliasProfile(descriptorData.build());
-
-          referenceId = alias.alias;
-          break;
-
-        // Freestyle content
-        case "freestyle":
-          confirmation = await ledgerService.alias
-            .with(alias)
-            .updateAlias(payload.customContent);
-
-          referenceId = alias.alias;
-          break;
-
-        default:
-          break;
-      }
-
-      if (confirmation && confirmation.transactionId) {
-        dispatch(
-          transactionActions.addMonitor({
-            transactionId: confirmation.transactionId,
-            referenceId,
-            type: "alias-content-update",
-          })
-        );
-
-        onComplete();
-      }
+      const src44 = DescriptorData.parse(alias.aliasURI, false);
+      setValue("url", sanitizeUrl(src44.homePage));
+      setValue("account", src44.account);
+      setValue("name", src44.name);
+      setIsSRC44(true);
     } catch (e: any) {
-      showError(t(e.message || e));
+      setIsSRC44(false);
     }
+  }, [alias, setValue]);
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    if (!alias || !ledgerService) return;
+
+    // TODO: handle warning on non-SRC44 compliant data.
+    try {
+      const descriptor = DescriptorData.parse(alias.aliasURI, false);
+    } catch (e) {
+      // ignore, as non compliant
+    }
+
+    console.log("onSubmit", data);
+
+    // try {
+    //   const confirmation = await ledgerService.alias
+    //     .with(alias)
+    //     .updateAlias(payload.customContent);
+    //     dispatch(
+    //       transactionActions.addMonitor({
+    //         transactionId: confirmation.transactionId,
+    //         referenceId,
+    //         type: "alias-content-update",
+    //       })
+    //     );
+    //     onComplete();
+    //   }
+    // } catch (e: any) {
+    //   showError(t(e.message || e));
+    // }
   };
+
+  const handleOnCancel = () => {
+    reset();
+    onCancel();
+  };
+
+  let urlFieldError = "";
+  const urlFieldHelperText = t("urlFieldHelper");
+  if (errors.url?.message) {
+    urlFieldError = t(
+      mapValidationError(errors.url.message),
+      mapValidationError(errors.url.message, true)
+    );
+  }
+
+  let nameFieldError = "";
+  const nameFieldHelperText = t("subdomainNameFieldHelper");
+  if (errors.name?.message) {
+    nameFieldError = t(
+      mapValidationError(errors.name.message),
+      mapValidationError(errors.name.message, true)
+    );
+  }
+
+  const allowSubmit = true;
 
   return (
     <DialogContent>
-      {activeStep === Steps.TypeSelection && (
-        <TypeSelector
-          updateMode={updateMode}
-          onChangeType={SetUpdateMode}
-          onSubmit={openFormStep}
-        />
-      )}
+      <FormProvider {...formInstance}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack gap={2}>
+            <Stack gap={0.5}>
+              <TextLabel text={t("enterSubdomainName")} required />
+              <Controller
+                name="name"
+                control={control}
+                rules={{
+                  required: {
+                    message: "required",
+                    value: true,
+                  },
+                  maxLength: 24,
+                  pattern: {
+                    message: "invalidName",
+                    value: /^[A-Za-z0-9-_]{1,24}$/,
+                  },
+                }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    type="name"
+                    autoComplete="off"
+                    fullWidth
+                    label={t("name")}
+                    placeholder={t("enterSubdomainName")}
+                    helperText={nameFieldError || nameFieldHelperText}
+                    error={!!nameFieldError}
+                    variant="outlined"
+                    color="secondary"
+                    inputProps={{ maxLength: 24 }}
+                    InputLabelProps={{ shrink: !!field.value }}
+                  />
+                )}
+              />
+            </Stack>
 
-      {activeStep === Steps.Form && (
-        <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {updateMode === "account" && (
-              <AccountForm onCancel={openTypeSelectionStep} />
-            )}
+            <Stack gap={0.5}>
+              <TextLabel text={t("enterTheUrlOrLink")} />
+              <Controller
+                name="url"
+                control={control}
+                rules={{
+                  validate: isValidUrl,
+                }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    onChange={(e) =>
+                      field.onChange(sanitizeUrl(e.target.value))
+                    }
+                    type="url"
+                    autoComplete="off"
+                    fullWidth
+                    label={t("url")}
+                    placeholder={t("enterTheUrlOrLink")}
+                    helperText={urlFieldError || urlFieldHelperText}
+                    error={!!urlFieldError}
+                    variant="outlined"
+                    color="secondary"
+                    inputProps={{ maxLength: 128 }}
+                    InputLabelProps={{ shrink: !!field.value }}
+                  />
+                )}
+              />
+            </Stack>
+            <Stack gap={0.5}>
+              <TextLabel text={t("enterTheReceiverAddress")} gutterBottom />
+              <AccountAddressField
+                name="account"
+                isAddressValid={isAddressValid}
+                setIsAccountValid={setIsAddressValid}
+                allowSelfAddress
+              />
+            </Stack>
 
-            {updateMode === "link" && (
-              <LinkForm onCancel={openTypeSelectionStep} />
-            )}
+            <Collapse in={!isSRC44}>
+              <Alert severity="warning" sx={{ mb: 2 }}>
+                <AlertTitle>{t("subdomainNonSrc44WarningTitle")}</AlertTitle>
 
-            {updateMode === "standard" && (
-              <StandardContentForm id={id} onCancel={openTypeSelectionStep} />
-            )}
+                <Typography variant="body2" whiteSpace="pre-line" gutterBottom>
+                  {t("subdomainNonSrc44Warning")}
+                </Typography>
+              </Alert>
+            </Collapse>
 
-            {updateMode === "freestyle" && (
-              <FreestyleContentForm onCancel={openTypeSelectionStep} />
-            )}
-          </form>
-        </FormProvider>
-      )}
+            <Collapse in={allowSubmit}>
+              <Alert severity="success" sx={{ mb: 2 }}>
+                <AlertTitle>{t("summary")}</AlertTitle>
+
+                <Typography variant="body2" whiteSpace="pre-line" gutterBottom>
+                  {t("whatYouCanDoWithSubdomainSummary")} 😊
+                </Typography>
+              </Alert>
+            </Collapse>
+
+            <WizardSubmitter
+              allowSubmit={allowSubmit}
+              onCancel={handleOnCancel}
+            />
+          </Stack>
+        </form>
+      </FormProvider>
     </DialogContent>
   );
 };

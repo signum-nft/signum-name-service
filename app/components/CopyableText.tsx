@@ -36,7 +36,7 @@ export const CopyableText = ({
     >
       <Typography variant={variant}>{label ?? textToCopy}</Typography>
       <Tooltip title={`${t("clickToCopyToClipboard")}`} arrow placement="top">
-        <Box onClick={handleCopy} sx={{ ml: 0.25 }}>
+        <Box onClick={handleCopy} sx={{ ml: 0.25, cursor: "pointer" }}>
           {/*// @ts-ignore*/}
           <ContentCopyIcon fontSize="16px" />
         </Box>

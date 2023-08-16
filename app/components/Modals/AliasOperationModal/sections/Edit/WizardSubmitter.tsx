@@ -2,7 +2,7 @@ import { useTranslation } from "next-i18next";
 
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import SendTimeExtensionIcon from "@mui/icons-material/SendTimeExtension";
+import SaveIcon from "@mui/icons-material/Save";
 
 interface Props {
   allowSubmit: boolean;
@@ -26,11 +26,11 @@ export const WizardSubmitter = ({ allowSubmit, onCancel }: Props) => {
           variant="contained"
           color="secondary"
           sx={{ color: "white" }}
-          startIcon={<SendTimeExtensionIcon />}
+          startIcon={<SaveIcon />}
           fullWidth
           disabled={!allowSubmit}
         >
-          {t("update")}
+          {t("save")}
         </Button>
       </Grid>
     </Grid>
