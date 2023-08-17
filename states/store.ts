@@ -24,6 +24,7 @@ import { transactionSlice } from "@/app/states/transactionState";
 import { accountSlice } from "@/app/states/accountState";
 import { marketSlice } from "@/app/states/marketState";
 import { portfolioSlice } from "@/app/states/portfolioState";
+import { subdomainOperationSlice } from "@/app/states/subdomainOperationState";
 import { ledgerSlice } from "@/app/states/ledgerState";
 
 function persist<T = any>(config: PersistConfig<any>, reducer: Reducer) {
@@ -85,6 +86,12 @@ const transactionPersistConfig: PersistConfig<any> = {
   whitelist: ["monitoredTransactions", "pendingTransactions"],
 };
 
+const subdomainOperationPersistConfig: PersistConfig<any> = {
+  key: "subdomainOperation",
+  version: 1,
+  storage,
+};
+
 const rootReducer = combineReducers({
   appState: persist<ReturnType<typeof appSlice.reducer>>(
     appPersistConfig,
@@ -114,6 +121,9 @@ const rootReducer = combineReducers({
     transactionPersistConfig,
     transactionSlice.reducer
   ),
+  subdomainOperationState: persist<
+    ReturnType<typeof subdomainOperationSlice.reducer>
+  >(subdomainOperationPersistConfig, subdomainOperationSlice.reducer),
 });
 
 export const store = configureStore({

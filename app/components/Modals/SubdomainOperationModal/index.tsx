@@ -7,11 +7,7 @@ import {
 } from "@/app/states/portfolioState";
 import { SuccessfulModal } from "@/app/components/Modals/SuccessfulModal";
 import { DataRow } from "@/app/components/DataRow";
-import { View } from "./sections/View";
-import { Sale } from "./sections/Sale";
-import { Edit } from "./sections/Edit";
-import { Transfer } from "./sections/Transfer";
-import { CancelRenewalFees } from "./sections/CancelRenewalFees";
+import { Edit } from "./operations/Edit";
 
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -21,48 +17,25 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import LinkIcon from "@mui/icons-material/Link";
 import BlurCircularIcon from "@mui/icons-material/BlurCircular";
-import { useAlias } from "@/app/hooks/useAlias";
-import { Config } from "@/app/config";
-import { DescriptorData } from "@signumjs/standards";
 import { asDomainString } from "@/app/asDomainString";
 import { asSubdomainString } from "@/app/asSubdomainString";
+import {
+  selectSubdomainOperation,
+  subdomainOperationsActions,
+} from "@/app/states/subdomainOperationState";
 
-export const AliasOperationModal = () => {
+export const SubdomainOperationModal = () => {
   const { t } = useTranslation();
-  const { setAliasOperation } = portfolioActions;
   const dispatch = useAppDispatch();
-
   const [isOperationCompleted, setIsOperationCompleted] = useState(false);
-  const [subdomainName, setSubdomainName] = useState("");
+  const [newSubdomainName, setNewSubdomainName] = useState("");
   const setOperationAsCompleted = (isCompleted = true) =>
     setIsOperationCompleted(isCompleted);
 
-  const aliasOperation = useAppSelector(selectAliasOperation);
-  const { show, name, action, id } = aliasOperation;
-  const { alias, isLoading } = useAlias(id, false);
-
-  const fullAliasName = useMemo(() => {
-    if (!alias) return "";
-    return asDomainString({ name: alias.aliasName, tld: alias.tldName });
-  }, [alias]);
-
-  const fullSubdomainName = useMemo(() => {
-    if (!alias) return "";
-    if (!subdomainName) return "";
-
-    try {
-      return asSubdomainString({
-        subdomain: subdomainName,
-        tld: alias?.tldName,
-        domain: alias?.aliasName,
-      });
-    } catch (e) {
-      return "";
-    }
-  }, [alias, subdomainName]);
+  const subdomainOperation = useAppSelector(selectSubdomainOperation);
 
   const closeModal = () => {
-    dispatch(setAliasOperation({ show: false, id: "", name: "", action: "" }));
+    dispatch(subdomainOperationsActions.closeModal());
     setIsOperationCompleted(false);
   };
 
@@ -70,7 +43,7 @@ export const AliasOperationModal = () => {
   let successOperationTitle = t("aliasUpdateSuccesfull");
   let successOperationDescription = t("aliasUpdateSuccesfullDescription");
 
-  switch (action) {
+  switch (subdomainOperation?.action) {
     case "view":
       label = t("viewContent");
       break;
@@ -110,12 +83,25 @@ export const AliasOperationModal = () => {
     );
   }
 
+  if (!subdomainOperation) return null;
+
+  const {
+    action,
+    alias: { aliasTld, aliasName, aliasId },
+    subdomainName: initialSubdomainName,
+  } = subdomainOperation;
   const dialogMaxWidth = action === "edit" ? "sm" : "xs";
+  const fullAliasName = asDomainString({ name: aliasName, tld: aliasTld });
+  const fullSubdomainName = asSubdomainString({
+    subdomain: newSubdomainName ?? initialSubdomainName,
+    tld: aliasTld,
+    domain: aliasName,
+  });
 
   return (
     <Dialog
       onClose={closeModal}
-      open={show}
+      open={true}
       fullWidth
       maxWidth={dialogMaxWidth}
     >
@@ -146,36 +132,34 @@ export const AliasOperationModal = () => {
           label={t("alias")}
           value={fullAliasName}
           sx={{ mb: 1 }}
-          isLoading={isLoading}
         />
         <DataRow
           icon={<LinkIcon fontSize="small" />}
           label={t("url")}
           value={fullSubdomainName}
-          isLoading={isLoading}
         />
       </Paper>
 
-      {action === "view" && <View />}
+      {/*{action === "view" && <View />}*/}
 
-      {action === "sale" && <Sale onComplete={setOperationAsCompleted} />}
+      {/*{action === "sale" && <Sale onComplete={setOperationAsCompleted} />}*/}
 
-      {action === "edit" && alias && (
+      {subdomainOperation.action === "edit" && (
         <Edit
-          onNameChange={setSubdomainName}
+          onNameChange={setNewSubdomainName}
           onComplete={setOperationAsCompleted}
           onCancel={closeModal}
-          alias={alias}
+          aliasId={aliasId}
         />
       )}
 
-      {action === "transfer" && (
-        <Transfer onComplete={setOperationAsCompleted} />
-      )}
+      {/*{action === "transfer" && (*/}
+      {/*  <Transfer onComplete={setOperationAsCompleted} />*/}
+      {/*)}*/}
 
-      {action === "delete" && (
-        <CancelRenewalFees onComplete={setOperationAsCompleted} />
-      )}
+      {/*{action === "delete" && (*/}
+      {/*  <CancelRenewalFees onComplete={setOperationAsCompleted} />*/}
+      {/*)}*/}
     </Dialog>
   );
 };

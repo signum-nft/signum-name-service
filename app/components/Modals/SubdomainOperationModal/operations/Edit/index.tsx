@@ -23,16 +23,16 @@ import Collapse from "@mui/material/Collapse";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Typography from "@mui/material/Typography";
-import { WizardSubmitter } from "@/app/components/Modals/AliasOperationModal/sections/Edit/WizardSubmitter";
+import { WizardSubmitter } from "./WizardSubmitter";
 import { mapValidationError } from "@/app/mapValidationError";
 import { sanitizeUrl } from "@braintree/sanitize-url";
-import { Address, Alias } from "@signumjs/core";
+import { Address } from "@signumjs/core";
 import { transactionActions } from "@/app/states/transactionState";
 
 interface Props {
   onComplete: () => void;
   onCancel: () => void;
-  alias: Alias;
+  aliasId: string;
   onNameChange: (newName: string) => void;
 }
 
@@ -52,17 +52,23 @@ function isValidUrl(value: string): boolean | string {
   }
 }
 
-export const Edit = ({ onComplete, onCancel, alias, onNameChange }: Props) => {
+export const Edit = ({
+  onComplete,
+  onCancel,
+  aliasId,
+  onNameChange,
+}: Props) => {
   const { t } = useTranslation();
   const { ledgerService } = useLedgerService();
   const { showError } = useSnackbar();
   const dispatch = useAppDispatch();
   const [isAddressValid, setIsAddressValid] = useState(true);
   const [isSRC44, setIsSRC44] = useState(true);
-  const aliasOperation = useAppSelector(selectAliasOperation);
-  const formInstance = useForm<FormData>({
-    mode: "onChange",
-  });
+  const formInstance = useForm<FormData>();
+  const { alias, isLoading } = useAlias(aliasId, false);
+
+  // TODO: Loading Indicator
+
   const {
     control,
     handleSubmit,
@@ -73,8 +79,6 @@ export const Edit = ({ onComplete, onCancel, alias, onNameChange }: Props) => {
   } = formInstance;
 
   const subdomainName = watch("name");
-  const url = watch("url");
-  const account = watch("account");
 
   useEffect(() => {
     onNameChange(subdomainName);
@@ -157,7 +161,8 @@ export const Edit = ({ onComplete, onCancel, alias, onNameChange }: Props) => {
     );
   }
 
-  const allowSubmit = !errors.name && !errors.url && isAddressValid;
+  const allowSubmit =
+    !isLoading && !errors.name && !errors.url && isAddressValid;
 
   return (
     <DialogContent>

@@ -1,13 +1,14 @@
 import { RootState } from "@/states/store";
 import { TokenOperationState } from "@/app/types/tokenOperation";
-import { AliasOperationState } from "@/app/types/aliasOperation";
+import { SubdomainOperationState } from "@/app/types/subdomainOperation";
 import { StakingPoolOperationState } from "@/app/types/stakingPoolOperation";
 
 export const selectTokenOperation = (state: RootState): TokenOperationState =>
   state.portfolioState.tokenOperation;
 
-export const selectAliasOperation = (state: RootState): AliasOperationState =>
-  state.portfolioState.aliasOperation;
+export const selectAliasOperation = (
+  state: RootState
+): SubdomainOperationState => state.portfolioState.aliasOperation;
 
 export const selectStakingPoolOperation = (
   state: RootState

@@ -2,7 +2,7 @@ import { Fragment, FC, useEffect } from "react";
 import { useRouter } from "next/router";
 import { ChildrenProps } from "@/types/ChildrenProps";
 import { useSnackbar } from "@/app/hooks/useSnackbar";
-import { AliasOperationModal } from "@/app/components/Modals/AliasOperationModal";
+import { SubdomainOperationModal } from "@/app/components/Modals/SubdomainOperationModal";
 import { AppSnackBar } from "./components/SnackBar";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
@@ -48,7 +48,7 @@ export const Layout: FC<ChildrenProps> = ({ children }) => {
         <SignTransactionModal />
         <WalletWrongNetworkModal />
         <AppSnackBar />
-        <AliasOperationModal />
+        <SubdomainOperationModal />
         <SettingsSidebar />
         <AccountSidebar />
         <MobileSidebar />

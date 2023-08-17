@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TokenOperationState } from "@/app/types/tokenOperation";
-import { AliasOperationState } from "@/app/types/aliasOperation";
+import { SubdomainOperationState } from "@/app/types/subdomainOperation";
 import { StakingPoolOperationState } from "@/app/types/stakingPoolOperation";
 
 export interface PortfolioState {
   tokenOperation: TokenOperationState;
-  aliasOperation: AliasOperationState;
+  aliasOperation: SubdomainOperationState;
   stakingPoolOperation: StakingPoolOperationState;
 }
 
@@ -23,7 +23,10 @@ export const portfolioSlice = createSlice({
     setTokenOperation: (state, action: PayloadAction<TokenOperationState>) => {
       state.tokenOperation = action.payload;
     },
-    setAliasOperation: (state, action: PayloadAction<AliasOperationState>) => {
+    setAliasOperation: (
+      state,
+      action: PayloadAction<SubdomainOperationState>
+    ) => {
       state.aliasOperation = action.payload;
     },
     setStakingPoolOperation: (

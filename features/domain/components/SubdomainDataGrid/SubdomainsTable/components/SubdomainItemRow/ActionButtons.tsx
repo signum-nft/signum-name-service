@@ -5,7 +5,10 @@ import { useAccount } from "@/app/hooks/useAccount";
 import { useSubscription } from "@/app/hooks/useSubscription";
 import { selectMonitoredTransactions } from "@/app/states/transactionState";
 import { portfolioActions } from "@/app/states/portfolioState";
-import { action as actionTypes } from "@/app/types/aliasOperation";
+import {
+  SubdomainAction,
+  SubdomainAction as actionTypes,
+} from "@/app/types/subdomainOperation";
 import { MenuOptions } from "@/app/components/MenuOptions";
 import { ProcessingIndicatorChip } from "@/app/components/ProcessingIndicatorChip";
 import Stack from "@mui/material/Stack";
@@ -23,6 +26,8 @@ import IconButton from "@mui/material/IconButton";
 import { MoreVert } from "@mui/icons-material";
 import Typography from "@mui/material/Typography";
 import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
+import { voidFn } from "@/app/voidFn";
+import { subdomainOperationsActions } from "@/app/states/subdomainOperationState";
 
 interface Props {
   subdomain: MappedSubdomain;
@@ -40,23 +45,38 @@ export const ActionButtons = ({ subdomain }: Props) => {
   const id = subdomain.aliasId;
   const name = subdomain.aliasName;
 
-  const [isOpenRenewalFeeDialog, setIsOpenRenewalFeeDialog] = useState(false);
-  const openDialog = () => setIsOpenRenewalFeeDialog(true);
-  const closeDialog = () => setIsOpenRenewalFeeDialog(false);
+  const openModal = (action: SubdomainAction, subdomain: MappedSubdomain) => {
+    const next = subdomain.__listElement.next?.value;
+    const prev = subdomain.__listElement.prev?.value;
 
-  const openModal = (id: string, name: string, action: actionTypes) => {
-    dispatch(setAliasOperation({ show: true, id, name, action }));
+    dispatch(
+      subdomainOperationsActions.openModal({
+        action,
+        subdomainName: subdomain.name,
+        alias: {
+          aliasId: subdomain.aliasId,
+          aliasName: subdomain.aliasName,
+          aliasTld: subdomain.aliasTld,
+        },
+        previousAlias: prev
+          ? {
+              aliasId: prev.id,
+              aliasName: prev.name,
+              aliasTld: prev.tld,
+            }
+          : undefined,
+        nextAlias: next
+          ? {
+              aliasId: next.id,
+              aliasName: next.name,
+              aliasTld: next.tld,
+            }
+          : undefined,
+      })
+    );
   };
 
-  const openViewModal = () => openModal(id, name, "view");
-  const openEditModal = () => openModal(id, name, "edit");
-  const openDeleteModal = () => openModal(id, name, "delete");
-  const openUnlinkModal = () => {
-    throw new Error("Implement me");
-  };
-  const openNewSubdomainModal = () => openModal(id, name, "add");
-
-  // const saleLabel = status === "notOnSale" ? "setOnSale" : "updateSaleDetails";
+  // const openViewModal = () => openModal(id, name, "view");
 
   const isUpdatingContentStatus = useMemo(
     () =>
@@ -154,7 +174,7 @@ export const ActionButtons = ({ subdomain }: Props) => {
         <Button
           startIcon={<RemoveRedEyeIcon />}
           color={iconColor}
-          onClick={openViewModal}
+          onClick={voidFn}
           sx={{ minWidth: { sm: "24px", md: "unset" }, px: { sm: 0, md: 1 } }}
         >
           <Typography sx={{ display: { sm: "none", md: "inherit" } }}>
@@ -167,7 +187,7 @@ export const ActionButtons = ({ subdomain }: Props) => {
         <Button
           startIcon={<EditIcon />}
           color={iconColor}
-          onClick={openEditModal}
+          onClick={() => openModal("edit", subdomain)}
           sx={{ minWidth: { sm: "24px", md: "unset" }, px: { sm: 0, md: 1 } }}
         >
           <Typography sx={{ display: { sm: "none", md: "inherit" } }}>
@@ -182,7 +202,7 @@ export const ActionButtons = ({ subdomain }: Props) => {
             icon: <AddBelowIcon />,
             label: t("addSubdomainBelow"),
             tooltip: t("addSubdomainBelowHint"),
-            onClick: openNewSubdomainModal,
+            onClick: voidFn,
           },
           {
             icon: <UnlinkIcon />,
@@ -192,14 +212,14 @@ export const ActionButtons = ({ subdomain }: Props) => {
                 : "aliasContentUpdating"
             ),
             tooltip: t("unlinkSubdomainHint"),
-            onClick: openUnlinkModal,
+            onClick: voidFn,
             disabled: isUpdatingContentStatus,
           },
           {
             icon: <DeleteIcon />,
             label: t("deleteSubdomain"),
             tooltip: t("deleteSubdomainHint"),
-            onClick: openDeleteModal,
+            onClick: voidFn,
           },
           ...dynamicMenuOptions,
         ]}
