@@ -5,15 +5,14 @@ import Tooltip from "@mui/material/Tooltip";
 import LoopIcon from "@mui/icons-material/Loop";
 
 interface Props {
-  label: string;
+  label?: string;
   color?: "info" | "error";
 }
 
 export const ProcessingIndicatorChip = ({ label, color = "info" }: Props) => {
   const { t } = useTranslation();
-
   return (
-    <Tooltip title={label} arrow placement="top">
+    <Tooltip title={label ?? t("processingHint")} arrow placement="top">
       <Chip
         label={t("processing")}
         size="small"

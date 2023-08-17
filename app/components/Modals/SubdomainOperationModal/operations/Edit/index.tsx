@@ -64,7 +64,7 @@ export const Edit = ({
   const dispatch = useAppDispatch();
   const [isAddressValid, setIsAddressValid] = useState(true);
   const [isSRC44, setIsSRC44] = useState(true);
-  const formInstance = useForm<FormData>();
+  const formInstance = useForm<FormData>({ mode: "onChange" });
   const { alias, isLoading } = useAlias(aliasId, false);
 
   // TODO: Loading Indicator

@@ -1,27 +1,21 @@
 import { useTranslation } from "next-i18next";
 import { formatAmount } from "@/app/formatAmount";
 import { StyledTableRow } from "@/app/components/Table/StyledTableRow";
-import { AliasActionButtons } from "@/app/components/AliasActionButtons";
 import TableCell from "@mui/material/TableCell";
 import Typography from "@mui/material/Typography";
 import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
 import { CopyableText } from "@/app/components/CopyableText";
 import { asDomainString } from "@/app/asDomainString";
 import { useRouter } from "next/router";
+import { DomainActionButtons } from "./DomainActionButtons";
 
 interface Props {
-  name: string;
-  tld?: string;
+  domain: MappedDomain;
 }
 
-export const DomainItemRow = ({
-  id,
-  name,
-  tld,
-  price,
-  status,
-  subdomainCount,
-}: MappedDomain) => {
+export const DomainItemRow = ({ domain }: Props) => {
+  const { id, name, tld, price, status, subdomainCount } = domain;
+
   const { t } = useTranslation();
   const router = useRouter();
   const handleOnRowClick = () => {
@@ -64,10 +58,11 @@ export const DomainItemRow = ({
 
       <TableCell
         sx={{
-          display: { xs: "none", lg: "table-cell" },
+          display: "table-cell",
+          width: { sm: "50px", md: "90px" },
         }}
       >
-        <AliasActionButtons id={id} name={name} status={status} />
+        <DomainActionButtons domain={domain} />
       </TableCell>
     </StyledTableRow>
   );

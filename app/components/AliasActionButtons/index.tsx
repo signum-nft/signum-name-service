@@ -5,7 +5,6 @@ import { useAccount } from "@/app/hooks/useAccount";
 import { useSubscription } from "@/app/hooks/useSubscription";
 import { selectMonitoredTransactions } from "@/app/states/transactionState";
 import { portfolioActions } from "@/app/states/portfolioState";
-import { SubdomainAction as actionTypes } from "@/app/types/subdomainOperation";
 import { AliasStatus } from "@/app/types/aliasStatus";
 import { MenuOptions } from "@/app/components/MenuOptions";
 import { ProcessingIndicatorChip } from "@/app/components/ProcessingIndicatorChip";
@@ -40,7 +39,7 @@ export const AliasActionButtons = ({ id, name, status }: Props) => {
   const openDialog = () => setIsOpenRenewalFeeDialog(true);
   const closeDialog = () => setIsOpenRenewalFeeDialog(false);
 
-  const openModal = (id: string, name: string, action: actionTypes) => {
+  const openModal = (id: string, name: string, action: string) => {
     dispatch(setAliasOperation({ show: true, id, name, action }));
   };
 

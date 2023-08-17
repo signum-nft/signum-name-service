@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SubdomainAction } from "@/app/types/subdomainOperation";
+import { SubdomainAction } from "@/app/types/subdomainAction";
 import { AliasProxy } from "@/app/types/aliasProxy";
 
 export interface SubdomainOperation {

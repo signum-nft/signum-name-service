@@ -487,6 +487,7 @@
   "privateSale": "Private Sale",
   "privateSaleAliasStatus": "You have received a private offer from the owner of this alias",
   "processing": "Processing",
+  "processingHint": "This item is being processed by the network",
   "processingCancelRenewal": "Renewal fees are being waived",
   "processingPayment": "Processing payment",
   "progressCreateNew": "Start from scratch (create new one)",
@@ -903,5 +904,6 @@
   "invalidURL": "URL is invalid",
   "releaseSubdomain": "Release Subdomain",
   "subdomainInvalidTitle": "Invalid Content",
-  "subdomainInvalidDescription": "The content for the subdomain is invalid and cannot be saved. Please review the content and correct the errors."
+  "subdomainInvalidDescription": "The content for the subdomain is invalid and cannot be saved. Please review the content and correct the errors.",
+  "manageAlias": "Manage this alias in {{signumSwapUrl}}"
 }

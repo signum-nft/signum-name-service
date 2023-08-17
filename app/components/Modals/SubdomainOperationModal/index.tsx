@@ -1,10 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { useMemo, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/states/hooks";
-import {
-  selectAliasOperation,
-  portfolioActions,
-} from "@/app/states/portfolioState";
 import { SuccessfulModal } from "@/app/components/Modals/SuccessfulModal";
 import { DataRow } from "@/app/components/DataRow";
 import { Edit } from "./operations/Edit";

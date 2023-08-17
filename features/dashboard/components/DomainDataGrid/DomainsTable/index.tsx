@@ -39,19 +39,19 @@ export const DomainsTable = ({ domains }: Props) => {
 
   const handleChangePage = (_: any, p: any) => {
     page.current = p;
-    setPaginationChanged(paginationChanged + 1);
+    setPaginationChanged(paginationChanged + 1); // forcing re-render
   };
 
   const handleChangeRowsPerPage = (e: any) => {
     rowsPerPage.current = e.target.value;
     page.current = 0;
-    setPaginationChanged(paginationChanged + 1);
+    setPaginationChanged(paginationChanged + 1); // forcing re-render
   };
 
   const sortedRows = useMemo(() => {
     // @ts-ignore
     return stableSort<MappedDomain>(domains, getComparator(order, orderBy)).map(
-      (row) => <DomainItemRow key={row.id} {...row} />
+      (domain) => <DomainItemRow key={domain.id} domain={domain} />
     );
   }, [order, orderBy, domains]);
 

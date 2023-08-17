@@ -5,10 +5,6 @@ import { useAccount } from "@/app/hooks/useAccount";
 import { useSubscription } from "@/app/hooks/useSubscription";
 import { selectMonitoredTransactions } from "@/app/states/transactionState";
 import { portfolioActions } from "@/app/states/portfolioState";
-import {
-  SubdomainAction,
-  SubdomainAction as actionTypes,
-} from "@/app/types/subdomainOperation";
 import { MenuOptions } from "@/app/components/MenuOptions";
 import { ProcessingIndicatorChip } from "@/app/components/ProcessingIndicatorChip";
 import Stack from "@mui/material/Stack";
@@ -17,7 +13,6 @@ import Tooltip from "@mui/material/Tooltip";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import EditIcon from "@mui/icons-material/Edit";
 import DangerousIcon from "@mui/icons-material/Dangerous";
-import InfoIcon from "@mui/icons-material/Info";
 import DeleteIcon from "@mui/icons-material/DeleteForever";
 import UnlinkIcon from "@mui/icons-material/LinkOff";
 import AddBelowIcon from "@mui/icons-material/PlaylistAdd";
@@ -28,6 +23,7 @@ import Typography from "@mui/material/Typography";
 import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
 import { voidFn } from "@/app/voidFn";
 import { subdomainOperationsActions } from "@/app/states/subdomainOperationState";
+import { SubdomainAction } from "@/app/types/subdomainAction";
 
 interface Props {
   subdomain: MappedSubdomain;
@@ -160,12 +156,7 @@ export const ActionButtons = ({ subdomain }: Props) => {
   const iconColor = isDarkMode ? "secondary" : "primary";
 
   return (
-    <Stack
-      direction="row"
-      spacing={0}
-      justifyContent="center"
-      alignItems="center"
-    >
+    <Stack direction="row" spacing={0} justifyContent="end" alignItems="center">
       {/*<PreviousOwnerRenewalFeeFeedback*/}
       {/*  isOpen={isOpenRenewalFeeDialog}*/}
       {/*  handleClose={closeDialog}*/}

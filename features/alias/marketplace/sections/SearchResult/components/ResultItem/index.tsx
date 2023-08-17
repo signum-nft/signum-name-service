@@ -8,7 +8,6 @@ import { useAccount } from "@/app/hooks/useAccount";
 import { useAppSelector } from "@/states/hooks";
 import { selectIsWalletConnected } from "@/app/states/walletState";
 import { selectMonitoredTransactions } from "@/app/states/transactionState";
-import { AliasActionButtons } from "@/app/components/AliasActionButtons";
 import { calculateAliasFee } from "@/app/calculateAliasFee";
 import { BuyAliasButton } from "@/app/components/BuyAliasButton";
 import { PriceInfoElement } from "./components/PriceInfoElement";
@@ -114,13 +113,13 @@ export const ResultItem = (alias: Alias) => {
       </Stack>
 
       <Stack direction="row" alignItems="center">
-        {isAliasOwner && (
-          <AliasActionButtons
-            id={alias.alias}
-            name={alias.aliasName}
-            status={status}
-          />
-        )}
+        {/*{isAliasOwner && (*/}
+        {/*  <AliasActionButtons*/}
+        {/*    id={alias.alias}*/}
+        {/*    name={alias.aliasName}*/}
+        {/*    status={status}*/}
+        {/*  />*/}
+        {/*)}*/}
 
         {status === "notOnSale" && !isAliasOwner && (
           <Tooltip title={t("notOnSaleAliasStatus")} arrow placement="top">
