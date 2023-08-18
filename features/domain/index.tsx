@@ -11,15 +11,16 @@ import { Config } from "@/app/config";
 import { useAccountDomain } from "@/app/hooks/useAccountDomain";
 import Chip from "@mui/material/Chip";
 import { useRouter } from "next/router";
-import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
+import { MappedSubdomain } from "@/app/types/mappedSubdomain";
 import { Address } from "@signumjs/core";
 import { SearchField } from "@/app/components/SearchField";
 import { useLedgerService } from "@/app/hooks/useLedgerService";
 import { useSnackbar } from "@/app/hooks/useSnackbar";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/PlaylistAdd";
-import { useAppSelector } from "@/states/hooks";
-import { selectIsDarkMode } from "@/app/states/appState";
+import { useAppDispatch } from "@/states/hooks";
+import { subdomainOperationsActions } from "@/app/states/subdomainOperationState";
+import { createAliasNameForSubdomain } from "@/app/createAliasNameForSubdomain";
 
 const ContainerMaxWidth = 1500;
 
@@ -35,9 +36,9 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
   const {
     Platform: { MaxSubdomains },
   } = useAppContext();
-  const isDarkMode = useAppSelector(selectIsDarkMode);
   const [searchTerm, setSearchTerm] = useState("");
   const [isCheckingAlias, setIsCheckingAlias] = useState(true);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!ledgerService) return;
@@ -106,6 +107,29 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
 
     return { filteredSubdomains };
   }, [domain, domainList, searchTerm]);
+
+  const handleAddNewSubdomain = () => {
+    if (!domainList) return;
+    const newAliasName = createAliasNameForSubdomain(domain);
+    const head = domainList.first;
+    const tail = domainList.last;
+    dispatch(
+      subdomainOperationsActions.openModal({
+        action: "add",
+        subdomain: {
+          __listElement: domainList.lastToken,
+          accountAddress: "",
+          accountId: "",
+          aliasId: "",
+          aliasName: newAliasName,
+          aliasTld: head.tld ?? Config.Signum.DefaultTld,
+          domainName: head.name,
+          name: "",
+          url: "",
+        },
+      })
+    );
+  };
 
   return (
     <>
@@ -179,6 +203,7 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
                   borderBottomLeftRadius: 0,
                 }}
                 disabled={filteredSubdomains.length >= MaxSubdomains}
+                onClick={handleAddNewSubdomain}
               >
                 {t("addNewSubdomain")}
               </Button>

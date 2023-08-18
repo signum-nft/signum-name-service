@@ -15,7 +15,7 @@ export const useAlias = (aliasId: string, refresh = true) => {
     }
   );
 
-  const isLoading = !error && !data;
+  const isLoading = aliasId && !error && !data;
 
   return { alias: data, isLoading };
 };

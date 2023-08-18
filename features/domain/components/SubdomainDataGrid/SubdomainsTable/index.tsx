@@ -12,7 +12,7 @@ import { TablePagination } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "next-i18next";
 import chunk from "lodash/chunk";
-import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
+import { MappedSubdomain } from "@/app/types/mappedSubdomain";
 
 interface Props {
   domains: MappedSubdomain[];

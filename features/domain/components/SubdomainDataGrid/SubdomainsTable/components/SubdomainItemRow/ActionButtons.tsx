@@ -20,7 +20,7 @@ import { selectIsDarkMode } from "@/app/states/appState";
 import IconButton from "@mui/material/IconButton";
 import { MoreVert } from "@mui/icons-material";
 import Typography from "@mui/material/Typography";
-import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
+import { MappedSubdomain } from "@/app/types/mappedSubdomain";
 import { voidFn } from "@/app/voidFn";
 import { subdomainOperationsActions } from "@/app/states/subdomainOperationState";
 import { SubdomainAction } from "@/app/types/subdomainAction";
@@ -42,32 +42,10 @@ export const ActionButtons = ({ subdomain }: Props) => {
   const name = subdomain.aliasName;
 
   const openModal = (action: SubdomainAction, subdomain: MappedSubdomain) => {
-    const next = subdomain.__listElement.next?.value;
-    const prev = subdomain.__listElement.prev?.value;
-
     dispatch(
       subdomainOperationsActions.openModal({
         action,
-        subdomainName: subdomain.name,
-        alias: {
-          aliasId: subdomain.aliasId,
-          aliasName: subdomain.aliasName,
-          aliasTld: subdomain.aliasTld,
-        },
-        previousAlias: prev
-          ? {
-              aliasId: prev.id,
-              aliasName: prev.name,
-              aliasTld: prev.tld,
-            }
-          : undefined,
-        nextAlias: next
-          ? {
-              aliasId: next.id,
-              aliasName: next.name,
-              aliasTld: next.tld,
-            }
-          : undefined,
+        subdomain,
       })
     );
   };

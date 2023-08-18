@@ -23,7 +23,7 @@ export const DomainItemRow = ({ domain }: Props) => {
   };
 
   return (
-    <StyledTableRow key={id} onClick={handleOnRowClick}>
+    <StyledTableRow key={id} onClick={handleOnRowClick} clickable={true}>
       <TableCell>
         <Typography variant="body2">{name}</Typography>
         <CopyableText textToCopy={asDomainString({ name, tld })} />

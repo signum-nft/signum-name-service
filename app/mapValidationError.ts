@@ -22,6 +22,9 @@ export const mapValidationError = (message: any, getValue?: boolean): any => {
     case "invalidName":
       return "invalidName";
 
+    case "duplicateName":
+      return "duplicateName";
+
     default:
       return "invalidField";
   }

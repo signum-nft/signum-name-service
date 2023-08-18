@@ -19,6 +19,7 @@ import {
   selectSubdomainOperation,
   subdomainOperationsActions,
 } from "@/app/states/subdomainOperationState";
+import { Add } from "@/app/components/Modals/SubdomainOperationModal/operations/Add";
 
 export const SubdomainOperationModal = () => {
   const { t } = useTranslation();
@@ -40,6 +41,14 @@ export const SubdomainOperationModal = () => {
   let successOperationDescription = t("aliasUpdateSuccesfullDescription");
 
   switch (subdomainOperation?.action) {
+    case "add":
+      label = t("createSubdomain");
+      successOperationTitle = t("addedSubdomainSuccessfully");
+      successOperationDescription = t("addedSubdomainSuccessfullyDescription", {
+        subdomain: subdomainOperation?.subdomainName,
+        domain: subdomainOperation?.alias?.aliasName,
+      });
+      break;
     case "view":
       label = t("viewContent");
       break;
@@ -85,13 +94,15 @@ export const SubdomainOperationModal = () => {
     action,
     alias: { aliasTld, aliasName, aliasId },
     subdomainName: initialSubdomainName,
+    domainName,
   } = subdomainOperation;
+
   const dialogMaxWidth = action === "edit" ? "sm" : "xs";
   const fullAliasName = asDomainString({ name: aliasName, tld: aliasTld });
   const fullSubdomainName = asSubdomainString({
     subdomain: newSubdomainName ?? initialSubdomainName,
     tld: aliasTld,
-    domain: aliasName,
+    domain: domainName,
   });
 
   return (
@@ -132,7 +143,7 @@ export const SubdomainOperationModal = () => {
         <DataRow
           icon={<LinkIcon fontSize="small" />}
           label={t("url")}
-          value={fullSubdomainName}
+          value={`https://${fullSubdomainName}`}
         />
       </Paper>
 
@@ -140,12 +151,20 @@ export const SubdomainOperationModal = () => {
 
       {/*{action === "sale" && <Sale onComplete={setOperationAsCompleted} />}*/}
 
+      {subdomainOperation.action === "add" && (
+        <Add
+          onNameChange={setNewSubdomainName}
+          onComplete={setOperationAsCompleted}
+          onCancel={closeModal}
+          subdomainOperation={subdomainOperation}
+        />
+      )}
       {subdomainOperation.action === "edit" && (
         <Edit
           onNameChange={setNewSubdomainName}
           onComplete={setOperationAsCompleted}
           onCancel={closeModal}
-          aliasId={aliasId}
+          subdomainOperation={subdomainOperation}
         />
       )}
 

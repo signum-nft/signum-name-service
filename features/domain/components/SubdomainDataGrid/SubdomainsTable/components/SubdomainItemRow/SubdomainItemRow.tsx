@@ -3,7 +3,7 @@ import { StyledTableRow } from "@/app/components/Table/StyledTableRow";
 import TableCell from "@mui/material/TableCell";
 import Typography from "@mui/material/Typography";
 import { CopyableText } from "@/app/components/CopyableText";
-import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
+import { MappedSubdomain } from "@/app/types/mappedSubdomain";
 import { asSubdomainString } from "@/app/asSubdomainString";
 import Link from "next/link";
 import { ActionButtons } from "./ActionButtons";

@@ -250,7 +250,7 @@
   "enterTheTicker": "Enter the ticker",
   "enterTheUrlOrLink": "Enter the URL or Link",
   "enterSubdomainName": "Enter the subdomain's name",
-  "subdomainNameFieldHelper": "Alphanumeric characters with - and _ allowed.",
+  "subdomainNameFieldHelper": "Maximum 24 alphanumeric characters and unicodes, no whitespaces",
   "estApr": "Est. APR",
   "estimatedValue": "Estimated Value",
   "every": "Every",
@@ -900,10 +900,16 @@
   "subdomainNonSrc44Warning": "By updating this subdomain the previous content will be entirely overwritten!",
   "save": "Save",
   "editSubdomain": "Edit Subdomain",
+  "addSubdomain": "Add Subdomain",
+  "createSubdomain": "Create Subdomain",
   "invalidName": "Name is invalid",
   "invalidURL": "URL is invalid",
   "releaseSubdomain": "Release Subdomain",
   "subdomainInvalidTitle": "Invalid Content",
   "subdomainInvalidDescription": "The content for the subdomain is invalid and cannot be saved. Please review the content and correct the errors.",
-  "manageAlias": "Manage this alias in {{signumSwapUrl}}"
+  "manageAlias": "Manage this alias in {{signumSwapUrl}}",
+  "addedSubdomainSuccessfully": "New Subdomain Added",
+  "addedSubdomainSuccessfullyDescription": "New Subdomain {{subdomain}} successfully added to domain {{domain}}",
+  "linkageSummary": "Now, the new subdomain needs to be linked into the domain list. Just one more confirmation and your new subdomain will be available on next block (about 4 minutes). All decentralized!",
+  "duplicateName": "Name already exists"
 }

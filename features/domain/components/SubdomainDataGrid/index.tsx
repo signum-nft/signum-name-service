@@ -1,7 +1,7 @@
 import { SubdomainsTable } from "./SubdomainsTable";
 
 import Grid from "@mui/material/Grid";
-import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
+import { MappedSubdomain } from "@/app/types/mappedSubdomain";
 import { DomainsLoading } from "@/app/components/DomainsLoading";
 import { DomainNotFound } from "@/app/components/DomainNotFound";
 

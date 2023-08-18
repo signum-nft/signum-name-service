@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { useAppSelector } from "@/states/hooks";
 import { selectAmountSuffix } from "@/app/states/ledgerState";
-import { MappedSubdomain } from "@/features/domain/types/mappedSubdomain";
+import { MappedSubdomain } from "@/app/types/mappedSubdomain";
 
 interface HeadCell {
   id: keyof MappedSubdomain;

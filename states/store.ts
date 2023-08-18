@@ -121,9 +121,10 @@ const rootReducer = combineReducers({
     transactionPersistConfig,
     transactionSlice.reducer
   ),
-  subdomainOperationState: persist<
-    ReturnType<typeof subdomainOperationSlice.reducer>
-  >(subdomainOperationPersistConfig, subdomainOperationSlice.reducer),
+  subdomainOperationState: subdomainOperationSlice.reducer,
+  // subdomainOperationState: persist<
+  //   ReturnType<typeof subdomainOperationSlice.reducer>
+  // >(subdomainOperationPersistConfig, subdomainOperationSlice.reducer),
 });
 
 export const store = configureStore({
@@ -131,6 +132,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
+        ignoredActionPaths: ["payload.subdomain.__listElement"],
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
