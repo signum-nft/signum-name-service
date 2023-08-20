@@ -30,7 +30,7 @@ import { Config } from "@/app/config";
 import { SubdomainOperation } from "@/app/states/subdomainOperationState";
 
 interface Props {
-  onComplete: () => void;
+  onComplete: (ok: boolean) => void;
   onCancel: () => void;
   onNameChange: (newName: string) => void;
   subdomainOperation: SubdomainOperation;
@@ -171,7 +171,6 @@ export const SubdomainEditForm = ({
     if (nextAlias) {
       builder.setAlias(nextAlias.aliasName, nextAlias.aliasTld);
     }
-
     const confirmation = await ledgerService.alias.createAlias({
       name: aliasName,
       tldName: aliasTld,
@@ -199,9 +198,10 @@ export const SubdomainEditForm = ({
           data
         );
       }
-      onComplete();
+      onComplete(true);
     } catch (e: any) {
       showError(t(e.message || e));
+      onComplete(false);
     }
   };
 

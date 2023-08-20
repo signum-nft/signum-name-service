@@ -780,5 +780,6 @@
   "youNeedAccountNotice": "Du benötigst die XT Wallet, um fortzufahren",
   "youNeedToLinkAccountNotice": "Du musst dein Signum-Konto verknüpfen, um handeln zu können",
   "youWillPay": "Du zahlst",
-  "youWillReceive": "Sie erhalten {{amount}} {{ticker}}"
+  "youWillReceive": "Sie erhalten {{amount}} {{ticker}}",
+  "linkAlias": "Alias verknüpfen"
 }

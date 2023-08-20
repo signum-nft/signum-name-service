@@ -911,5 +911,15 @@
   "addedSubdomainSuccessfully": "New Subdomain Added",
   "addedSubdomainSuccessfullyDescription": "New Subdomain {{subdomain}} successfully added to domain {{domain}}",
   "linkageSummary": "Now, the new subdomain needs to be linked into the domain list. Just one more confirmation and your new subdomain will be available on next block (about 4 minutes). All decentralized!",
-  "duplicateName": "Name already exists"
+  "relinkageSummary": "With the removal of the subdomain it's necessary to relink the subdomain list. Just one more confirmation and the operation is complete.",
+  "duplicateName": "Name already exists",
+  "previousAlias": "Previous Alias",
+  "currentAlias": "Current Alias",
+  "linkAlias": "Link Alias",
+  "unlinkAlias": "Unlink Alias",
+  "relinkAlias": "Relink Alias",
+  "rootDomain": "Root Domain",
+  "stepOf": "Step {{step}} of {{maxStep}}",
+  "doYouWantToDeleteDomain": "Do you really want to get rid of this domain?",
+  "doYouWantToDeleteDomainDescription": "Once you continue, the underlying alias will not belong to your account anymore and can be claimed by others."
 }

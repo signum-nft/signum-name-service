@@ -1,8 +1,6 @@
 import { useTranslation } from "next-i18next";
-import { useAppDispatch, useAppSelector } from "@/states/hooks";
+import { useAppSelector } from "@/states/hooks";
 import { selectIsDarkMode } from "@/app/states/appState";
-import { selectMonitoredTransactions } from "@/app/states/transactionState";
-import { useMemo } from "react";
 import { ProcessingIndicatorChip } from "@/app/components/ProcessingIndicatorChip";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
@@ -12,6 +10,7 @@ import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
 import Link from "next/link";
 import { useAppContext } from "@/app/hooks/useAppContext";
 import { openExternalUrl } from "@/app/openExternalUrl";
+import { useMonitoredTransaction } from "@/app/hooks/useMonitoredTransaction";
 
 interface Props {
   domain: MappedDomain;
@@ -21,23 +20,15 @@ export const DomainActionButtons = ({ domain }: Props) => {
   const { t } = useTranslation();
   const { SignumSwap } = useAppContext();
   const isDarkMode = useAppSelector(selectIsDarkMode);
-  const monitoredTransactions = useAppSelector(selectMonitoredTransactions);
-
-  const isUpdatingDomainStatus = useMemo(
-    () =>
-      Boolean(
-        monitoredTransactions.find(
-          ({ referenceId, type }) =>
-            referenceId === domain.id && type === "alias-content-update"
-        )
-      ),
-    [monitoredTransactions, domain.id]
-  );
+  const { isPending } = useMonitoredTransaction({
+    referenceId: domain.id,
+    type: "alias-content-update",
+  });
   const iconColor = isDarkMode ? "secondary" : "primary";
   const signumswapUrl = `${SignumSwap}/me/alias?search=${domain.name}`;
   return (
     <Stack direction="row" spacing={0} justifyContent="end" alignItems="center">
-      {isUpdatingDomainStatus && <ProcessingIndicatorChip />}
+      {isPending && <ProcessingIndicatorChip />}
 
       <Tooltip
         title={`${t("manageAlias", { signumSwapUrl: SignumSwap })}`}

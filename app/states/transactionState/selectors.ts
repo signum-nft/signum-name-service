@@ -1,7 +1,7 @@
 import { RootState } from "@/states/store";
 import {
   Transaction,
-  TransactionAssetSubtype,
+  TransactionArbitrarySubtype,
   TransactionType,
 } from "@signumjs/core";
 import { createSelector } from "@reduxjs/toolkit";
@@ -14,19 +14,14 @@ export const selectPendingTransactions = (state: RootState): Transaction[] => {
 export const selectMonitoredTransactions = (state: RootState): Monitor[] => {
   return state.transactionState.monitoredTransactions;
 };
-
-export const selectIncomingOrderTransactions = createSelector(
-  selectPendingTransactions,
-  (transactions) =>
+export const selectPendingAliasTransactions = (ownerId: string) =>
+  createSelector(selectPendingTransactions, (transactions) =>
     transactions.filter(
-      ({ type, subtype }) =>
-        type === TransactionType.Asset &&
-        (subtype === TransactionAssetSubtype.AskOrderPlacement ||
-          subtype === TransactionAssetSubtype.BidOrderPlacement)
+      ({ type, subtype, sender }) =>
+        sender === ownerId &&
+        type === TransactionType.Arbitrary &&
+        (subtype === TransactionArbitrarySubtype.AliasAssignment ||
+          subtype === TransactionArbitrarySubtype.AliasSale ||
+          subtype === TransactionArbitrarySubtype.AliasBuy)
     )
-);
-
-export const selectIncomingOrderTransactionsPerToken = (tokenId: string) =>
-  createSelector(selectIncomingOrderTransactions, (tradeTransactions) =>
-    tradeTransactions.filter(({ attachment }) => attachment?.asset === tokenId)
   );

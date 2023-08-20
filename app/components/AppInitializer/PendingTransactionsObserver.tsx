@@ -5,7 +5,7 @@ import { transactionActions } from "@/app/states/transactionState";
 import { hashSHA256 } from "@signumjs/crypto";
 import { useState } from "react";
 
-export const PendingTransactionsInitializer = () => {
+export const PendingTransactionsObserver = () => {
   const dispatch = useDispatch();
   const { ledgerService } = useLedgerService();
   const [previous, setPrevious] = useState("");

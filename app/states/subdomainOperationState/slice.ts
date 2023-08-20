@@ -65,12 +65,14 @@ export const subdomainOperationSlice = createSlice({
           aliasId: subdomain.aliasId,
           aliasName: subdomain.aliasName,
           aliasTld: subdomain.aliasTld,
+          subdomain: subdomain.name,
         },
         previousAlias: prev
           ? {
               aliasId: prev.id,
               aliasName: prev.name,
               aliasTld: prev.tld,
+              subdomain: prev.data?.name,
             }
           : undefined,
         nextAlias: next
@@ -78,6 +80,7 @@ export const subdomainOperationSlice = createSlice({
               aliasId: next.id,
               aliasName: next.name,
               aliasTld: next.tld,
+              subdomain: next.data?.name,
             }
           : undefined,
       };

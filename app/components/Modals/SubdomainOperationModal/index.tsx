@@ -20,6 +20,7 @@ import {
   subdomainOperationsActions,
 } from "@/app/states/subdomainOperationState";
 import { Add } from "@/app/components/Modals/SubdomainOperationModal/operations/Add";
+import { Delete } from "./operations/Delete";
 
 export const SubdomainOperationModal = () => {
   const { t } = useTranslation();
@@ -92,12 +93,12 @@ export const SubdomainOperationModal = () => {
 
   const {
     action,
-    alias: { aliasTld, aliasName, aliasId },
+    alias: { aliasTld, aliasName },
     subdomainName: initialSubdomainName,
     domainName,
   } = subdomainOperation;
 
-  const dialogMaxWidth = action === "edit" ? "sm" : "xs";
+  const dialogMaxWidth = action === "edit" || action === "add" ? "sm" : "xs";
   const fullAliasName = asDomainString({ name: aliasName, tld: aliasTld });
   const fullSubdomainName = asSubdomainString({
     subdomain: newSubdomainName ?? initialSubdomainName,
@@ -162,6 +163,13 @@ export const SubdomainOperationModal = () => {
       {subdomainOperation.action === "edit" && (
         <Edit
           onNameChange={setNewSubdomainName}
+          onComplete={setOperationAsCompleted}
+          onCancel={closeModal}
+          subdomainOperation={subdomainOperation}
+        />
+      )}
+      {subdomainOperation.action === "delete" && (
+        <Delete
           onComplete={setOperationAsCompleted}
           onCancel={closeModal}
           subdomainOperation={subdomainOperation}

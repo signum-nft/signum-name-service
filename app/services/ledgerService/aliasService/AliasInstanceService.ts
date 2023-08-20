@@ -10,6 +10,23 @@ export class AliasInstanceService extends LedgerSubService {
     super(context);
   }
 
+  async cancelSubscription() {
+    return handleError(
+      this.withCurrentNetworkFees(async (fees) => {
+        const { ledger, wallet } = this.context;
+
+        const { unsignedTransactionBytes } =
+          await ledger.transaction.cancelSubscription({
+            subscriptionId: this.alias.alias,
+            senderPublicKey: this.getAccount().getPublicKey(),
+            feePlanck: fees.cheap.toString(10),
+          });
+
+        return wallet.confirm(unsignedTransactionBytes);
+      })
+    );
+  }
+
   async buyAlias(amountPlanck: string) {
     return handleError(
       this.withCurrentNetworkFees(async (fees) => {

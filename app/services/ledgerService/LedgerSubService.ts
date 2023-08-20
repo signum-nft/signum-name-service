@@ -17,7 +17,7 @@ export class LedgerSubService {
   }
 
   protected withCurrentNetworkFees(
-    fn: (fees: FeeType) => Promise<ConfirmedTransaction | string>,
+    fn: (fees: FeeType) => Promise<ConfirmedTransaction>,
     feeOverride?: Amount
   ) {
     return async () => {

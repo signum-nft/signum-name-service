@@ -30,7 +30,7 @@ export const WizardSubmitter = ({ allowSubmit, onCancel }: Props) => {
           fullWidth
           disabled={!allowSubmit}
         >
-          {t("save")}
+          {t("continue")}
         </Button>
       </Grid>
     </Grid>

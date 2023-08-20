@@ -19,9 +19,12 @@ import Button from "@mui/material/Button";
 import { SubdomainEditForm } from "../../components/SubdomainEditForm";
 import { LinkageForm } from "@/app/components/Modals/SubdomainOperationModal/components/LinkageForm";
 import { AliasProxy } from "@/app/types/aliasProxy";
+import Typography from "@mui/material/Typography";
+import { CardActions } from "@mui/material";
+import Box from "@mui/material/Box";
 
 interface Props {
-  onComplete: () => void;
+  onComplete: (ok: boolean) => void;
   onCancel: () => void;
   subdomainOperation: SubdomainOperation;
   onNameChange: (newName: string) => void;
@@ -42,14 +45,25 @@ export const Add = ({
   useAppDispatch();
   const [currentStep, setCurrentStep] = useState(0);
   useForm<FormData>({ mode: "onChange" });
+  const { t } = useTranslation();
+  const [newName, setNewName] = useState("");
+  const handleNameChange = (newName: string) => {
+    setNewName(newName);
+    onNameChange(newName);
+  };
 
   return (
     <DialogContent>
+      <Box sx={{ position: "absolute", top: "3rem", right: "1.5rem" }}>
+        <Typography fontSize={10} color="text.secondary">
+          {t("stepOf", { step: currentStep + 1, maxStep: 2 })}
+        </Typography>
+      </Box>
       {currentStep === 0 && (
         <SubdomainEditForm
           onCancel={onCancel}
           onComplete={() => setCurrentStep(1)}
-          onNameChange={onNameChange}
+          onNameChange={handleNameChange}
           subdomainOperation={subdomainOperation}
         />
       )}
@@ -57,6 +71,7 @@ export const Add = ({
         <LinkageForm
           onComplete={onComplete}
           subdomainOperation={subdomainOperation}
+          newName={newName}
         />
       )}
     </DialogContent>

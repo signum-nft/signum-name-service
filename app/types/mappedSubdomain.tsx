@@ -1,4 +1,4 @@
-import { Token } from "fast-linked-list";
+import { Tail, Token } from "fast-linked-list";
 import { AccountDomain } from "@/app/types/accountData";
 
 export interface MappedSubdomain {

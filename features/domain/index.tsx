@@ -112,12 +112,13 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
     if (!domainList) return;
     const newAliasName = createAliasNameForSubdomain(domain);
     const head = domainList.first;
-    const tail = domainList.last;
+    const tail = domainList.lastToken.next;
     dispatch(
       subdomainOperationsActions.openModal({
         action: "add",
         subdomain: {
-          __listElement: domainList.lastToken,
+          // lastToken.next returns type Tail and not undefined!
+          __listElement: tail!,
           accountAddress: "",
           accountId: "",
           aliasId: "",

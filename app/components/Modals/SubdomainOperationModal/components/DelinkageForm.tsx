@@ -5,7 +5,6 @@ import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import AddLinkIcon from "@mui/icons-material/AddLink";
-import { AliasProxy } from "@/app/types/aliasProxy";
 import { SubdomainOperation } from "@/app/states/subdomainOperationState";
 import { useLedgerService } from "@/app/hooks/useLedgerService";
 import { Config } from "@/app/config";
@@ -13,24 +12,22 @@ import { useSnackbar } from "@/app/hooks/useSnackbar";
 import { DescriptorData, DescriptorDataBuilder } from "@signumjs/standards";
 import { transactionActions } from "@/app/states/transactionState";
 import { useAppDispatch } from "@/states/hooks";
-import { AliasLinkCard } from "@/app/components/Modals/SubdomainOperationModal/components/AliasLinkCard";
+import { AliasLinkCard } from "./AliasLinkCard";
 
-interface AliasCardProps {
-  alias: AliasProxy;
-  title: string;
-  newName?: string;
-}
+/**
+ * TODO: Delinking should show the situation after linking, i.e.
+ * now: previous alias -> current alias
+ * after: previous alias -> next alias (which can be Tail)
+ */
 
 interface Props {
   subdomainOperation: SubdomainOperation;
-  newName: string;
   onComplete: (ok: boolean) => void;
 }
 
-export const LinkageForm = ({
+export const DelinkageForm = ({
   onComplete,
   subdomainOperation: { previousAlias, alias },
-  newName,
 }: Props) => {
   const { t } = useTranslation();
   const { ledgerService } = useLedgerService();
@@ -94,7 +91,7 @@ export const LinkageForm = ({
           <AliasLinkCard
             alias={alias}
             title={t("currentAlias")}
-            newName={newName}
+            newName={alias.subdomain}
           />
         </Stack>
       </Grid>
@@ -107,7 +104,7 @@ export const LinkageForm = ({
             }}
             severity="info"
           >
-            {t("linkageSummary")}
+            {t("relinkageSummary")}
           </Alert>
           <Button
             variant="contained"
@@ -116,7 +113,7 @@ export const LinkageForm = ({
             onClick={onSubmit}
             fullWidth
           >
-            {t("linkAlias")}
+            {t("relinkAlias")}
           </Button>
         </Stack>
       </Grid>

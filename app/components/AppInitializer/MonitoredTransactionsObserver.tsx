@@ -10,7 +10,7 @@ import { Transaction } from "@signumjs/core";
 
 const Hour = 1000 * 60 * 60;
 
-export const MonitorTransactionsInitializer = () => {
+export const MonitoredTransactionsObserver = () => {
   const dispatch = useDispatch();
   const { ledgerService } = useLedgerService();
   const monitoredTransactions = useAppSelector(selectMonitoredTransactions);
