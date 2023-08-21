@@ -5,6 +5,8 @@ import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import AddLinkIcon from "@mui/icons-material/AddLink";
+import LinkOffIcon from "@mui/icons-material/LinkOff";
+import RelinkIcon from "@mui/icons-material/DatasetLinked";
 import { SubdomainOperation } from "@/app/states/subdomainOperationState";
 import { useLedgerService } from "@/app/hooks/useLedgerService";
 import { Config } from "@/app/config";
@@ -13,21 +15,20 @@ import { DescriptorData, DescriptorDataBuilder } from "@signumjs/standards";
 import { transactionActions } from "@/app/states/transactionState";
 import { useAppDispatch } from "@/states/hooks";
 import { AliasLinkCard } from "./AliasLinkCard";
-
-/**
- * TODO: Delinking should show the situation after linking, i.e.
- * now: previous alias -> current alias
- * after: previous alias -> next alias (which can be Tail)
- */
+import Typography from "@mui/material/Typography";
+import React from "react";
+import SaveIcon from "@mui/icons-material/Save";
 
 interface Props {
   subdomainOperation: SubdomainOperation;
   onComplete: (ok: boolean) => void;
+  onCancel?: () => void;
 }
 
 export const DelinkageForm = ({
   onComplete,
-  subdomainOperation: { previousAlias, alias },
+  onCancel,
+  subdomainOperation: { previousAlias, alias, nextAlias },
 }: Props) => {
   const { t } = useTranslation();
   const { ledgerService } = useLedgerService();
@@ -50,10 +51,16 @@ export const DelinkageForm = ({
         // previous data is non-SRC44, so we create a complete new one.
         builder = DescriptorDataBuilder.create(previousAlias.subdomain);
       }
-      builder.setAlias(
-        alias.aliasName,
-        alias.aliasTld === Config.Signum.DefaultTld ? undefined : alias.aliasTld
-      );
+      if (nextAlias) {
+        builder.setAlias(
+          nextAlias.aliasName,
+          nextAlias.aliasTld === Config.Signum.DefaultTld
+            ? undefined
+            : nextAlias.aliasTld
+        );
+      } else {
+        builder.setAlias("");
+      }
       const confirmation = await ledgerService.alias
         .with(ledgerAlias)
         .updateAlias(builder.build().stringify());
@@ -74,18 +81,19 @@ export const DelinkageForm = ({
   };
 
   return (
-    <Grid container gap={4} justifyContent="center">
-      <Grid item>
+    <Grid container gap={1}>
+      <Grid item xs={12} justifyItems="center">
+        <Typography variant="caption">{t("delinkAliasNow")}</Typography>
         <Stack
-          direction={{ sm: "column", md: "row" }}
+          direction="row"
           gap={1}
-          alignContent="center"
+          justifyContent="center"
           alignItems="center"
         >
           {previousAlias && (
             <>
               <AliasLinkCard alias={previousAlias} title={t("previousAlias")} />
-              <AddLinkIcon fontSize="large" />
+              <LinkOffIcon fontSize="large" />
             </>
           )}
           <AliasLinkCard
@@ -95,7 +103,35 @@ export const DelinkageForm = ({
           />
         </Stack>
       </Grid>
-      <Grid item>
+      <Grid item xs={12}>
+        <Typography variant="caption">{t("delinkAliasThen")}</Typography>
+        <Stack
+          direction="row"
+          gap={1}
+          justifyContent="center"
+          alignItems="center"
+        >
+          {previousAlias && (
+            <>
+              <AliasLinkCard alias={previousAlias} title={t("previousAlias")} />
+              <AddLinkIcon fontSize="large" />
+            </>
+          )}
+          {nextAlias ? (
+            <AliasLinkCard alias={nextAlias} title={t("nextAlias")} />
+          ) : (
+            <AliasLinkCard
+              alias={{
+                subdomain: t("tailAlias"),
+                aliasName: t("noDomain"),
+                aliasId: "0",
+              }}
+              title={t("nextAlias")}
+            />
+          )}
+        </Stack>
+      </Grid>
+      <Grid item mt={2}>
         <Stack direction="column" width="100%" spacing={2}>
           <Alert
             sx={{
@@ -106,15 +142,25 @@ export const DelinkageForm = ({
           >
             {t("relinkageSummary")}
           </Alert>
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={{ color: "white" }}
-            onClick={onSubmit}
-            fullWidth
-          >
-            {t("relinkAlias")}
-          </Button>
+
+          <Stack direction="row" width="100%" spacing={2}>
+            {onCancel && (
+              <Button color="error" onClick={onCancel} fullWidth>
+                {t("cancel")}
+              </Button>
+            )}
+
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ color: "white" }}
+              onClick={onSubmit}
+              startIcon={<RelinkIcon />}
+              fullWidth
+            >
+              {t("relinkAlias")}
+            </Button>
+          </Stack>
         </Stack>
       </Grid>
     </Grid>

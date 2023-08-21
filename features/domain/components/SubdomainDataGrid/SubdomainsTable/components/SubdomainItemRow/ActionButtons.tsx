@@ -1,10 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { useMemo, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/states/hooks";
-import { useAccount } from "@/app/hooks/useAccount";
-import { useSubscription } from "@/app/hooks/useSubscription";
-import { selectMonitoredTransactions } from "@/app/states/transactionState";
-import { portfolioActions } from "@/app/states/portfolioState";
 import { MenuOptions } from "@/app/components/MenuOptions";
 import { ProcessingIndicatorChip } from "@/app/components/ProcessingIndicatorChip";
 import Stack from "@mui/material/Stack";
@@ -12,10 +7,9 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import EditIcon from "@mui/icons-material/Edit";
-import DangerousIcon from "@mui/icons-material/Dangerous";
 import DeleteIcon from "@mui/icons-material/DeleteForever";
 import UnlinkIcon from "@mui/icons-material/LinkOff";
-import AddBelowIcon from "@mui/icons-material/PlaylistAdd";
+import AddBelowIcon from "@mui/icons-material/PostAdd";
 import { selectIsDarkMode } from "@/app/states/appState";
 import IconButton from "@mui/material/IconButton";
 import { MoreVert } from "@mui/icons-material";
@@ -25,6 +19,7 @@ import { voidFn } from "@/app/voidFn";
 import { subdomainOperationsActions } from "@/app/states/subdomainOperationState";
 import { SubdomainAction } from "@/app/types/subdomainAction";
 import { useMonitoredTransaction } from "@/app/hooks/useMonitoredTransaction";
+import { createAliasNameForSubdomain } from "@/app/createAliasNameForSubdomain";
 
 interface Props {
   subdomain: MappedSubdomain;
@@ -33,17 +28,10 @@ interface Props {
 export const ActionButtons = ({ subdomain }: Props) => {
   const { t } = useTranslation();
   const isDarkMode = useAppSelector(selectIsDarkMode);
-  const { accountId } = useAccount();
-  // const { subscription } = useSubscription(id);
   const dispatch = useAppDispatch();
   const { isPending } = useMonitoredTransaction({
     referenceId: subdomain.aliasId,
-    type: "alias-content-update",
   });
-  const monitoredTransactions = useAppSelector(selectMonitoredTransactions);
-
-  const id = subdomain.aliasId;
-  const name = subdomain.aliasName;
 
   const openModal = (action: SubdomainAction, subdomain: MappedSubdomain) => {
     dispatch(
@@ -54,89 +42,36 @@ export const ActionButtons = ({ subdomain }: Props) => {
     );
   };
 
-  const isUpdatingSaleStatus = useMemo(
-    () =>
-      monitoredTransactions.findIndex(
-        ({ referenceId, type }) =>
-          referenceId === id && type === "alias-sale-update"
-      ) !== -1,
-    [monitoredTransactions, id]
-  );
+  const handleAddBefore = () => {
+    const newAliasName = createAliasNameForSubdomain(subdomain.domainName);
 
-  const isTransferingAlias = useMemo(
-    () =>
-      monitoredTransactions.findIndex(
-        ({ referenceId, type }) =>
-          referenceId === id && type === "alias-transfer"
-      ) !== -1,
-    [monitoredTransactions, id]
-  );
+    openModal("add", {
+      aliasId: "",
+      // if not prev then it's head!
+      __listElement: subdomain.__listElement.prev ?? subdomain.__listElement,
+      domainName: subdomain.domainName,
+      name: "",
+      accountId: "",
+      accountAddress: "",
+      aliasName: newAliasName,
+      aliasTld: subdomain.aliasTld,
+      url: "",
+    });
+  };
 
-  const isCancelingSubscription = useMemo(
-    () =>
-      Boolean(
-        monitoredTransactions.find(
-          ({ referenceId, type }) =>
-            referenceId === id && type === "subscription-cancelation"
-        )
-      ),
-    [monitoredTransactions, id]
-  );
-
-  const dynamicMenuOptions = useMemo(() => {
-    if (isCancelingSubscription) {
-      return [
-        {
-          icon: <DangerousIcon />,
-          label: t("processingCancelRenewal") + "...",
-          onClick: null,
-          disabled: true,
-        },
-      ];
-    }
-
-    // if (subscription && subscription.sender !== accountId) {
-    //   return [
-    //     {
-    //       icon: <InfoIcon color="warning" />,
-    //       label: t("previousOwnerIsPayingFees"),
-    //       onClick: openDialog,
-    //     },
-    //   ];
-    // }
-    //
-    // if (subscription) {
-    //   return [
-    //     {
-    //       icon: <DangerousIcon />,
-    //       label: t("cancelRenewal"),
-    //       onClick: openDeleteModal,
-    //     },
-    //   ];
-    // }
-
-    return [];
-  }, [isCancelingSubscription, accountId]);
-
-  if (isTransferingAlias) {
-    return <ProcessingIndicatorChip label={t("aliasTransferingFeedback")} />;
+  if (isPending) {
+    return <ProcessingIndicatorChip />;
   }
 
   const iconColor = isDarkMode ? "secondary" : "primary";
 
   return (
     <Stack direction="row" spacing={0} justifyContent="end" alignItems="center">
-      {isPending && <ProcessingIndicatorChip />}
-
-      {/*<PreviousOwnerRenewalFeeFeedback*/}
-      {/*  isOpen={isOpenRenewalFeeDialog}*/}
-      {/*  handleClose={closeDialog}*/}
-      {/*/>*/}
       <Tooltip title={`${t("viewContent")}`} arrow placement="top">
         <Button
           startIcon={<RemoveRedEyeIcon />}
           color={iconColor}
-          onClick={voidFn}
+          onClick={() => openModal("view", subdomain)}
           sx={{ minWidth: { sm: "24px", md: "unset" }, px: { sm: 0, md: 1 } }}
         >
           <Typography sx={{ display: { sm: "none", md: "inherit" } }}>
@@ -162,16 +97,16 @@ export const ActionButtons = ({ subdomain }: Props) => {
         links={[
           {
             icon: <AddBelowIcon />,
-            label: t("addSubdomainBelow"),
-            tooltip: t("addSubdomainBelowHint"),
-            onClick: voidFn,
+            label: t("addSubdomainBefore"),
+            tooltip: t("addSubdomainBeforeHint"),
+            onClick: handleAddBefore,
           },
           {
             icon: <UnlinkIcon />,
             label: t(!isPending ? "unlinkSubdomain" : "aliasContentUpdating"),
             tooltip: t("unlinkSubdomainHint"),
             disabled: isPending,
-            onClick: voidFn,
+            onClick: () => openModal("unlink", subdomain),
           },
           {
             icon: <DeleteIcon />,
@@ -179,7 +114,6 @@ export const ActionButtons = ({ subdomain }: Props) => {
             tooltip: t("deleteSubdomainHint"),
             onClick: () => openModal("delete", subdomain),
           },
-          ...dynamicMenuOptions,
         ]}
       >
         <Tooltip title={t("moreOptions")} arrow placement="top">

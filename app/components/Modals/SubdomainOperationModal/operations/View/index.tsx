@@ -11,13 +11,17 @@ import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import DialogContent from "@mui/material/DialogContent";
+import { SubdomainOperation } from "@/app/states/subdomainOperationState";
 
-export const View = () => {
+interface Props {
+  subdomainOperation: SubdomainOperation;
+}
+export const View = ({ subdomainOperation }: Props) => {
   const { t } = useTranslation();
-
-  const aliasOperation = useAppSelector(selectAliasOperation);
-  const { id } = aliasOperation;
-  const { alias, isLoading } = useAlias(id);
+  const { alias, isLoading } = useAlias(
+    subdomainOperation.alias.aliasId,
+    false
+  );
 
   const aliasHasContent = !!alias?.aliasURI;
 

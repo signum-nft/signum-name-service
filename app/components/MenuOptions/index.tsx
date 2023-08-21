@@ -35,7 +35,12 @@ export const MenuOptions = ({ links, children }: MenuOptionsProps) => {
 
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {links.map((item) => (
-          <Tooltip key={item.label} title={item.tooltip ?? ""}>
+          <Tooltip
+            key={item.label}
+            title={item.tooltip ?? ""}
+            arrow
+            placement="left-start"
+          >
             <MenuItem
               key={item.label}
               sx={{ minWidth: containerRef?.current?.offsetWidth || "auto" }}

@@ -52,8 +52,13 @@ export const subdomainOperationSlice = createSlice({
     openModal: (state, payloadAction: PayloadAction<OpenModalArgs>) => {
       const { action, subdomain } = payloadAction.payload;
 
-      const next = subdomain.__listElement.next?.value;
-      const prev = subdomain.__listElement.prev?.value;
+      let next = subdomain.__listElement.next?.value;
+      let prev = subdomain.__listElement.prev?.value;
+      if (action === "add") {
+        // "add" creates new content _in between_ two aliases
+        // the current list element will be the _future_ previous alias
+        prev = subdomain.__listElement.value;
+      }
       const subdomainNameMap = createSubdomainNameMap(subdomain);
 
       state.operation = {

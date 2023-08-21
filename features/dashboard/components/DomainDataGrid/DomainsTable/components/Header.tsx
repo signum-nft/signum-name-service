@@ -20,7 +20,7 @@ interface HeadCell {
   secondLabel?: string;
 }
 
-const getHeadCells = (ticker: string): HeadCell[] => [
+const getHeadCells = (): HeadCell[] => [
   {
     id: "name",
     label: "name",
@@ -32,15 +32,6 @@ const getHeadCells = (ticker: string): HeadCell[] => [
   {
     id: "subdomainCount",
     label: "subdomainCount",
-  },
-  {
-    id: "status",
-    label: "status",
-  },
-  {
-    id: "price",
-    label: "price",
-    secondLabel: `(${ticker})`,
   },
 ];
 
@@ -82,7 +73,7 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
           background: theme.palette.action.hover,
         }}
       >
-        {getHeadCells(amountSuffix).map((headCell) => (
+        {getHeadCells().map((headCell) => (
           <TableCell
             key={headCell.id}
             sortDirection={orderBy === headCell.id ? order : false}

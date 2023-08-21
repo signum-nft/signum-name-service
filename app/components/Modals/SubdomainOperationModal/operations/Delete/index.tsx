@@ -1,22 +1,10 @@
 import { useTranslation } from "next-i18next";
-import { useMemo, useState } from "react";
-import { useLedgerService } from "@/app/hooks/useLedgerService";
-import { useSnackbar } from "@/app/hooks/useSnackbar";
-import { useAppSelector, useAppDispatch } from "@/states/hooks";
-import { selectAliasOperation } from "@/app/states/portfolioState";
-import {
-  transactionActions,
-  selectMonitoredTransactions,
-} from "@/app/states/transactionState";
+import { useState } from "react";
 
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import DialogContent from "@mui/material/DialogContent";
-import DeleteIcon from "@mui/icons-material/DeleteForever";
 import { SubdomainOperation } from "@/app/states/subdomainOperationState";
-import { SubdomainEditForm } from "@/app/components/Modals/SubdomainOperationModal/components/SubdomainEditForm";
-import { LinkageForm } from "@/app/components/Modals/SubdomainOperationModal/components/LinkageForm";
 import { DeleteForm } from "./DeleteForm";
 import { DelinkageForm } from "../../components/DelinkageForm";
 
@@ -40,7 +28,7 @@ export const Delete = ({ onComplete, subdomainOperation, onCancel }: Props) => {
       {currentStep === 0 && (
         <DeleteForm
           onCancel={onCancel}
-          onComplete={() => setCurrentStep(1)}
+          onComplete={(ok) => (ok ? setCurrentStep(1) : onCancel())}
           subdomainOperation={subdomainOperation}
         />
       )}

@@ -29,7 +29,7 @@ interface Props {
 
 export const LinkageForm = ({
   onComplete,
-  subdomainOperation: { previousAlias, alias },
+  subdomainOperation: { previousAlias, alias, nextAlias },
   newName,
 }: Props) => {
   const { t } = useTranslation();
@@ -96,6 +96,12 @@ export const LinkageForm = ({
             title={t("currentAlias")}
             newName={newName}
           />
+          {nextAlias && (
+            <>
+              <AddLinkIcon fontSize="large" />
+              <AliasLinkCard alias={nextAlias} title={t("nextAlias")} />
+            </>
+          )}
         </Stack>
       </Grid>
       <Grid item>

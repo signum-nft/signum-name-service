@@ -128,7 +128,12 @@ export const SubdomainEditForm = ({
 
     const nextAlias = subdomainOperation.nextAlias;
     if (nextAlias) {
-      builder.setAlias(nextAlias.aliasName, nextAlias.aliasTld);
+      builder.setAlias(
+        nextAlias.aliasName,
+        nextAlias.aliasTld === Config.Signum.DefaultTld
+          ? undefined
+          : nextAlias.aliasTld
+      );
     }
 
     if (data.url) {
@@ -169,8 +174,14 @@ export const SubdomainEditForm = ({
 
     const nextAlias = subdomainOperation.nextAlias;
     if (nextAlias) {
-      builder.setAlias(nextAlias.aliasName, nextAlias.aliasTld);
+      builder.setAlias(
+        nextAlias.aliasName,
+        nextAlias.aliasTld === Config.Signum.DefaultTld
+          ? undefined
+          : nextAlias.aliasTld
+      );
     }
+
     const confirmation = await ledgerService.alias.createAlias({
       name: aliasName,
       tldName: aliasTld,

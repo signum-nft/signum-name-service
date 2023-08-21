@@ -61,7 +61,7 @@ export const SubdomainItemRow = ({ subdomain }: Props) => {
             {url}
           </Link>
         ) : (
-          <Typography variant="body2" color="#222">
+          <Typography variant="body2" color="grey">
             {t("valueNotSet")}
           </Typography>
         )}

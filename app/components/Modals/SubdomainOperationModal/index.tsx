@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/states/hooks";
 import { SuccessfulModal } from "@/app/components/Modals/SuccessfulModal";
 import { DataRow } from "@/app/components/DataRow";
@@ -21,6 +21,8 @@ import {
 } from "@/app/states/subdomainOperationState";
 import { Add } from "@/app/components/Modals/SubdomainOperationModal/operations/Add";
 import { Delete } from "./operations/Delete";
+import { View } from "./operations/View";
+import { Unlink } from "@/app/components/Modals/SubdomainOperationModal/operations/Unlink";
 
 export const SubdomainOperationModal = () => {
   const { t } = useTranslation();
@@ -32,6 +34,11 @@ export const SubdomainOperationModal = () => {
 
   const subdomainOperation = useAppSelector(selectSubdomainOperation);
 
+  useEffect(() => {
+    if (subdomainOperation) {
+      setNewSubdomainName(subdomainOperation.subdomainName);
+    }
+  }, [subdomainOperation]);
   const closeModal = () => {
     dispatch(subdomainOperationsActions.closeModal());
     setIsOperationCompleted(false);
@@ -47,7 +54,7 @@ export const SubdomainOperationModal = () => {
       successOperationTitle = t("addedSubdomainSuccessfully");
       successOperationDescription = t("addedSubdomainSuccessfullyDescription", {
         subdomain: subdomainOperation?.subdomainName,
-        domain: subdomainOperation?.alias?.aliasName,
+        domain: subdomainOperation?.domainName,
       });
       break;
     case "view":
@@ -58,20 +65,10 @@ export const SubdomainOperationModal = () => {
       label = t("editSubdomain");
       break;
 
-    case "sale":
-      label = t("sellAlias");
-      break;
-
-    case "transfer":
-      label = t("transferAlias");
-      successOperationTitle = t("transferAliasSuccesfull");
-      successOperationDescription = t("transferAliasSuccesfullDescription");
-      break;
-
     case "delete":
-      label = t("releaseSubDomain");
-      successOperationTitle = t("releaseSubDomainSuccessful");
-      successOperationDescription = t("releaseSubDomainSuccesfullDescription");
+      label = t("releaseSubdomain");
+      successOperationTitle = t("releaseSubdomainSuccessful");
+      successOperationDescription = t("releaseSubdomainSuccessfulDescription");
       break;
 
     default:
@@ -148,9 +145,15 @@ export const SubdomainOperationModal = () => {
         />
       </Paper>
 
-      {/*{action === "view" && <View />}*/}
+      {action === "view" && <View subdomainOperation={subdomainOperation} />}
 
-      {/*{action === "sale" && <Sale onComplete={setOperationAsCompleted} />}*/}
+      {action === "unlink" && (
+        <Unlink
+          subdomainOperation={subdomainOperation}
+          onComplete={setOperationAsCompleted}
+          onCancel={closeModal}
+        />
+      )}
 
       {subdomainOperation.action === "add" && (
         <Add
@@ -175,14 +178,6 @@ export const SubdomainOperationModal = () => {
           subdomainOperation={subdomainOperation}
         />
       )}
-
-      {/*{action === "transfer" && (*/}
-      {/*  <Transfer onComplete={setOperationAsCompleted} />*/}
-      {/*)}*/}
-
-      {/*{action === "delete" && (*/}
-      {/*  <CancelRenewalFees onComplete={setOperationAsCompleted} />*/}
-      {/*)}*/}
     </Dialog>
   );
 };

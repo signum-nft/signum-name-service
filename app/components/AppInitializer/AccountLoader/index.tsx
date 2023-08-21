@@ -90,6 +90,7 @@ export const AccountLoader = () => {
         ignoreAliasIds.add(d.id);
       }
     }
+    dispatch(accountActions.setAccountData(accountData));
     dispatch(
       accountActions.setAccountDomains({
         publicKey: accountData.publicKey,
@@ -105,7 +106,6 @@ export const AccountLoader = () => {
 
   useEffect(() => {
     if (!accountData) return;
-    dispatch(accountActions.setAccountData(accountData));
     fetchAccountDomains();
   }, [accountData, dispatch, fetchAccountDomains]);
 

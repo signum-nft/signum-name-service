@@ -21,6 +21,7 @@ import AddIcon from "@mui/icons-material/PlaylistAdd";
 import { useAppDispatch } from "@/states/hooks";
 import { subdomainOperationsActions } from "@/app/states/subdomainOperationState";
 import { createAliasNameForSubdomain } from "@/app/createAliasNameForSubdomain";
+import Tooltip from "@mui/material/Tooltip";
 
 const ContainerMaxWidth = 1500;
 
@@ -112,13 +113,11 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
     if (!domainList) return;
     const newAliasName = createAliasNameForSubdomain(domain);
     const head = domainList.first;
-    const tail = domainList.lastToken.next;
     dispatch(
       subdomainOperationsActions.openModal({
         action: "add",
         subdomain: {
-          // lastToken.next returns type Tail and not undefined!
-          __listElement: tail!,
+          __listElement: domainList.lastToken,
           accountAddress: "",
           accountId: "",
           aliasId: "",
@@ -192,22 +191,24 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
               />
             </Box>
             <Box height="100%">
-              <Button
-                className="glance-effect"
-                variant="contained"
-                startIcon={<AddIcon />}
-                color="secondary"
-                sx={{
-                  color: "#222",
-                  height: "55px",
-                  borderTopLeftRadius: 0,
-                  borderBottomLeftRadius: 0,
-                }}
-                disabled={filteredSubdomains.length >= MaxSubdomains}
-                onClick={handleAddNewSubdomain}
-              >
-                {t("addNewSubdomain")}
-              </Button>
+              <Tooltip title={t("addNewSubdomainHint")} arrow placement="top">
+                <Button
+                  className="glance-effect"
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  color="secondary"
+                  sx={{
+                    color: "#222",
+                    height: "55px",
+                    borderTopLeftRadius: 0,
+                    borderBottomLeftRadius: 0,
+                  }}
+                  disabled={filteredSubdomains.length >= MaxSubdomains}
+                  onClick={handleAddNewSubdomain}
+                >
+                  {t("addNewSubdomain")}
+                </Button>
+              </Tooltip>
             </Box>
           </Stack>
         </Stack>

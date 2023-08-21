@@ -6,10 +6,13 @@ import LoopIcon from "@mui/icons-material/Loop";
 
 interface Props {
   label?: string;
-  color?: "info" | "error";
+  color?: "info" | "error" | "secondary";
 }
 
-export const ProcessingIndicatorChip = ({ label, color = "info" }: Props) => {
+export const ProcessingIndicatorChip = ({
+  label,
+  color = "secondary",
+}: Props) => {
   const { t } = useTranslation();
   return (
     <Tooltip title={label ?? t("processingHint")} arrow placement="top">

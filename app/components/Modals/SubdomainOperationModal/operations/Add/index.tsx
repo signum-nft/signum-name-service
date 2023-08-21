@@ -1,26 +1,13 @@
 import { useTranslation } from "next-i18next";
-import { useState, useEffect } from "react";
-import {
-  useForm,
-  FormProvider,
-  SubmitHandler,
-  Controller,
-  useFormContext,
-} from "react-hook-form";
-import { useLedgerService } from "@/app/hooks/useLedgerService";
-import { useSnackbar } from "@/app/hooks/useSnackbar";
-import { useAppSelector, useAppDispatch } from "@/states/hooks";
-import { useAlias } from "@/app/hooks/useAlias";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useAppDispatch } from "@/states/hooks";
 
 import DialogContent from "@mui/material/DialogContent";
-import { mapValidationError } from "@/app/mapValidationError";
 import { SubdomainOperation } from "@/app/states/subdomainOperationState";
-import Button from "@mui/material/Button";
 import { SubdomainEditForm } from "../../components/SubdomainEditForm";
 import { LinkageForm } from "@/app/components/Modals/SubdomainOperationModal/components/LinkageForm";
-import { AliasProxy } from "@/app/types/aliasProxy";
 import Typography from "@mui/material/Typography";
-import { CardActions } from "@mui/material";
 import Box from "@mui/material/Box";
 
 interface Props {
@@ -62,7 +49,7 @@ export const Add = ({
       {currentStep === 0 && (
         <SubdomainEditForm
           onCancel={onCancel}
-          onComplete={() => setCurrentStep(1)}
+          onComplete={(ok) => (ok ? setCurrentStep(1) : onCancel())}
           onNameChange={handleNameChange}
           subdomainOperation={subdomainOperation}
         />

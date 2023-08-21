@@ -16,6 +16,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DeleteIcon from "@mui/icons-material/DeleteForever";
 import { SubdomainOperation } from "@/app/states/subdomainOperationState";
 import { WizardSubmitter } from "@/app/components/Modals/SubdomainOperationModal/components/WizardSubmitter";
+import { asDomainString } from "@/app/asDomainString";
 
 interface Props {
   onComplete: (ok?: boolean) => void;
@@ -33,7 +34,9 @@ export const DeleteForm = ({
   const [confirming, setConfirming] = useState(false);
   const { showError } = useSnackbar();
   const dispatch = useAppDispatch();
-  const releaseAlias = async () => {
+  const releaseAlias = async (event: any) => {
+    event.preventDefault();
+
     if (!ledgerService) return;
     try {
       setConfirming(true);
@@ -59,14 +62,19 @@ export const DeleteForm = ({
     }
   };
 
+  const aliasName = asDomainString({
+    tld: subdomainOperation.alias.aliasTld,
+    name: subdomainOperation.alias.aliasName,
+  });
   return (
     <Box>
-      <Typography fontWeight={700}>{t("doYouWantToDeleteDomain")}</Typography>
-
-      <Typography gutterBottom>
-        {t("doYouWantToDeleteDomainDescription")}
-      </Typography>
-      <WizardSubmitter allowSubmit={!confirming} onCancel={onCancel} />
+      <form onSubmit={releaseAlias}>
+        <Typography fontWeight={700}>{t("doYouWantToDeleteDomain")}</Typography>
+        <Typography gutterBottom>
+          {t("doYouWantToDeleteDomainDescription", { aliasName })}
+        </Typography>
+        <WizardSubmitter allowSubmit={!confirming} onCancel={onCancel} />
+      </form>
     </Box>
   );
 };

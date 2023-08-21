@@ -37,25 +37,6 @@ export const DomainItemRow = ({ domain }: Props) => {
         <Typography variant="body2">{subdomainCount}</Typography>
       </TableCell>
 
-      <TableCell>
-        <Typography variant="body2">{t(status)}</Typography>
-      </TableCell>
-
-      <TableCell>
-        <Typography>{price ? formatAmount(price) : "-"}</Typography>
-
-        {/*{!!price && (*/}
-        {/*  <Typography fontSize={12} color="textSecondary">*/}
-        {/*    {`≈ ${activeMarketData.ticker} ${formatAmount(*/}
-        {/*      price * activeMarketData.price,*/}
-        {/*      false,*/}
-        {/*      "",*/}
-        {/*      true*/}
-        {/*    )}`}*/}
-        {/*  </Typography>*/}
-        {/*)}*/}
-      </TableCell>
-
       <TableCell
         sx={{
           display: "table-cell",
