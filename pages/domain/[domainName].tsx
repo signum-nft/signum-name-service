@@ -4,7 +4,7 @@ import { WithConnectedWalletOnly } from "@/features/xtWallet";
 import { SEOMetaTags } from "@/app/components/SEOMetaTags";
 import { useRouter } from "next/router";
 import { Domain } from "@/features/domain";
-import { getAsString } from "@/app/getAsString";
+import { asSingleQueryParam } from "@/app/asSingleQueryParam";
 
 export async function getServerSideProps({ locale }: GetServerSidePropsI18N) {
   return withTranslations(locale)();
@@ -14,7 +14,7 @@ export default function DomainPage() {
   const { t } = useTranslation();
   const { query } = useRouter();
 
-  const domainName = getAsString(query.domainName || "");
+  const domainName = asSingleQueryParam(query.domainName || "");
   return (
     <WithConnectedWalletOnly redirectUrl="/">
       <SEOMetaTags

@@ -20,6 +20,8 @@ import { subdomainOperationsActions } from "@/app/states/subdomainOperationState
 import { SubdomainAction } from "@/app/types/subdomainAction";
 import { useMonitoredTransaction } from "@/app/hooks/useMonitoredTransaction";
 import { createAliasNameForSubdomain } from "@/app/createAliasNameForSubdomain";
+import { Config } from "@/app/config";
+import { useCallback } from "react";
 
 interface Props {
   subdomain: MappedSubdomain;
@@ -31,6 +33,16 @@ export const ActionButtons = ({ subdomain }: Props) => {
   const dispatch = useAppDispatch();
   const { isPending } = useMonitoredTransaction({
     referenceId: subdomain.aliasId,
+  });
+  const { isPending: isAddingAliases } = useMonitoredTransaction({
+    type: `alias-new-${subdomain.domainName}:${
+      subdomain.aliasTld ?? Config.Signum.DefaultTld
+    }`,
+  });
+  const { isPending: isDeletingAliases } = useMonitoredTransaction({
+    type: `alias-delete-${subdomain.domainName}:${
+      subdomain.aliasTld ?? Config.Signum.DefaultTld
+    }`,
   });
 
   const openModal = (action: SubdomainAction, subdomain: MappedSubdomain) => {
@@ -63,23 +75,11 @@ export const ActionButtons = ({ subdomain }: Props) => {
     return <ProcessingIndicatorChip />;
   }
 
+  const disabledListAction = isAddingAliases || isDeletingAliases;
   const iconColor = isDarkMode ? "secondary" : "primary";
 
   return (
     <Stack direction="row" spacing={0} justifyContent="end" alignItems="center">
-      <Tooltip title={`${t("viewContent")}`} arrow placement="top">
-        <Button
-          startIcon={<RemoveRedEyeIcon />}
-          color={iconColor}
-          onClick={() => openModal("view", subdomain)}
-          sx={{ minWidth: { sm: "24px", md: "unset" }, px: { sm: 0, md: 1 } }}
-        >
-          <Typography sx={{ display: { sm: "none", md: "inherit" } }}>
-            {t("view")}
-          </Typography>
-        </Button>
-      </Tooltip>
-
       <Tooltip title={`${t("editAlias")}`} arrow placement="top">
         <Button
           startIcon={<EditIcon />}
@@ -96,22 +96,30 @@ export const ActionButtons = ({ subdomain }: Props) => {
       <MenuOptions
         links={[
           {
+            icon: <RemoveRedEyeIcon />,
+            label: t("view"),
+            tooltip: t("viewContent"),
+            onClick: () => openModal("view", subdomain),
+          },
+          {
             icon: <AddBelowIcon />,
             label: t("addSubdomainBefore"),
             tooltip: t("addSubdomainBeforeHint"),
+            disabled: disabledListAction,
             onClick: handleAddBefore,
           },
           {
             icon: <UnlinkIcon />,
-            label: t(!isPending ? "unlinkSubdomain" : "aliasContentUpdating"),
+            label: t("unlinkSubdomain"),
             tooltip: t("unlinkSubdomainHint"),
-            disabled: isPending,
+            disabled: disabledListAction,
             onClick: () => openModal("unlink", subdomain),
           },
           {
             icon: <DeleteIcon />,
             label: t("deleteSubdomain"),
             tooltip: t("deleteSubdomainHint"),
+            disabled: disabledListAction,
             onClick: () => openModal("delete", subdomain),
           },
         ]}

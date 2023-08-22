@@ -17,6 +17,7 @@ import DeleteIcon from "@mui/icons-material/DeleteForever";
 import { SubdomainOperation } from "@/app/states/subdomainOperationState";
 import { WizardSubmitter } from "@/app/components/Modals/SubdomainOperationModal/components/WizardSubmitter";
 import { asDomainString } from "@/app/asDomainString";
+import { Config } from "@/app/config";
 
 interface Props {
   onComplete: (ok?: boolean) => void;
@@ -50,7 +51,9 @@ export const DeleteForm = ({
         transactionActions.addMonitor({
           transactionId: confirmation.transactionId,
           referenceId: alias.alias,
-          type: "alias-delete",
+          type: `alias-delete-${subdomainOperation.domainName}:${
+            subdomainOperation.alias.aliasTld ?? Config.Signum.DefaultTld
+          }`,
         })
       );
       onComplete(true);

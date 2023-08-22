@@ -191,7 +191,9 @@ export const SubdomainEditForm = ({
       transactionActions.addMonitor({
         transactionId: confirmation.transactionId,
         referenceId: confirmation.transactionId,
-        type: "alias-content-update",
+        type: `alias-new-${subdomainOperation.domainName}:${
+          subdomainOperation.alias.aliasTld ?? Config.Signum.DefaultTld
+        }`,
       })
     );
   }

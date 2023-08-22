@@ -17,14 +17,19 @@ import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
 import { Config } from "@/app/config";
 import { countSubDomains } from "@/app/countSubDomains";
 import { SearchField } from "@/app/components/SearchField";
+import { useRouter } from "next/router";
+import { asSingleQueryParam } from "@/app/asSingleQueryParam";
 
 const ContainerMaxWidth = 1500;
 export const Dashboard: NextPage = () => {
   const { t } = useTranslation();
   const { domainLists } = useAccountDomains();
+  const { query } = useRouter();
   const { SignumSwap } = useAppContext();
   const [activeTab, setActiveTab] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(
+    asSingleQueryParam(query.search)
+  );
 
   const { tlds, filteredDomains } = useMemo(() => {
     const term = searchTerm.toUpperCase();
@@ -52,6 +57,10 @@ export const Dashboard: NextPage = () => {
   }, [domainLists, searchTerm]);
 
   useEffect(() => {
+    if (activeTab) {
+      return;
+    }
+
     if (!searchTerm) {
       const keys = Object.keys(tlds);
       if (keys.length) {
@@ -60,7 +69,14 @@ export const Dashboard: NextPage = () => {
     } else {
       setActiveTab("");
     }
-  }, [tlds, searchTerm]);
+  }, [tlds, searchTerm, activeTab]);
+
+  const filterDomainsByTld = useMemo(() => {
+    if (!activeTab) return filteredDomains;
+    return filteredDomains.filter(
+      (domain) => domain.tld?.toLowerCase() === activeTab
+    );
+  }, [activeTab, filteredDomains]);
 
   return (
     <>
@@ -94,6 +110,7 @@ export const Dashboard: NextPage = () => {
               <SearchField
                 onChange={setSearchTerm}
                 placeholder={t("searchAliasPlaceHolder")}
+                value={searchTerm}
               />
             </Box>
             <Box height="100%">
@@ -150,7 +167,7 @@ export const Dashboard: NextPage = () => {
         px={2}
         mb={20}
       >
-        <DomainDataGrid domains={filteredDomains} isLoading={false} />
+        <DomainDataGrid domains={filterDomainsByTld} isLoading={false} />
       </Box>
     </>
   );

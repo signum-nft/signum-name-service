@@ -10,7 +10,7 @@ export const AppInitializer = () => {
       {/*<MarketInitializer />*/}
       <AccountLoader />
       <LedgerInitializer />
-      <PendingTransactionsObserver />
+      {/*<PendingTransactionsObserver />*/}
       <MonitoredTransactionsObserver />
     </>
   );

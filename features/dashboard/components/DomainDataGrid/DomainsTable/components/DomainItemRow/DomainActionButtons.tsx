@@ -10,7 +10,8 @@ import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
 import Link from "next/link";
 import { useAppContext } from "@/app/hooks/useAppContext";
 import { openExternalUrl } from "@/app/openExternalUrl";
-import { useMonitoredTransaction } from "@/app/hooks/useMonitoredTransaction";
+import { selectMonitoredTransactions } from "@/app/states/transactionState";
+import { useMemo } from "react";
 
 interface Props {
   domain: MappedDomain;
@@ -20,15 +21,18 @@ export const DomainActionButtons = ({ domain }: Props) => {
   const { t } = useTranslation();
   const { SignumSwap } = useAppContext();
   const isDarkMode = useAppSelector(selectIsDarkMode);
-  const { isPending } = useMonitoredTransaction({
-    referenceId: domain.id,
-    type: "alias-content-update",
-  });
+  const monitoredTransactions = useAppSelector(selectMonitoredTransactions);
+
+  const isProcessing = useMemo(
+    () => monitoredTransactions.some(({ type }) => type.includes(domain.name)),
+    [domain.name, monitoredTransactions]
+  );
+
   const iconColor = isDarkMode ? "secondary" : "primary";
-  const signumswapUrl = `${SignumSwap}/me/alias?search=${domain.name}`;
+  const signumswapUrl = `${SignumSwap}me/alias?search=${domain.name}`;
   return (
     <Stack direction="row" spacing={0} justifyContent="end" alignItems="center">
-      {isPending && <ProcessingIndicatorChip />}
+      {isProcessing && <ProcessingIndicatorChip />}
 
       <Tooltip
         title={`${t("manageAlias", { signumSwapUrl: SignumSwap })}`}

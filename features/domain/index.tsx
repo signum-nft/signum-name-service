@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useTranslation } from "next-i18next";
-import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Divider } from "@/app/components/Divider";
 import { SubdomainDataGrid } from "./components/SubdomainDataGrid";
 import Box from "@mui/material/Box";
@@ -10,18 +10,18 @@ import { useAppContext } from "@/app/hooks/useAppContext";
 import { Config } from "@/app/config";
 import { useAccountDomain } from "@/app/hooks/useAccountDomain";
 import Chip from "@mui/material/Chip";
-import { useRouter } from "next/router";
 import { MappedSubdomain } from "@/app/types/mappedSubdomain";
 import { Address } from "@signumjs/core";
 import { SearchField } from "@/app/components/SearchField";
-import { useLedgerService } from "@/app/hooks/useLedgerService";
-import { useSnackbar } from "@/app/hooks/useSnackbar";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/PlaylistAdd";
 import { useAppDispatch } from "@/states/hooks";
 import { subdomainOperationsActions } from "@/app/states/subdomainOperationState";
 import { createAliasNameForSubdomain } from "@/app/createAliasNameForSubdomain";
 import Tooltip from "@mui/material/Tooltip";
+import { useMonitoredTransaction } from "@/app/hooks/useMonitoredTransaction";
+import { voidFn } from "@/app/voidFn";
+import LoopIcon from "@mui/icons-material/Loop";
 
 const ContainerMaxWidth = 1500;
 
@@ -31,31 +31,15 @@ interface Props {
 
 export const Domain: NextPage<Props> = ({ domainName }) => {
   const { t } = useTranslation();
-  const { ledgerService } = useLedgerService();
-  const { showError } = useSnackbar();
   const { domain, domainList, tld } = useAccountDomain(domainName);
   const {
     Platform: { MaxSubdomains },
   } = useAppContext();
   const [searchTerm, setSearchTerm] = useState("");
-  const [isCheckingAlias, setIsCheckingAlias] = useState(true);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (!ledgerService) return;
-
-    const [aliasName, tld] = domainName.split(":");
-    setIsCheckingAlias(true);
-    ledgerService.alias
-      .fetchAliasByName(aliasName, tld)
-      .catch((e: any) => {
-        console.error(e);
-        showError(
-          t("errorLoadingDomain", { domain: domainName, error: e.message })
-        );
-      })
-      .finally(() => setIsCheckingAlias(false));
-  }, [domainName, ledgerService]);
+  const { isPending } = useMonitoredTransaction({
+    type: `alias-new-${domainName}`,
+  });
 
   const { filteredSubdomains } = useMemo(() => {
     if (!domainList) {
@@ -191,24 +175,58 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
               />
             </Box>
             <Box height="100%">
-              <Tooltip title={t("addNewSubdomainHint")} arrow placement="top">
-                <Button
-                  className="glance-effect"
-                  variant="contained"
-                  startIcon={<AddIcon />}
-                  color="secondary"
-                  sx={{
-                    color: "#222",
-                    height: "55px",
-                    borderTopLeftRadius: 0,
-                    borderBottomLeftRadius: 0,
-                  }}
-                  disabled={filteredSubdomains.length >= MaxSubdomains}
-                  onClick={handleAddNewSubdomain}
-                >
-                  {t("addNewSubdomain")}
-                </Button>
-              </Tooltip>
+              {isPending ? (
+                <Tooltip title={t("processingHint")} arrow placement="top">
+                  <Button
+                    variant="contained"
+                    startIcon={
+                      <LoopIcon
+                        sx={{
+                          animation: "spin 4s linear infinite",
+                          "@keyframes spin": {
+                            "0%": {
+                              transform: "rotate(360deg)",
+                            },
+                            "100%": {
+                              transform: "rotate(0deg)",
+                            },
+                          },
+                        }}
+                      />
+                    }
+                    color="secondary"
+                    sx={{
+                      color: "#222",
+                      height: "55px",
+                      borderTopLeftRadius: 0,
+                      borderBottomLeftRadius: 0,
+                    }}
+                    disabled={true}
+                    onClick={voidFn}
+                  >
+                    {t("addingNewSubdomain")}
+                  </Button>
+                </Tooltip>
+              ) : (
+                <Tooltip title={t("addNewSubdomainHint")} arrow placement="top">
+                  <Button
+                    className="glance-effect"
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    color="secondary"
+                    sx={{
+                      color: "#222",
+                      height: "55px",
+                      borderTopLeftRadius: 0,
+                      borderBottomLeftRadius: 0,
+                    }}
+                    disabled={filteredSubdomains.length >= MaxSubdomains}
+                    onClick={handleAddNewSubdomain}
+                  >
+                    {t("addNewSubdomain")}
+                  </Button>
+                </Tooltip>
+              )}
             </Box>
           </Stack>
         </Stack>

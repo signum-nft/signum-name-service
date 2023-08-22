@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 import { Alias } from "@signumjs/core";
 import { useTheme } from "@mui/material/styles";
-import { getAsString } from "@/app/getAsString";
+import { asSingleQueryParam } from "@/app/asSingleQueryParam";
 import { mapValidationError } from "@/app/mapValidationError";
 import { useAppSelector } from "@/states/hooks";
 import { selectIsWalletConnected } from "@/app/states/walletState";
@@ -100,7 +100,8 @@ export const AliasMarketplace: NextPage = () => {
   }
 
   useEffect(() => {
-    if (query.search) setValue("searchAlias", getAsString(query.search).trim());
+    if (query.search)
+      setValue("searchAlias", asSingleQueryParam(query.search).trim());
 
     return () => {
       debouncedAliasSearchFn.current && debouncedAliasSearchFn.current.cancel();

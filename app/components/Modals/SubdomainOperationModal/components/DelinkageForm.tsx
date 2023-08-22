@@ -28,7 +28,7 @@ interface Props {
 export const DelinkageForm = ({
   onComplete,
   onCancel,
-  subdomainOperation: { previousAlias, alias, nextAlias },
+  subdomainOperation: { previousAlias, alias, nextAlias, domainName },
 }: Props) => {
   const { t } = useTranslation();
   const { ledgerService } = useLedgerService();
@@ -70,6 +70,15 @@ export const DelinkageForm = ({
           transactionId: confirmation.transactionId,
           referenceId: ledgerAlias.alias,
           type: "alias-content-update",
+        })
+      );
+      dispatch(
+        transactionActions.addMonitor({
+          transactionId: confirmation.transactionId,
+          referenceId: ledgerAlias.alias,
+          type: `alias-delete-${domainName}:${
+            alias.aliasTld ?? Config.Signum.DefaultTld
+          }`,
         })
       );
 

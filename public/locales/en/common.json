@@ -892,6 +892,8 @@
   "deleteSubdomain": "Delete",
   "deleteSubdomainHint": "Immediately cancels subscription and releases the Alias",
   "addNewSubdomain": "New Subdomain",
+  "addingNewSubdomain": "Adding...",
+  "isProcessingSubdomainListHint": "Processing subdomain list, please wait...",
   "addNewSubdomainHint": "Adds a new subdomain at the end of the list",
   "addSubdomainBefore": "Add Before",
   "addSubdomainBeforeHint": "Add new subdomain before this subdomain",

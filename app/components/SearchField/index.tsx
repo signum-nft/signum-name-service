@@ -9,12 +9,13 @@ import debounce from "lodash/debounce";
 
 interface Props {
   placeholder?: string;
+  value?: string;
   onChange: (searchTerm: string) => void;
 }
 
-export const SearchField = ({ onChange, placeholder }: Props) => {
+export const SearchField = ({ onChange, placeholder, value }: Props) => {
   const { t } = useTranslation();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(value ?? "");
   const theme = useTheme();
   const debouncedOnChange = useRef(debounce((v) => onChange(v), 300)).current;
   const handleOnChange = (e: any) => {

@@ -1,10 +1,6 @@
 import { AccountData, AccountDomain } from "@/app/types/accountData";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface SetAccountDomainsPayload {
-  publicKey: string;
-  domains: AccountDomain[][];
-}
 interface AccountDataMap {
   [key: string]: AccountData;
 }
@@ -31,17 +27,8 @@ export const accountSlice = createSlice({
     },
     setAccountData: (state, action: PayloadAction<AccountData>) => {
       const { publicKey } = action.payload;
+      state.currentAccount = publicKey;
       state.accounts[publicKey] = action.payload;
-    },
-    setAccountDomains: (
-      state,
-      action: PayloadAction<SetAccountDomainsPayload>
-    ) => {
-      const { domains, publicKey } = action.payload;
-      if (state.accounts[publicKey]) {
-        state.accounts[publicKey].domains = domains;
-      }
-      // only entirely loaded, when account domains are loaded also
       state.isInitialLoadingData = false;
     },
     resetAccountData: (state) => {
