@@ -19,10 +19,11 @@ import {
   selectSubdomainOperation,
   subdomainOperationsActions,
 } from "@/app/states/subdomainOperationState";
-import { Add } from "@/app/components/Modals/SubdomainOperationModal/operations/Add";
+import { Add } from "./operations/Add";
 import { Delete } from "./operations/Delete";
 import { View } from "./operations/View";
-import { Unlink } from "@/app/components/Modals/SubdomainOperationModal/operations/Unlink";
+import { Unlink } from "./operations/Unlink";
+import { Convert } from "./operations/Convert";
 
 export const SubdomainOperationModal = () => {
   const { t } = useTranslation();
@@ -69,6 +70,12 @@ export const SubdomainOperationModal = () => {
       label = t("releaseSubdomain");
       successOperationTitle = t("releaseSubdomainSuccessful");
       successOperationDescription = t("releaseSubdomainSuccessfulDescription");
+      break;
+
+    case "convert":
+      label = t("convertToSubdomainTitle", {
+        domain: subdomainOperation.domainName,
+      });
       break;
 
     default:
@@ -138,11 +145,13 @@ export const SubdomainOperationModal = () => {
           value={fullAliasName}
           sx={{ mb: 1 }}
         />
-        <DataRow
-          icon={<LinkIcon fontSize="small" />}
-          label={t("url")}
-          value={`https://${fullSubdomainName}`}
-        />
+        {action !== "convert" && (
+          <DataRow
+            icon={<LinkIcon fontSize="small" />}
+            label={t("url")}
+            value={`https://${fullSubdomainName}`}
+          />
+        )}
       </Paper>
 
       {action === "view" && <View subdomainOperation={subdomainOperation} />}
@@ -173,6 +182,14 @@ export const SubdomainOperationModal = () => {
       )}
       {subdomainOperation.action === "delete" && (
         <Delete
+          onComplete={setOperationAsCompleted}
+          onCancel={closeModal}
+          subdomainOperation={subdomainOperation}
+        />
+      )}
+
+      {subdomainOperation.action === "convert" && (
+        <Convert
           onComplete={setOperationAsCompleted}
           onCancel={closeModal}
           subdomainOperation={subdomainOperation}

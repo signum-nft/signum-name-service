@@ -26,6 +26,7 @@ export const DomainsLoading = () => {
             width={100}
             height={100}
             className="blink-effect"
+            priority
           />
 
           <Image
@@ -34,6 +35,7 @@ export const DomainsLoading = () => {
             width={100}
             height={100}
             className="pulse-effect"
+            priority
           />
 
           <Typography color="textSecondary" align="center">

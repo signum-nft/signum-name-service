@@ -53,8 +53,11 @@ export async function fetchAccountDomains({
   for (let a of loadedAliases) {
     // skip aliases which are already identified as subdomains.
     if (ignoreAliasIds.has(a.alias)) {
+      console.log("ignoring alias", a.alias, a.aliasName);
       continue;
     }
+
+    console.log("using alias", a.alias, a.aliasName);
 
     // create domain list: first in list are main domains, tail is related subdomain list.
     const { list } = createLinkedDomainList({
@@ -66,6 +69,7 @@ export async function fetchAccountDomains({
     domains.push(list.toArray());
     // add domain and its subdomain to ignore list
     for (let d of list) {
+      console.log("adding to ignore list", d.id, d.name);
       ignoreAliasIds.add(d.id);
     }
   }

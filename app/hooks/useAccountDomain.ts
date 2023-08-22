@@ -12,10 +12,7 @@ export const useAccountDomain = (domainName: string) => {
   const isLoading = useAppSelector(selectIsInitialLoading);
   const [domain, tld] = domainName.toLowerCase().split(":");
   const domainList = useMemo(() => {
-    console.log("useAccountDomain", accountDomains);
-
     if (isLoading) return null;
-
     if (accountDomains) {
       const foundDomain = accountDomains.find((domains) => {
         if (!domains.length) return false;

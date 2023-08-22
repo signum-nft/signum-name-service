@@ -7,9 +7,10 @@ import SaveIcon from "@mui/icons-material/Save";
 interface Props {
   allowSubmit: boolean;
   onCancel: () => void;
+  label?: string;
 }
 
-export const WizardSubmitter = ({ allowSubmit, onCancel }: Props) => {
+export const WizardSubmitter = ({ allowSubmit, onCancel, label }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -30,7 +31,7 @@ export const WizardSubmitter = ({ allowSubmit, onCancel }: Props) => {
           fullWidth
           disabled={!allowSubmit}
         >
-          {t("continue")}
+          {label ?? t("continue")}
         </Button>
       </Grid>
     </Grid>

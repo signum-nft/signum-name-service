@@ -17,13 +17,9 @@ export const DomainItemRow = ({ domain }: Props) => {
   const { id, name, tld, price, status, subdomainCount } = domain;
 
   const { t } = useTranslation();
-  const router = useRouter();
-  const handleOnRowClick = () => {
-    router.push(`/domain/${name.toLowerCase()}:${tld?.toLowerCase()}`);
-  };
 
   return (
-    <StyledTableRow key={id} onClick={handleOnRowClick} clickable={true}>
+    <StyledTableRow key={id} clickable={false}>
       <TableCell>
         <Typography variant="body2">{name}</Typography>
         <CopyableText textToCopy={asDomainString({ name, tld })} />

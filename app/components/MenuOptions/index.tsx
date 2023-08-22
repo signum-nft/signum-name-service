@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, MouseEvent } from "react";
 import Grid from "@mui/material/Grid";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -8,7 +8,7 @@ import Tooltip from "@mui/material/Tooltip";
 type Link = {
   icon?: any;
   label: string;
-  onClick: any;
+  onClick: (e: MouseEvent) => void;
   disabled?: boolean;
   tooltip?: string;
 };
@@ -45,8 +45,8 @@ export const MenuOptions = ({ links, children }: MenuOptionsProps) => {
               key={item.label}
               sx={{ minWidth: containerRef?.current?.offsetWidth || "auto" }}
               disabled={item.disabled}
-              onClick={() => {
-                item.onClick();
+              onClick={(e) => {
+                item.onClick(e);
                 handleClose();
               }}
             >

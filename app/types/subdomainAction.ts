@@ -4,4 +4,5 @@ export type SubdomainAction =
   | "view"
   | "edit"
   | "unlink"
-  | "delete";
+  | "delete"
+  | "convert";

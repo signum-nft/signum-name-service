@@ -931,5 +931,14 @@
   "delinkAliasNow": "Current Subdomain Linkage",
   "delinkAliasThen": "New Subdomain Linkage",
   "tailAlias": "<End>",
-  "noDomain": "No domain"
+  "noDomain": "No domain",
+  "openDomain": "Open Domain {{domain}}",
+  "availableDomains": "Available Domains",
+  "noDomainAvailable": "No domain available",
+  "convertToSubdomain": "Convert",
+  "convertToSubdomainTitle": "Convert to Subdomain",
+  "convertToSubdomainHint": "Convert this domain to a subdomain",
+  "convertToSubdomainDescription": "Select a domain to which the intended subdomain should be associated.",
+  "convertToSubdomainSummary": "Now, that you selected a domain, you need to convert it to a subdomain. The selected domain will be appended to the domains subdomain list.",
+  "cannotConvertToSubdomainSummary": "The selected domain cannot be converted to a subdomain. There are no parent domains available."
 }

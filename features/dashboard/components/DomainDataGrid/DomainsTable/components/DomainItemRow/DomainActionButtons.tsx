@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { useAppSelector } from "@/states/hooks";
+import { useAppDispatch, useAppSelector } from "@/states/hooks";
 import { selectIsDarkMode } from "@/app/states/appState";
 import { ProcessingIndicatorChip } from "@/app/components/ProcessingIndicatorChip";
 import Stack from "@mui/material/Stack";
@@ -12,7 +12,26 @@ import { useAppContext } from "@/app/hooks/useAppContext";
 import { openExternalUrl } from "@/app/openExternalUrl";
 import { selectMonitoredTransactions } from "@/app/states/transactionState";
 import { useMemo } from "react";
-
+import { MenuOptions } from "@/app/components/MenuOptions";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import ConvertToSubdomain from "@mui/icons-material/MoveDown";
+import OpenDomainIcon from "@mui/icons-material/Settings";
+import { MoreVert } from "@mui/icons-material";
+import { voidFn } from "@/app/voidFn";
+import { useRouter } from "next/router";
+import Button from "@mui/material/Button";
+import EditIcon from "@mui/icons-material/Edit";
+import Typography from "@mui/material/Typography";
+import {
+  SubdomainOperation,
+  subdomainOperationsActions,
+} from "@/app/states/subdomainOperationState";
+import { SubdomainAction } from "@/app/types/subdomainAction";
+import { MappedSubdomain } from "@/app/types/mappedSubdomain";
+import { Config } from "@/app/config";
+import { useAccountDomain } from "@/app/hooks/useAccountDomain";
+import { AccountDomain } from "@/app/types/accountData";
+import { Token } from "fast-linked-list";
 interface Props {
   domain: MappedDomain;
 }
@@ -22,6 +41,32 @@ export const DomainActionButtons = ({ domain }: Props) => {
   const { SignumSwap } = useAppContext();
   const isDarkMode = useAppSelector(selectIsDarkMode);
   const monitoredTransactions = useAppSelector(selectMonitoredTransactions);
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  const openModal = (action: SubdomainAction, domain: MappedDomain) => {
+    dispatch(
+      subdomainOperationsActions.openModal({
+        action,
+        subdomain: {
+          domainName: domain.name,
+          aliasName: domain.name,
+          aliasTld: domain.tld ?? Config.Signum.DefaultTld,
+          aliasId: domain.id,
+          name: domain.name,
+          accountId: "",
+          url: "",
+          accountAddress: "",
+          __listElement: new Token<AccountDomain>(domain), // dummy,
+        },
+      })
+    );
+  };
+  const handleOnOpenDomain = () => {
+    router.push(
+      `/domain/${domain.name.toLowerCase()}:${domain.tld?.toLowerCase()}`
+    );
+  };
 
   const isProcessing = useMemo(
     () => monitoredTransactions.some(({ type }) => type.includes(domain.name)),
@@ -35,28 +80,52 @@ export const DomainActionButtons = ({ domain }: Props) => {
       {isProcessing && <ProcessingIndicatorChip />}
 
       <Tooltip
-        title={`${t("manageAlias", { signumSwapUrl: SignumSwap })}`}
+        title={t("openDomain", { domain: domain.name })}
         arrow
         placement="top"
       >
-        <Link
-          href={signumswapUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(event) => {
-            openExternalUrl(signumswapUrl);
-            event.stopPropagation();
-            event.preventDefault();
-          }}
+        <IconButton
+          color={iconColor}
+          sx={{ minWidth: { sm: "24px", md: "px" }, px: { sm: 0, md: 1 } }}
+          onClick={handleOnOpenDomain}
         >
+          <OpenDomainIcon />
+        </IconButton>
+      </Tooltip>
+
+      <MenuOptions
+        links={[
+          {
+            icon: <RemoveRedEyeIcon />,
+            label: t("view"),
+            tooltip: t("viewContent"),
+            onClick: voidFn,
+          },
+          {
+            icon: <ConvertToSubdomain />,
+            label: t("convertToSubdomain"),
+            tooltip: t("convertToSubdomainHint"),
+            onClick: () => openModal("convert", domain),
+          },
+          {
+            icon: <ControlIcon />,
+            label: t("manage"),
+            tooltip: t("manageAlias", { signumSwapUrl: SignumSwap }),
+            onClick: (event) => {
+              openExternalUrl(signumswapUrl);
+            },
+          },
+        ]}
+      >
+        <Tooltip title={t("moreOptions")} arrow placement="top">
           <IconButton
             color={iconColor}
             sx={{ minWidth: { sm: "24px", md: "px" }, px: { sm: 0, md: 1 } }}
           >
-            <ControlIcon />
+            <MoreVert />
           </IconButton>
-        </Link>
-      </Tooltip>
+        </Tooltip>
+      </MenuOptions>
     </Stack>
   );
 };
