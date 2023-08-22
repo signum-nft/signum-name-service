@@ -7,6 +7,7 @@ import { MappedSubdomain } from "@/app/types/mappedSubdomain";
 import { asSubdomainString } from "@/app/asSubdomainString";
 import Link from "next/link";
 import { ActionButtons } from "./ActionButtons";
+import { WithNoValueSet } from "@/features/domain/components/SubdomainDataGrid/SubdomainsTable/components/SubdomainItemRow/WithNoValueSet";
 
 interface Props {
   subdomain: MappedSubdomain;
@@ -32,39 +33,31 @@ export const SubdomainItemRow = ({ subdomain }: Props) => {
       </TableCell>
 
       <TableCell>
-        <Typography variant="body2">{name}</Typography>
-        <CopyableText
-          textToCopy={asSubdomainString({
-            subdomain: name,
-            tld: aliasTld,
-            domain: domainName,
-          })}
-        />
+        <WithNoValueSet hasValue={Boolean(name)}>
+          <Typography variant="body2">{name}</Typography>
+          <CopyableText
+            textToCopy={asSubdomainString({
+              subdomain: name,
+              tld: aliasTld,
+              domain: domainName,
+            })}
+          />
+        </WithNoValueSet>
       </TableCell>
 
       <TableCell>
-        {accountId ? (
-          <>
-            <CopyableText variant="body2" textToCopy={accountAddress} />
-            <CopyableText textToCopy={accountId} />
-          </>
-        ) : (
-          <Typography variant="body2" color="grey">
-            {t("valueNotSet")}
-          </Typography>
-        )}
+        <WithNoValueSet hasValue={Boolean(accountId)}>
+          <CopyableText variant="body2" textToCopy={accountAddress} />
+          <CopyableText textToCopy={accountId} />
+        </WithNoValueSet>
       </TableCell>
 
       <TableCell>
-        {url ? (
+        <WithNoValueSet hasValue={Boolean(url)}>
           <Link href={url} target="_blank" rel="noopener noreferrer">
             {url}
           </Link>
-        ) : (
-          <Typography variant="body2" color="grey">
-            {t("valueNotSet")}
-          </Typography>
-        )}
+        </WithNoValueSet>
       </TableCell>
 
       <TableCell

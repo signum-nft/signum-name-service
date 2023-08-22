@@ -98,9 +98,9 @@ export const SubdomainEditForm = ({
 
     try {
       const src44 = DescriptorData.parse(alias.aliasURI, false);
-      setValue("url", src44.homePage);
-      setValue("account", src44.account);
-      setValue("name", src44.name);
+      setValue("url", src44.homePage || "");
+      setValue("account", src44.account || "");
+      setValue("name", src44.name || "");
       setIsSRC44(true);
     } catch (e: any) {
       setIsSRC44(false);

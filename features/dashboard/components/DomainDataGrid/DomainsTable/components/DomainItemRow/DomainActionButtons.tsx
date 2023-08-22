@@ -7,7 +7,6 @@ import Tooltip from "@mui/material/Tooltip";
 import ControlIcon from "@mui/icons-material/Launch";
 import IconButton from "@mui/material/IconButton";
 import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
-import Link from "next/link";
 import { useAppContext } from "@/app/hooks/useAppContext";
 import { openExternalUrl } from "@/app/openExternalUrl";
 import { selectMonitoredTransactions } from "@/app/states/transactionState";
@@ -19,17 +18,9 @@ import OpenDomainIcon from "@mui/icons-material/Settings";
 import { MoreVert } from "@mui/icons-material";
 import { voidFn } from "@/app/voidFn";
 import { useRouter } from "next/router";
-import Button from "@mui/material/Button";
-import EditIcon from "@mui/icons-material/Edit";
-import Typography from "@mui/material/Typography";
-import {
-  SubdomainOperation,
-  subdomainOperationsActions,
-} from "@/app/states/subdomainOperationState";
+import { subdomainOperationsActions } from "@/app/states/subdomainOperationState";
 import { SubdomainAction } from "@/app/types/subdomainAction";
-import { MappedSubdomain } from "@/app/types/mappedSubdomain";
 import { Config } from "@/app/config";
-import { useAccountDomain } from "@/app/hooks/useAccountDomain";
 import { AccountDomain } from "@/app/types/accountData";
 import { Token } from "fast-linked-list";
 interface Props {

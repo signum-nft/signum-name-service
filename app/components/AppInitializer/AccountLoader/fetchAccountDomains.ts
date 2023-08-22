@@ -4,6 +4,29 @@ import { createLinkedDomainList } from "./createLinkedDomainList";
 import { LedgerService } from "@/app/services/ledgerService";
 import { Config } from "@/app/config";
 
+function getSRC44AliasReference(alias: Alias) {
+  try {
+    const parsed = JSON.parse(alias.aliasURI);
+    return parsed.al;
+  } catch (e) {
+    return "";
+  }
+}
+
+function createSubdomainLookupSet(aliasMap: Map<string, Alias>) {
+  const set = new Set<string>();
+  aliasMap.forEach((a) => {
+    const src44AliasReference = getSRC44AliasReference(a);
+    if (src44AliasReference) {
+      const alias = aliasMap.get(src44AliasReference);
+      if (alias) {
+        set.add(alias.alias);
+      }
+    }
+  });
+  return set;
+}
+
 function createToLookupMapFromAliasArray(aliases: Alias[]) {
   const map = new Map<string, Alias>();
   for (let a of aliases) {
@@ -11,6 +34,7 @@ function createToLookupMapFromAliasArray(aliases: Alias[]) {
       a.tldName === Config.Signum.DefaultTld
         ? a.aliasName
         : `${a.aliasName}:${a.tldName}`;
+
     map.set(aliasName, a);
   }
   return map;
@@ -48,30 +72,19 @@ export async function fetchAccountDomains({
 
   // organize subdomains
   let domains: AccountDomain[][] = [];
-  let ignoreAliasIds = new Set<string>();
   const lookupMap = createToLookupMapFromAliasArray(loadedAliases);
+  const subdomainSet = createSubdomainLookupSet(lookupMap);
   for (let a of loadedAliases) {
-    // skip aliases which are already identified as subdomains.
-    if (ignoreAliasIds.has(a.alias)) {
-      console.log("ignoring alias", a.alias, a.aliasName);
+    if (subdomainSet.has(a.alias)) {
       continue;
     }
-
-    console.log("using alias", a.alias, a.aliasName);
-
     // create domain list: first in list are main domains, tail is related subdomain list.
     const { list } = createLinkedDomainList({
       domain: a,
       lookupMap,
       maxSubdomains,
     });
-
     domains.push(list.toArray());
-    // add domain and its subdomain to ignore list
-    for (let d of list) {
-      console.log("adding to ignore list", d.id, d.name);
-      ignoreAliasIds.add(d.id);
-    }
   }
   return domains;
 }

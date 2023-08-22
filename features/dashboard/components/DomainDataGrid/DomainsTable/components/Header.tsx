@@ -35,14 +35,6 @@ const getHeadCells = (): HeadCell[] => [
   },
 ];
 
-const AllowedColumnsInMobile: (keyof MappedDomain)[] = [
-  "name",
-  "tld",
-  "subdomainCount",
-  "status",
-  "price",
-];
-
 interface Props {
   orderBy: keyof MappedDomain;
   order: Order;
@@ -78,9 +70,7 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
             key={headCell.id}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
-              display: !AllowedColumnsInMobile.includes(headCell.id)
-                ? stylingColumnInMobile.display
-                : null,
+              display: stylingColumnInMobile.display,
             }}
           >
             <TableSortLabel
