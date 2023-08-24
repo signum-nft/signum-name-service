@@ -33,6 +33,14 @@ const getHeadCells = (): HeadCell[] => [
     id: "subdomainCount",
     label: "subdomainCount",
   },
+  {
+    id: "accountId",
+    label: "account",
+  },
+  {
+    id: "url",
+    label: "linkedUrl",
+  },
 ];
 
 interface Props {
@@ -47,7 +55,6 @@ interface Props {
 export const Header = ({ orderBy, order, onRequestSort }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const amountSuffix = useAppSelector(selectAmountSuffix);
 
   const createSortHandler =
     (property: keyof MappedDomain) => (event: MouseEvent<unknown>) => {

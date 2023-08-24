@@ -7,7 +7,7 @@ import { MappedSubdomain } from "@/app/types/mappedSubdomain";
 import { asSubdomainString } from "@/app/asSubdomainString";
 import Link from "next/link";
 import { ActionButtons } from "./ActionButtons";
-import { WithNoValueSet } from "@/features/domain/components/SubdomainDataGrid/SubdomainsTable/components/SubdomainItemRow/WithNoValueSet";
+import { WithNoValueSet } from "@/app/components/WithNoValueSet";
 
 interface Props {
   subdomain: MappedSubdomain;

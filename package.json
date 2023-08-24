@@ -30,6 +30,7 @@
     "@signumjs/wallets": "^1.0.0-rc.70",
     "copy-to-clipboard": "^3.3.1",
     "date-fns": "^2.30.0",
+    "detect-browser": "^5.3.0",
     "dexie": "^3.2.2",
     "fast-linked-list": "^3.2.3",
     "hashicon": "0.3.0",

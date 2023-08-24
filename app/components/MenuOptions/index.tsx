@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Tooltip from "@mui/material/Tooltip";
 
-type Link = {
+export type Link = {
   icon?: any;
   label: string;
   onClick: (e: MouseEvent) => void;

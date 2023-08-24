@@ -10,7 +10,7 @@ import LinkedList from "fast-linked-list";
 export const useAccountDomain = (domainName: string) => {
   const accountDomains = useAppSelector(selectCurrentAccountsDomains);
   const isLoading = useAppSelector(selectIsInitialLoading);
-  const [domain, tld] = domainName.toLowerCase().split(":");
+  const [domain, tld] = domainName.toLowerCase().split("@");
   const domainList = useMemo(() => {
     if (isLoading) return null;
     if (accountDomains) {

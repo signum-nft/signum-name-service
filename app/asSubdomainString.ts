@@ -7,4 +7,8 @@ export const asSubdomainString = ({
   tld = "signum",
   subdomain,
   domain,
-}: AsSubdomainStringArgs) => `${subdomain}.${domain}:${tld}`;
+}: AsSubdomainStringArgs) =>
+  (subdomain
+    ? `${subdomain}.${domain}@${tld}`
+    : `${domain}@${tld}`
+  ).toLowerCase();

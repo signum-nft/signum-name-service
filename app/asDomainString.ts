@@ -3,4 +3,4 @@ interface AsDomainStringArgs {
   tld?: string;
 }
 export const asDomainString = ({ tld = "signum", name }: AsDomainStringArgs) =>
-  `${name}:${tld}`;
+  `${name.toLowerCase()}@${tld}`;

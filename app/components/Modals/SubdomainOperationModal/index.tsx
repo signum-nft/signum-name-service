@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/states/hooks";
 import { SuccessfulModal } from "@/app/components/Modals/SuccessfulModal";
 import { DataRow } from "@/app/components/DataRow";
-import { Edit } from "./operations/Edit";
 
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -24,6 +23,8 @@ import { Delete } from "./operations/Delete";
 import { View } from "./operations/View";
 import { Unlink } from "./operations/Unlink";
 import { Convert } from "./operations/Convert";
+import { Edit } from "./operations/Edit";
+import { EditDomain } from "./operations/EditDomain";
 
 export const SubdomainOperationModal = () => {
   const { t } = useTranslation();
@@ -66,6 +67,9 @@ export const SubdomainOperationModal = () => {
       label = t("editSubdomain");
       break;
 
+    case "edit-domain":
+      label = t("editDomain");
+      break;
     case "delete":
       label = t("releaseSubdomain");
       successOperationTitle = t("releaseSubdomainSuccessful");
@@ -102,7 +106,6 @@ export const SubdomainOperationModal = () => {
     domainName,
   } = subdomainOperation;
 
-  const dialogMaxWidth = action === "edit" || action === "add" ? "sm" : "xs";
   const fullAliasName = asDomainString({ name: aliasName, tld: aliasTld });
   const fullSubdomainName = asSubdomainString({
     subdomain: newSubdomainName ?? initialSubdomainName,
@@ -111,12 +114,7 @@ export const SubdomainOperationModal = () => {
   });
 
   return (
-    <Dialog
-      onClose={closeModal}
-      open={true}
-      fullWidth
-      maxWidth={dialogMaxWidth}
-    >
+    <Dialog onClose={closeModal} open={true} fullWidth maxWidth="sm">
       <DialogTitle sx={{ m: 0, p: 2 }}>
         <Box
           display="flex"
@@ -175,6 +173,14 @@ export const SubdomainOperationModal = () => {
       {subdomainOperation.action === "edit" && (
         <Edit
           onNameChange={setNewSubdomainName}
+          onComplete={setOperationAsCompleted}
+          onCancel={closeModal}
+          subdomainOperation={subdomainOperation}
+        />
+      )}
+
+      {subdomainOperation.action === "edit-domain" && (
+        <EditDomain
           onComplete={setOperationAsCompleted}
           onCancel={closeModal}
           subdomainOperation={subdomainOperation}

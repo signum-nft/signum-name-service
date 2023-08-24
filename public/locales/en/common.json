@@ -940,5 +940,9 @@
   "convertToSubdomainHint": "Convert this domain to a subdomain",
   "convertToSubdomainDescription": "Select a domain to which the intended subdomain should be associated.",
   "convertToSubdomainSummary": "Now, that you selected a domain, you need to convert it to a subdomain. The selected domain will be appended to the domains subdomain list.",
-  "cannotConvertToSubdomainSummary": "The selected domain cannot be converted to a subdomain. There are no parent domains available."
+  "cannotConvertToSubdomainSummary": "The selected domain cannot be converted to a subdomain. There are no parent domains available.",
+  "openInBrowser": "Open in Browser",
+  "openInBrowserHint": "Opens '{{domain}}' in the browser- works only with the XT wallet installed",
+  "sendToAccount": "Send to Account",
+  "sendToAccountHint": "Send SIGNA to Account using XT wallet"
 }

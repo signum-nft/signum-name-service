@@ -1,26 +1,22 @@
 import DialogContent from "@mui/material/DialogContent";
 import { SubdomainOperation } from "@/app/states/subdomainOperationState";
-import { SubdomainEditForm } from "../../components/SubdomainEditForm";
 import { DomainEditForm } from "@/app/components/Modals/SubdomainOperationModal/components/DomainEditForm";
 
 interface Props {
   onComplete: () => void;
   onCancel: () => void;
   subdomainOperation: SubdomainOperation;
-  onNameChange: (newName: string) => void;
 }
-export const Edit = ({
+export const EditDomain = ({
   onComplete,
   onCancel,
   subdomainOperation,
-  onNameChange,
 }: Props) => {
   return (
     <DialogContent>
-      <SubdomainEditForm
-        onCancel={onCancel}
+      <DomainEditForm
         onComplete={onComplete}
-        onNameChange={onNameChange}
+        onCancel={onCancel}
         subdomainOperation={subdomainOperation}
       />
     </DialogContent>

@@ -108,7 +108,7 @@ export function createLinkedDomainList({
   let stopSearch = !descriptor.alias;
   let iterationCount = 0;
   while (!stopSearch) {
-    const [aliasName, tld] = descriptor.alias.split(":");
+    const [aliasName, tld] = descriptor.alias.split("@");
     const alias = lookupMap.get(
       tld === "signum" ? aliasName : descriptor.alias
     );

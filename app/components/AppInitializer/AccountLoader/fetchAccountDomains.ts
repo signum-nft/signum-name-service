@@ -33,7 +33,7 @@ function createToLookupMapFromAliasArray(aliases: Alias[]) {
     const aliasName =
       a.tldName === Config.Signum.DefaultTld
         ? a.aliasName
-        : `${a.aliasName}:${a.tldName}`;
+        : `${a.aliasName}@${a.tldName}`;
 
     map.set(aliasName, a);
   }

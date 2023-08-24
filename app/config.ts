@@ -1,3 +1,5 @@
+import * as process from "process";
+
 const toNumber = (v: any): number => {
   const n = parseFloat(v);
   return Number.isNaN(n) ? -1 : n;
