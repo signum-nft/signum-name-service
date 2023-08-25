@@ -3,9 +3,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
-import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
-import { ReactElement } from "react";
 import SvgIcon from "@mui/material/SvgIcon";
 
 const FancyIcon = styled(Box)`
@@ -25,7 +23,7 @@ interface Props extends ChildrenProps {
 
 export const InfoCard = ({ children, title, icon: Icon }: Props) => {
   return (
-    <Paper elevation={4} sx={{ padding: 2, borderRadius: 2 }}>
+    <Paper elevation={4} sx={{ padding: 2, borderRadius: 2, opacity: 0.9 }}>
       <Box position="relative">
         {Icon && (
           <FancyIcon>

@@ -952,5 +952,9 @@
   "openInBrowserHint": "Opens '{{domain}}' in the browser- works only with the XT wallet installed",
   "sendToAccount": "Send to Account",
   "sendToAccountHint": "Send SIGNA to Account using XT wallet",
-  "unlinkTitle": "Unlink {{domain}}"
+  "unlinkTitle": "Unlink {{domain}}",
+  "subscription_one": "Subscription",
+  "subscription_zero": "Subscriptions",
+  "subscription_other": "Subscriptions",
+  "subscriptionCosts": "Yearly Costs"
 }

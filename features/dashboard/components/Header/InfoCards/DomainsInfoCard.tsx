@@ -1,28 +1,9 @@
 import { InfoCard } from "./InfoCard";
 import DomainsIcon from "@mui/icons-material/Public";
-import { Stack, Typography, Box } from "@mui/material";
-import { auto } from "@popperjs/core";
-import { ReactElement } from "react";
 import { formatNumber } from "@/app/formatNumber";
 import { useRouter } from "next/router";
 import { useAppContext } from "@/app/hooks/useAppContext";
-
-interface InfoItemProps {
-  label: string;
-  value: string | ReactElement;
-}
-const InfoItem = ({ label, value }: InfoItemProps) => {
-  return (
-    <Stack direction="column">
-      <Typography variant="subtitle2" color="grey" sx={{ p: 0 }}>
-        {label}
-      </Typography>
-      <Typography variant="h3" sx={{ position: "relative", top: "-10px" }}>
-        {value}
-      </Typography>
-    </Stack>
-  );
-};
+import { InfoItem } from "./InfoItem";
 
 interface Props {
   totalCount: number;
