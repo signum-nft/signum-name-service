@@ -38,8 +38,11 @@ export const Dashboard: NextPage = () => {
 
     for (let list of domainLists) {
       const subdomainCount = countSubDomains(list);
+      const head = list.first;
       const mappedDomain: MappedDomain = {
-        ...list.first,
+        ...head,
+        accountId: head.data?.account ?? "",
+        url: head.data?.url ?? "",
         subdomainCount,
       };
       const tld = mappedDomain.tld || Config.Signum.DefaultTld;

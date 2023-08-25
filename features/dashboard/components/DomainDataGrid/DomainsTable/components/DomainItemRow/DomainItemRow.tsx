@@ -24,13 +24,11 @@ function safeAsAccountAddress(accountId: string): string {
 }
 
 export const DomainItemRow = ({ domain }: Props) => {
-  const { id, name, tld, price, status, subdomainCount, data } = domain;
+  const { id, name, tld, subdomainCount, accountId, url } = domain;
 
   const { t } = useTranslation();
 
-  const accountId = data?.account ?? "";
-  const accountRS = safeAsAccountAddress(data?.account ?? "");
-  const url = data?.url ?? "";
+  const accountRS = safeAsAccountAddress(accountId);
 
   return (
     <StyledTableRow key={id} clickable={false}>

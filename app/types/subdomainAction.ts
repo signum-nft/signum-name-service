@@ -5,5 +5,7 @@ export type SubdomainAction =
   | "edit"
   | "edit-domain"
   | "unlink"
+  | "unlink-domain"
   | "delete"
+  | "delete-domain"
   | "convert";

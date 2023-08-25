@@ -110,7 +110,7 @@ export const ActionButtons = ({ subdomain }: Props) => {
           },
           {
             icon: <UnlinkIcon />,
-            label: t("unlinkSubdomain"),
+            label: t("unlink"),
             tooltip: t("unlinkSubdomainHint"),
             disabled: disabledListAction,
             onClick: () => openModal("unlink", subdomain),

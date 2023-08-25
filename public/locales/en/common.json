@@ -887,7 +887,7 @@
   "url": "URL",
   "linkedUrl": "Linked URL",
   "valueNotSet": "Value not set",
-  "unlinkSubdomain": "Unlink",
+  "unlink": "Unlink",
   "unlinkSubdomainHint": "Removes the Alias from the subdomain list, but you still own the Alias",
   "deleteSubdomain": "Delete",
   "deleteSubdomainHint": "Immediately cancels subscription and releases the Alias",
@@ -924,6 +924,7 @@
   "relinkAlias": "Relink Alias",
   "rootDomain": "Root Domain",
   "stepOf": "Step {{step}} of {{maxStep}}",
+  "doYouWantToDeleteSubdomain": "Do you really want to get rid of this subdomain?",
   "doYouWantToDeleteDomain": "Do you really want to get rid of this domain?",
   "doYouWantToDeleteDomainDescription": "Once you continue, the underlying alias '{{aliasName}}' will not belong to your account anymore and can be claimed by others.",
   "releaseSubdomainSuccessful": "Subdomain released",
@@ -933,6 +934,12 @@
   "tailAlias": "<End>",
   "noDomain": "No domain",
   "openDomain": "Open Domain {{domain}}",
+  "editDomain": "Edit Domain",
+  "deleteDomain": "Release Domain",
+  "deleteDomainHint": "Immediately cancels subscription and releases the Alias",
+  "unlinkDomain": "Unlink Domain",
+  "unlinkDomainHint": "Removes this Alias from the head of the subdomain list. You still own the Alias",
+  "unlinkDomainDescription": "This action removes '{{domain}}' from its list of subdomains. It's similar to taking the first card from a pile and setting it aside. You still own the Alias(es)/Domain(s) and can use it normally.",
   "availableDomains": "Available Domains",
   "noDomainAvailable": "No domain available",
   "convertToSubdomain": "Convert",
@@ -944,5 +951,6 @@
   "openInBrowser": "Open in Browser",
   "openInBrowserHint": "Opens '{{domain}}' in the browser- works only with the XT wallet installed",
   "sendToAccount": "Send to Account",
-  "sendToAccountHint": "Send SIGNA to Account using XT wallet"
+  "sendToAccountHint": "Send SIGNA to Account using XT wallet",
+  "unlinkTitle": "Unlink {{domain}}"
 }

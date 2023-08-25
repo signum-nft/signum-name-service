@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/states/hooks";
 import { SuccessfulModal } from "@/app/components/Modals/SuccessfulModal";
 import { DataRow } from "@/app/components/DataRow";
@@ -25,6 +25,8 @@ import { Unlink } from "./operations/Unlink";
 import { Convert } from "./operations/Convert";
 import { Edit } from "./operations/Edit";
 import { EditDomain } from "./operations/EditDomain";
+import { DeleteDomain } from "@/app/components/Modals/SubdomainOperationModal/operations/DeleteDomain";
+import { UnlinkDomain } from "@/app/components/Modals/SubdomainOperationModal/operations/UnlinkDomain";
 
 export const SubdomainOperationModal = () => {
   const { t } = useTranslation();
@@ -62,20 +64,26 @@ export const SubdomainOperationModal = () => {
     case "view":
       label = t("viewContent");
       break;
-
     case "edit":
       label = t("editSubdomain");
       break;
-
     case "edit-domain":
       label = t("editDomain");
+      break;
+    case "delete-domain":
+      label = t("deleteDomain");
       break;
     case "delete":
       label = t("releaseSubdomain");
       successOperationTitle = t("releaseSubdomainSuccessful");
       successOperationDescription = t("releaseSubdomainSuccessfulDescription");
       break;
-
+    case "unlink-domain":
+    case "unlink":
+      label = t("unlinkTitle", {
+        domain: subdomainOperation.domainName,
+      });
+      break;
     case "convert":
       label = t("convertToSubdomainTitle", {
         domain: subdomainOperation.domainName,
@@ -162,6 +170,14 @@ export const SubdomainOperationModal = () => {
         />
       )}
 
+      {action === "unlink-domain" && (
+        <UnlinkDomain
+          subdomainOperation={subdomainOperation}
+          onComplete={setOperationAsCompleted}
+          onCancel={closeModal}
+        />
+      )}
+
       {subdomainOperation.action === "add" && (
         <Add
           onNameChange={setNewSubdomainName}
@@ -193,7 +209,13 @@ export const SubdomainOperationModal = () => {
           subdomainOperation={subdomainOperation}
         />
       )}
-
+      {subdomainOperation.action === "delete-domain" && (
+        <DeleteDomain
+          onComplete={setOperationAsCompleted}
+          onCancel={closeModal}
+          subdomainOperation={subdomainOperation}
+        />
+      )}
       {subdomainOperation.action === "convert" && (
         <Convert
           onComplete={setOperationAsCompleted}

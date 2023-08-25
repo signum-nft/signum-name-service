@@ -10,8 +10,6 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import Typography from "@mui/material/Typography";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { useAppSelector } from "@/states/hooks";
-import { selectAmountSuffix } from "@/app/states/ledgerState";
 import { MappedDomain } from "@/features/dashboard/types/mappedDomain";
 
 interface HeadCell {

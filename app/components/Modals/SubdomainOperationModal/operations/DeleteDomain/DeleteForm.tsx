@@ -72,9 +72,7 @@ export const DeleteForm = ({
   return (
     <Box>
       <form onSubmit={releaseAlias}>
-        <Typography fontWeight={700}>
-          {t("doYouWantToDeleteSubdomain")}
-        </Typography>
+        <Typography fontWeight={700}>{t("doYouWantToDeleteDomain")}</Typography>
         <Typography gutterBottom>
           {t("doYouWantToDeleteDomainDescription", { aliasName })}
         </Typography>

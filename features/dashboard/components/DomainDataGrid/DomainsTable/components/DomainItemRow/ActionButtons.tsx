@@ -26,6 +26,9 @@ import { Config } from "@/app/config";
 import { AccountDomain } from "@/app/types/accountData";
 import { Token } from "fast-linked-list";
 import { asDomainString } from "@/app/asDomainString";
+import UnlinkIcon from "@mui/icons-material/LinkOff";
+import DeleteIcon from "@mui/icons-material/DeleteForever";
+
 interface Props {
   domain: MappedDomain;
 }
@@ -62,8 +65,12 @@ export const ActionButtons = ({ domain }: Props) => {
   };
 
   const isProcessing = useMemo(
-    () => monitoredTransactions.some(({ type }) => type.includes(domain.name)),
-    [domain.name, monitoredTransactions]
+    () =>
+      monitoredTransactions.some(
+        ({ type, referenceId }) =>
+          type.includes(domain.name) || referenceId === domain.id
+      ),
+    [domain, monitoredTransactions]
   );
 
   const dynamicMenuItems = useMemo(() => {
@@ -82,15 +89,35 @@ export const ActionButtons = ({ domain }: Props) => {
       });
     }
 
+    if (domain.subdomainCount) {
+      items.push({
+        icon: <UnlinkIcon />,
+        label: t("unlink"),
+        tooltip: t("unlinkDomainHint"),
+        onClick: () => openModal("unlink-domain", domain),
+      });
+    }
+
     return items;
   }, [domain.data?.account, domain.data?.url, t]);
+
+  if (isProcessing) {
+    return (
+      <Stack
+        direction="row"
+        spacing={0}
+        justifyContent="end"
+        alignItems="center"
+      >
+        <ProcessingIndicatorChip />
+      </Stack>
+    );
+  }
 
   const iconColor = isDarkMode ? "secondary" : "primary";
   const signumswapUrl = `${SignumSwap}me/alias?search=${domain.name}`;
   return (
     <Stack direction="row" spacing={0} justifyContent="end" alignItems="center">
-      {isProcessing && <ProcessingIndicatorChip />}
-
       <Tooltip
         title={t("openDomain", { domain: domain.name })}
         arrow
@@ -133,6 +160,12 @@ export const ActionButtons = ({ domain }: Props) => {
             onClick: () => openModal("convert", domain),
           },
           ...dynamicMenuItems,
+          {
+            icon: <DeleteIcon />,
+            label: t("delete"),
+            tooltip: t("deleteDomainHint"),
+            onClick: () => openModal("delete-domain", domain),
+          },
           {
             icon: <ControlIcon />,
             label: t("manage"),

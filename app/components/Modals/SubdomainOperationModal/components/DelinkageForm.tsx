@@ -17,7 +17,6 @@ import { useAppDispatch } from "@/states/hooks";
 import { AliasLinkCard } from "./AliasLinkCard";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import SaveIcon from "@mui/icons-material/Save";
 
 interface Props {
   subdomainOperation: SubdomainOperation;
