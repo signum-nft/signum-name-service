@@ -86,5 +86,12 @@ export async function fetchAccountDomains({
     });
     domains.push(list.toArray());
   }
-  return domains;
+  return {
+    domains,
+    domainStats: {
+      subdomainCount: subdomainSet.size,
+      aliasCount: loadedAliases.length,
+      domainCount: domains.length,
+    },
+  };
 }

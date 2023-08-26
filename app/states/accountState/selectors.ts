@@ -17,3 +17,7 @@ export const selectCurrentAccountsDomains = createSelector(
   selectCurrentAccountData,
   (account) => (account ? account.domains : null)
 );
+export const selectCurrentAccountsDomainStats = createSelector(
+  selectCurrentAccountData,
+  (account) => (account ? account.domainStats : null)
+);

@@ -28,6 +28,11 @@ export interface AccountDomain {
 }
 
 export type AccountDomainList = LinkedList<AccountDomain>;
+export interface AccountDomainStats {
+  domainCount: number;
+  subdomainCount: number;
+  aliasCount: number;
+}
 
 export interface AccountData {
   balanceNQT: string;
@@ -44,4 +49,5 @@ export interface AccountData {
   assetBalances?: AssetBalance[];
   unconfirmedAssetBalances?: UnconfirmedAssetBalance[];
   domains?: AccountDomain[][];
+  domainStats?: AccountDomainStats;
 }

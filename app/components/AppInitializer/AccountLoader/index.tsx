@@ -23,7 +23,7 @@ export const AccountLoader = () => {
     async () => {
       if (!(ledgerService && accountId)) return null;
 
-      const [accountData, domains] = await Promise.all([
+      const [accountData, accountDomains] = await Promise.all([
         ledgerService.account.fetchAccount(accountId),
         fetchAccountDomains({
           accountId,
@@ -33,12 +33,13 @@ export const AccountLoader = () => {
         }),
       ]);
 
-      dispatch(accountActions.setAccountData({ ...accountData, domains }));
+      const { domains, domainStats } = accountDomains;
+      dispatch(
+        accountActions.setAccountData({ ...accountData, domains, domainStats })
+      );
     },
     {
-      refreshInterval: 10_000,
-      // refreshInterval: AvgBlocktimeInMilliseconds,
-      // dedupingInterval: AvgBlocktimeInMilliseconds - 20_000,
+      refreshInterval: 30_000,
       revalidateOnFocus: false,
       revalidateIfStale: false,
     }

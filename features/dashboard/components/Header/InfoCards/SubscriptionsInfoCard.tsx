@@ -1,13 +1,13 @@
 import { InfoCard } from "./InfoCard";
 import Icon from "@mui/icons-material/CurrencyExchange";
-import { Stack, Typography, Box } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { useAppContext } from "@/app/hooks/useAppContext";
 import { InfoItem } from "./InfoItem";
 import { formatAmount } from "@/app/formatAmount";
 import { useAppSelector } from "@/states/hooks";
 import { selectAmountSuffix } from "@/app/states/ledgerState";
 import { useTranslation } from "next-i18next";
-import { SubInfoItem } from "@/features/dashboard/components/Header/InfoCards/SubInfoItem";
+import { SubInfoItem } from "./SubInfoItem";
 interface Props {
   totalCount: number;
 }
@@ -32,8 +32,16 @@ export const SubscriptionsInfoCard = ({ totalCount }: Props) => {
       <InfoItem label={`${t("subscriptionCosts")} (${suffix})`}>
         <>
           <Stack direction="row" alignItems="baseline">
+            <Typography
+              variant="h5"
+              color="grey"
+              fontWeight={700}
+              sx={{ top: "-6px", position: "relative", color: "grey" }}
+            >
+              {exceeded ? ">" : "≤"}
+            </Typography>
             <Typography variant="h3" sx={{ position: "relative", top: "-8px" }}>
-              {exceeded ? ">" : "<="}&nbsp;{formatted}
+              {formatted}
             </Typography>
           </Stack>
         </>

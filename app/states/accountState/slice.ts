@@ -1,4 +1,4 @@
-import { AccountData, AccountDomain } from "@/app/types/accountData";
+import { AccountData } from "@/app/types/accountData";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AccountDataMap {
