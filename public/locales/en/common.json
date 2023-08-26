@@ -956,5 +956,14 @@
   "subscription_one": "Subscription",
   "subscription_zero": "Subscriptions",
   "subscription_other": "Subscriptions",
-  "subscriptionCosts": "Yearly Costs"
+  "subdomain_one": "Subdomain",
+  "subdomain_zero": "Subdomains",
+  "subdomain_other": "Subdomains",
+  "subscriptionCosts": "Yearly Costs",
+  "overall": "Overall",
+  "overTopLevelDomains": "over {{count}} Top Level Domains",
+  "payingQuarterlyPerAlias": "with 50 SIGNA per Alias per year",
+  "domainInfoHint": "Domains and Subdomains owned by you.",
+  "aliasInfoHint": "The total number of Signum Aliases you own.",
+  "subscriptionInfoHint": "Each alias requires a subscription of 12.5 SIGNA per quarter. The stats are only estimates with upper limits as legacy aliases are not accounted."
 }

@@ -5,6 +5,7 @@ import { Grid } from "@mui/material";
 import { DomainFilterSection } from "./DomainFilterSection";
 import { DomainsInfoCard } from "./InfoCards/DomainsInfoCard";
 import { SubscriptionsInfoCard } from "./InfoCards/SubscriptionsInfoCard";
+import { AliasInfoCard } from "./InfoCards/AliasInfoCard";
 
 interface Props {
   domainLists: LinkedList<AccountDomain>[];
@@ -21,10 +22,10 @@ export const Header = ({ domainLists, onFiltered }: Props) => {
       </Grid>
       <Grid container direction="row" justifyContent="space-between" mt={4}>
         <Grid item xs={6} sm={4} md={3}>
-          <DomainsInfoCard domainCount={7500} totalCount={14538} />
+          <AliasInfoCard aliasCount={7500} tldCount={3} />
         </Grid>
         <Grid item xs={6} sm={4} md={3}>
-          <DomainsInfoCard domainCount={7500} totalCount={14538} />
+          <DomainsInfoCard domainCount={7500} subdomainCount={14538} />
         </Grid>
         <Grid item xs={6} sm={4} md={3}>
           <SubscriptionsInfoCard totalCount={14538} />
