@@ -31,6 +31,7 @@ export type AccountDomainList = LinkedList<AccountDomain>;
 export interface AccountDomainStats {
   domainCount: number;
   subdomainCount: number;
+  tldCount: number;
   aliasCount: number;
 }
 

@@ -23,11 +23,6 @@ export const DomainsInfoCard = ({ subdomainCount, domainCount }: Props) => {
   const domains = exceeded
     ? formatNumber({ value: MaxAliasLoad, decimals: 0, language: locale }) + "+"
     : formatNumber({ value: domainCount, decimals: 0, language: locale });
-  const subdomains = formatNumber({
-    value: subdomainCount,
-    decimals: 0,
-    language: locale,
-  });
 
   return (
     <InfoCard
@@ -36,7 +31,7 @@ export const DomainsInfoCard = ({ subdomainCount, domainCount }: Props) => {
       icon={DomainsIcon}
     >
       <InfoItem label={t("overall")} value={domains} />
-      <SubInfoItem text={t("subdomain", { count: subdomains })} />
+      <SubInfoItem text={t("withSubdomain", { count: subdomainCount })} />
     </InfoCard>
   );
 };

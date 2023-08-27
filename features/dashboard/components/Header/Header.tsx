@@ -19,6 +19,7 @@ export const Header = ({ domainLists, onFiltered }: Props) => {
   const domainCount = stats?.domainCount ?? 0;
   const subdomainCount = stats?.subdomainCount ?? 0;
   const aliasCount = stats?.aliasCount ?? 0;
+  const tldCount = stats?.tldCount ?? 0;
 
   return (
     <Grid container>
@@ -30,7 +31,7 @@ export const Header = ({ domainLists, onFiltered }: Props) => {
       </Grid>
       <Grid container direction="row" justifyContent="space-between" mt={4}>
         <Grid item xs={6} sm={4} md={3}>
-          <AliasInfoCard aliasCount={aliasCount} tldCount={3} />
+          <AliasInfoCard aliasCount={aliasCount} tldCount={tldCount} />
         </Grid>
         <Grid item xs={6} sm={4} md={3}>
           <DomainsInfoCard

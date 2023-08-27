@@ -13,7 +13,7 @@ export const AccountLoader = () => {
     Platform: { MaxAliasLoad, MaxSubdomains },
   } = useAppContext();
   const { ledgerService } = useLedgerService();
-  const { account } = useXTWallet();
+  const { account, isLocalNode } = useXTWallet();
   const dispatch = useAppDispatch();
 
   const accountId = account ? account.address.getNumericId() : null;
@@ -39,9 +39,11 @@ export const AccountLoader = () => {
       );
     },
     {
-      refreshInterval: 30_000,
+      refreshInterval: isLocalNode ? 30_000 : AvgBlocktimeInMilliseconds / 2,
       revalidateOnFocus: false,
       revalidateIfStale: false,
+      revalidateOnMount: false,
+      keepPreviousData: true,
     }
   );
 

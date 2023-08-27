@@ -74,7 +74,9 @@ export async function fetchAccountDomains({
   let domains: AccountDomain[][] = [];
   const lookupMap = createToLookupMapFromAliasArray(loadedAliases);
   const subdomainSet = createSubdomainLookupSet(lookupMap);
+  const tldSet = new Set<string>();
   for (let a of loadedAliases) {
+    tldSet.add(a.tldName || Config.Signum.DefaultTld);
     if (subdomainSet.has(a.alias)) {
       continue;
     }
@@ -91,6 +93,7 @@ export async function fetchAccountDomains({
     domainStats: {
       subdomainCount: subdomainSet.size,
       aliasCount: loadedAliases.length,
+      tldCount: tldSet.size,
       domainCount: domains.length,
     },
   };

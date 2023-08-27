@@ -31,7 +31,7 @@ export const AliasInfoCard = ({ aliasCount, tldCount }: Props) => {
       icon={AliasIcon}
     >
       <InfoItem label={t("overall")} value={overall} />
-      <SubInfoItem text={t("overTopLevelDomains", { count: tldCount })} />
+      <SubInfoItem text={t("inTopLevelDomain", { count: tldCount })} />
     </InfoCard>
   );
 };

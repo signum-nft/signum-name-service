@@ -21,7 +21,6 @@ export const SubscriptionsInfoCard = ({ totalCount }: Props) => {
   const totalFeesSigna = Math.min(totalCount, MaxAliasLoad) * 50;
   const exceeded = totalCount > MaxAliasLoad;
   const formatted = formatAmount(totalFeesSigna);
-  const formattedQuartely = formatAmount(totalFeesSigna / 4);
 
   return (
     <InfoCard
@@ -35,20 +34,15 @@ export const SubscriptionsInfoCard = ({ totalCount }: Props) => {
             <Typography
               variant="h5"
               color="grey"
-              fontWeight={700}
-              sx={{ top: "-6px", position: "relative", color: "grey" }}
-            >
-              {exceeded ? ">" : "≤"}
-            </Typography>
+              sx={{ top: "-8px", position: "relative", color: "grey" }}
+            ></Typography>
             <Typography variant="h3" sx={{ position: "relative", top: "-8px" }}>
-              {formatted}
+              {formatted}&nbsp;{exceeded ? "+" : ""}
             </Typography>
           </Stack>
         </>
       </InfoItem>
-      <SubInfoItem
-        text={t("payingQuarterlyPerAlias", { amount: formattedQuartely })}
-      />
+      <SubInfoItem text={exceeded ? t("minPayment") : t("maxPayment")} />
     </InfoCard>
   );
 };
