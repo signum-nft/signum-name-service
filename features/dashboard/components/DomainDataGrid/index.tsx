@@ -27,7 +27,7 @@ export const DomainDataGrid = ({ domains, isLoading = false }: Props) => {
     <Grid container direction="column" spacing={2}>
       {!hasAliases ? (
         <Grid item xs={12}>
-          <DomainNotFound />
+          <DomainNotFound showBuyButton={true} />
         </Grid>
       ) : (
         <Grid item xs={12} width="100%">

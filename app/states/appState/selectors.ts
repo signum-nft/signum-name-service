@@ -1,6 +1,6 @@
 import { RootState } from "@/states/store";
 import { createSelector } from "@reduxjs/toolkit";
-import { SnackBarState } from "./slice";
+import { SnackBarState, TableSettings } from "./slice";
 
 export const selectThemeMode = (state: RootState): "dark" | "light" =>
   state.appState.themeMode;
@@ -28,3 +28,12 @@ export const selectIsOpenSidebar = (state: RootState): boolean =>
 
 export const selectSnackbarState = (state: RootState): SnackBarState =>
   state.appState.snackBar;
+
+export const selectShowConfettiExplosion = (state: RootState): boolean =>
+  state.appState.showConfettiExplosion;
+export const selectDomainTableSettingsState = (
+  state: RootState
+): TableSettings => state.appState.domainTableSettings;
+export const selectSubdomainTableSettingsState = (
+  state: RootState
+): TableSettings => state.appState.subdomainTableSettings;

@@ -4,7 +4,7 @@ import { useXTWallet } from "@/features/xtWallet/useXTWallet";
 
 let service: LedgerService;
 export const useLedgerService = () => {
-  const { wallet, node } = useXTWallet();
+  const { wallet, node, isLocalNode } = useXTWallet();
 
   const ledgerService = useMemo(() => {
     if (!wallet) return null;
@@ -23,5 +23,5 @@ export const useLedgerService = () => {
 
   const network = node ? node.network : "";
 
-  return { ledgerService, network };
+  return { ledgerService, network, isLocalNode };
 };

@@ -38,7 +38,7 @@ const appPersistConfig: PersistConfig<any> = {
   version: 1,
   storage,
   // persist only the mentioned fields.
-  whitelist: ["themeMode"],
+  whitelist: ["themeMode", "domainTableSettings", "subdomainTableSettings"],
 };
 
 const ledgerPersistConfig: PersistConfig<any> = {

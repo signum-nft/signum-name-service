@@ -1,6 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getSystemTheme } from "@/app/getSystemTheme";
+import { table } from "@multiformats/multiaddr/protocols-table";
 
+export interface TableSettings {
+  sortBy: string;
+  sortDirection: "asc" | "desc";
+  itemsPerPage: number;
+}
 export type SnackBarState = {
   show: boolean;
   label: string;
@@ -14,16 +20,30 @@ export interface AppState {
   isOpenWalletWrongNetworkModal: boolean;
   isOpenSignTransactionModal: boolean;
   isOpenSidebar: boolean;
+  showConfettiExplosion: boolean;
   snackBar: SnackBarState;
+  domainTableSettings: TableSettings;
+  subdomainTableSettings: TableSettings;
 }
 
 const initialState: AppState = {
+  domainTableSettings: {
+    itemsPerPage: 10,
+    sortBy: "name",
+    sortDirection: "asc",
+  },
+  subdomainTableSettings: {
+    itemsPerPage: 10,
+    sortBy: "name",
+    sortDirection: "asc",
+  },
   themeMode: getSystemTheme(),
   isOpenShareModal: false,
   isOpenWalletModal: false,
   isOpenWalletWrongNetworkModal: false,
   isOpenSignTransactionModal: false,
   isOpenSidebar: false,
+  showConfettiExplosion: false,
   snackBar: { show: false, label: "", severity: "" },
 };
 
@@ -52,6 +72,20 @@ export const appSlice = createSlice({
     },
     setSnackbar: (state, action: PayloadAction<SnackBarState>) => {
       state.snackBar = action.payload;
+    },
+    showConfettiExplosion: (state, action: PayloadAction<boolean>) => {
+      state.showConfettiExplosion = action.payload;
+    },
+    setTableSettings: (
+      state,
+      action: PayloadAction<TableSettings & { table: "domains" | "subdomains" }>
+    ) => {
+      const { table, ...payload } = action.payload;
+      if (table === "domains") {
+        state.domainTableSettings = payload;
+      } else {
+        state.subdomainTableSettings = payload;
+      }
     },
   },
 });

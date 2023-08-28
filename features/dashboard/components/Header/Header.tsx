@@ -29,17 +29,23 @@ export const Header = ({ domainLists, onFiltered }: Props) => {
           onFiltered={onFiltered}
         />
       </Grid>
-      <Grid container direction="row" justifyContent="space-between" mt={4}>
-        <Grid item xs={6} sm={4} md={3}>
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        mt={4}
+        gap={2}
+      >
+        <Grid item xs={12} sm={5} md={3}>
           <AliasInfoCard aliasCount={aliasCount} tldCount={tldCount} />
         </Grid>
-        <Grid item xs={6} sm={4} md={3}>
+        <Grid item xs={12} sm={5} md={3}>
           <DomainsInfoCard
             domainCount={domainCount}
             subdomainCount={subdomainCount}
           />
         </Grid>
-        <Grid item xs={6} sm={4} md={3}>
+        <Grid item xs={12} sm={5} md={3}>
           <SubscriptionsInfoCard totalCount={aliasCount} />
         </Grid>
       </Grid>

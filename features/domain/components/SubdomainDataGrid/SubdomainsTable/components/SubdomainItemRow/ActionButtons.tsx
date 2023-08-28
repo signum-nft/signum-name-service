@@ -82,16 +82,13 @@ export const ActionButtons = ({ subdomain }: Props) => {
   return (
     <Stack direction="row" spacing={0} justifyContent="end" alignItems="center">
       <Tooltip title={`${t("editAlias")}`} arrow placement="top">
-        <Button
-          startIcon={<EditIcon />}
+        <IconButton
           color={iconColor}
-          onClick={() => openModal("edit", subdomain)}
           sx={{ minWidth: { sm: "24px", md: "unset" }, px: { sm: 0, md: 1 } }}
+          onClick={() => openModal("edit", subdomain)}
         >
-          <Typography sx={{ display: { sm: "none", md: "inherit" } }}>
-            {t("edit")}
-          </Typography>
-        </Button>
+          <EditIcon />
+        </IconButton>
       </Tooltip>
 
       <MenuOptions

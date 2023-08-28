@@ -12,7 +12,7 @@ const Hour = 1000 * 60 * 60;
 
 export const MonitoredTransactionsObserver = () => {
   const dispatch = useDispatch();
-  const { ledgerService } = useLedgerService();
+  const { ledgerService, isLocalNode } = useLedgerService();
   const monitoredTransactions = useAppSelector(selectMonitoredTransactions);
 
   useSWR(
@@ -23,7 +23,7 @@ export const MonitoredTransactionsObserver = () => {
       const transactionRequests: Promise<Transaction>[] = [];
       const now = Date.now();
       for (let m of monitoredTransactions) {
-        if (now - m.timestamp > 4 * Hour) {
+        if (now - m.timestamp > Hour) {
           dispatch(transactionActions.removeMonitor(m.transactionId));
         } else {
           transactionRequests.push(
@@ -49,7 +49,7 @@ export const MonitoredTransactionsObserver = () => {
       }
     },
     {
-      refreshInterval: 30_000,
+      refreshInterval: isLocalNode ? 10_000 : 30_000,
     }
   );
 

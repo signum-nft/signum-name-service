@@ -21,7 +21,7 @@ interface HeadCell {
 const getHeadCells = (): HeadCell[] => [
   {
     id: "name",
-    label: "name",
+    label: "aliasName",
   },
   {
     id: "tld",

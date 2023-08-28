@@ -1,7 +1,7 @@
 import { SyntheticEvent, forwardRef } from "react";
 import { useSnackbar } from "@/app/hooks/useSnackbar";
 import { useAppSelector } from "@/states/hooks";
-import { selectSnackbarState } from "@/app/states/appState";
+import { selectIsDarkMode, selectSnackbarState } from "@/app/states/appState";
 
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
@@ -45,12 +45,18 @@ export const AppSnackBar = () => {
       autoHideDuration={5000}
       onClose={handleClose}
       action={action}
-      TransitionComponent={TransitionLeft}
+      TransitionComponent={Transition}
     >
       <Alert
         onClose={handleClose}
         severity={snackBarState.severity || "success"}
-        sx={{ width: "100%", fontSize: 16, color: "white", opacity: 0.9 }}
+        sx={{
+          width: "100%",
+          fontSize: 16,
+          color: "white",
+          opacity: 0.75,
+          borderRadius: "4px",
+        }}
       >
         {snackBarState.label}
       </Alert>
@@ -59,6 +65,6 @@ export const AppSnackBar = () => {
 };
 
 type TransitionProps = Omit<SlideProps, "direction">;
-const TransitionLeft = (props: TransitionProps) => {
-  return <Slide {...props} direction="up" />;
+const Transition = (props: TransitionProps) => {
+  return <Slide {...props} direction="right" />;
 };

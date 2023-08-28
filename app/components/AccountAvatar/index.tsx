@@ -1,10 +1,9 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useState, useCallback, useLayoutEffect } from "react";
 import { useAccount } from "@/app/hooks/useAccount";
 import { DescriptorData } from "@signumjs/standards";
 
 // @ts-ignore
 import hashicon from "hashicon";
-import useSWR from "swr";
 import styles from "./AccountAvatar.module.css";
 
 interface Props {
@@ -16,40 +15,23 @@ export const AccountAvatar = ({ size = 24 }: Props) => {
 
   const [imageSrcUrl, setImageSrcUrl] = useState("");
 
-  const { data: ipfsUrl } = useSWR(
-    accountId ? `account/avatar/${accountId}` : null,
-    async () => {
-      if (!description) return null;
-
-      try {
-        const descriptor = DescriptorData.parse(description, false);
-        if (descriptor.avatar) {
-          return `https://ipfs.io/ipfs/${descriptor.avatar.ipfsCid}`;
-        }
-      } catch (e: any) {
-        return null;
-      }
-    }
-  );
-
-  const accountHashIcon = useMemo(
-    () => hashicon(accountId, { size }).toDataURL(),
-    [accountId]
-  );
-
-  const loadAccountHashIcon = useCallback(() => {
+  const mountHashIcon = useCallback(() => {
+    const accountHashIcon = hashicon(accountId, { size }).toDataURL();
     setImageSrcUrl(accountHashIcon);
-  }, [accountHashIcon]);
+  }, [accountId, size]);
 
-  useEffect(() => {
-    if (!accountId) return;
-    loadAccountHashIcon();
-  }, [loadAccountHashIcon, accountId]);
-
-  useEffect(() => {
-    if (!ipfsUrl) return;
-    setImageSrcUrl(ipfsUrl);
-  }, [ipfsUrl]);
+  useLayoutEffect(() => {
+    try {
+      const descriptor = DescriptorData.parse(description, false);
+      if (descriptor.avatar) {
+        setImageSrcUrl(`https://ipfs.io/ipfs/${descriptor.avatar.ipfsCid}`);
+      } else {
+        mountHashIcon();
+      }
+    } catch (e: any) {
+      mountHashIcon();
+    }
+  }, [description, mountHashIcon]);
 
   return (
     <div
@@ -62,7 +44,7 @@ export const AccountAvatar = ({ size = 24 }: Props) => {
           style={{ height: size, width: size }}
           src={imageSrcUrl}
           alt="account-avatar"
-          onError={loadAccountHashIcon}
+          onError={mountHashIcon}
         />
       </picture>
     </div>

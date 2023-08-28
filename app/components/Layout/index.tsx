@@ -15,11 +15,16 @@ import { BackgroundGradient } from "./components/BackgroundGradient";
 
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import ConfettiExplosion from "react-confetti-explosion";
+import { useAppDispatch, useAppSelector } from "@/states/hooks";
+import { appActions, selectShowConfettiExplosion } from "@/app/states/appState";
+import Box from "@mui/material/Box";
 
 export const Layout: FC<ChildrenProps> = ({ children }) => {
   const router = useRouter();
   const { hideSnackbar } = useSnackbar();
-
+  const dispatch = useAppDispatch();
+  const showConfettiExplosion = useAppSelector(selectShowConfettiExplosion);
   useEffect(() => {
     NProgress.configure({ showSpinner: false, easing: "ease", speed: 400 });
 
@@ -41,6 +46,22 @@ export const Layout: FC<ChildrenProps> = ({ children }) => {
   return (
     <>
       <Fragment>
+        {showConfettiExplosion && (
+          <Box position="relative" left={"50%"}>
+            <ConfettiExplosion
+              colors={[
+                "rgb(243,177,103)",
+                "rgb(236,56,188)",
+                "rgb(115,3,192)",
+                "rgb(0,255,136)",
+                "rgb(0,153,255)",
+              ]}
+              onComplete={() => {
+                dispatch(appActions.showConfettiExplosion(false));
+              }}
+            />
+          </Box>
+        )}
         <ShareModal />
         <SetupWalletModal />
         <SignTransactionModal />

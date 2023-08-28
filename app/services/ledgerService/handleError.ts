@@ -10,14 +10,11 @@ export async function handleError<T = string | ConfirmedTransaction>(
 ) {
   try {
     return await fn();
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
-    let message = "didNotWork";
-
+    let message = e.message;
     if (e instanceof HttpError) {
-      message += ` - Signum Ledger returned: ${e.message}`;
-      // TODO: see how to go on here... in terms of error handling... how to treat them all
-      if (e.data.errorCode === 6) message = "insufficientFunds";
+      message = `Signum Ledger returned: ${e.message}`;
     }
     throw new LedgerError(message);
   }

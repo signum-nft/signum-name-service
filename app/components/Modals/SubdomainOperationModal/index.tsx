@@ -18,6 +18,7 @@ import {
   selectSubdomainOperation,
   subdomainOperationsActions,
 } from "@/app/states/subdomainOperationState";
+import { appActions } from "@/app/states/appState";
 import { Add } from "./operations/Add";
 import { Delete } from "./operations/Delete";
 import { View } from "./operations/View";
@@ -25,8 +26,8 @@ import { Unlink } from "./operations/Unlink";
 import { Convert } from "./operations/Convert";
 import { Edit } from "./operations/Edit";
 import { EditDomain } from "./operations/EditDomain";
-import { DeleteDomain } from "@/app/components/Modals/SubdomainOperationModal/operations/DeleteDomain";
-import { UnlinkDomain } from "@/app/components/Modals/SubdomainOperationModal/operations/UnlinkDomain";
+import { DeleteDomain } from "./operations/DeleteDomain";
+import { UnlinkDomain } from "./operations/UnlinkDomain";
 
 export const SubdomainOperationModal = () => {
   const { t } = useTranslation();
@@ -51,7 +52,7 @@ export const SubdomainOperationModal = () => {
   let label = "";
   let successOperationTitle = t("aliasUpdateSuccesfull");
   let successOperationDescription = t("aliasUpdateSuccesfullDescription");
-
+  let shouldShowConfettiExplosion = false;
   switch (subdomainOperation?.action) {
     case "add":
       label = t("createSubdomain");
@@ -60,6 +61,7 @@ export const SubdomainOperationModal = () => {
         subdomain: subdomainOperation?.subdomainName,
         domain: subdomainOperation?.domainName,
       });
+      shouldShowConfettiExplosion = true;
       break;
     case "view":
       label = t("viewContent");
@@ -72,11 +74,13 @@ export const SubdomainOperationModal = () => {
       break;
     case "delete-domain":
       label = t("deleteDomain");
+      shouldShowConfettiExplosion = true;
       break;
     case "delete":
       label = t("releaseSubdomain");
       successOperationTitle = t("releaseSubdomainSuccessful");
       successOperationDescription = t("releaseSubdomainSuccessfulDescription");
+      shouldShowConfettiExplosion = true;
       break;
     case "unlink-domain":
     case "unlink":
@@ -88,6 +92,7 @@ export const SubdomainOperationModal = () => {
       label = t("convertToSubdomainTitle", {
         domain: subdomainOperation.domainName,
       });
+      shouldShowConfettiExplosion = true;
       break;
 
     default:
@@ -95,6 +100,10 @@ export const SubdomainOperationModal = () => {
   }
 
   if (isOperationCompleted) {
+    if (shouldShowConfettiExplosion) {
+      dispatch(appActions.showConfettiExplosion(true));
+    }
+
     return (
       <SuccessfulModal
         isOpen={isOperationCompleted}
