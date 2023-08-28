@@ -17,6 +17,7 @@ import { useAppDispatch } from "@/states/hooks";
 import { AliasLinkCard } from "./AliasLinkCard";
 import Typography from "@mui/material/Typography";
 import React from "react";
+import { asDomainString } from "@/app/asDomainString";
 
 interface Props {
   subdomainOperation: SubdomainOperation;
@@ -71,13 +72,15 @@ export const DelinkageForm = ({
           type: "alias-content-update",
         })
       );
+      const fullDomainName = asDomainString({
+        tld: alias.aliasTld,
+        name: domainName,
+      });
       dispatch(
         transactionActions.addMonitor({
           transactionId: confirmation.transactionId,
           referenceId: ledgerAlias.alias,
-          type: `alias-delete-${domainName}:${
-            alias.aliasTld ?? Config.Signum.DefaultTld
-          }`,
+          type: `alias-delete-${fullDomainName}`,
         })
       );
 

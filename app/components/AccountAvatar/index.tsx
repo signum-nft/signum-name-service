@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useAccount } from "@/app/hooks/useAccount";
 import { DescriptorData } from "@signumjs/standards";
 
@@ -7,7 +7,11 @@ import hashicon from "hashicon";
 import useSWR from "swr";
 import styles from "./AccountAvatar.module.css";
 
-export const AccountAvatar = () => {
+interface Props {
+  size?: number;
+}
+
+export const AccountAvatar = ({ size = 24 }: Props) => {
   const { accountId, description } = useAccount();
 
   const [imageSrcUrl, setImageSrcUrl] = useState("");
@@ -29,16 +33,18 @@ export const AccountAvatar = () => {
   );
 
   const accountHashIcon = useMemo(
-    () => hashicon(accountId, { size: 24 }).toDataURL(),
+    () => hashicon(accountId, { size }).toDataURL(),
     [accountId]
   );
 
-  const loadAccountHashIcon = () => setImageSrcUrl(accountHashIcon);
+  const loadAccountHashIcon = useCallback(() => {
+    setImageSrcUrl(accountHashIcon);
+  }, [accountHashIcon]);
 
   useEffect(() => {
     if (!accountId) return;
     loadAccountHashIcon();
-  }, [accountId]);
+  }, [loadAccountHashIcon, accountId]);
 
   useEffect(() => {
     if (!ipfsUrl) return;
@@ -46,10 +52,14 @@ export const AccountAvatar = () => {
   }, [ipfsUrl]);
 
   return (
-    <div className={styles.avatarContainer}>
+    <div
+      className={styles.avatarContainer}
+      style={{ height: size, width: size }}
+    >
       <picture>
         <img
           className={styles.avatarImage}
+          style={{ height: size, width: size }}
           src={imageSrcUrl}
           alt="account-avatar"
           onError={loadAccountHashIcon}

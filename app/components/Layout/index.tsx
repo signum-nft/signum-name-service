@@ -10,9 +10,7 @@ import { ShareModal } from "./components/Modals/ShareModal";
 import { SetupWalletModal } from "./components/Modals/SetupWalletModal";
 import { SignTransactionModal } from "./components/Modals/SignTransactionModal";
 import { WalletWrongNetworkModal } from "./components/Modals/WalletWrongNetworkModal";
-import { SettingsSidebar } from "./components/Sidebar/SettingsSidebar";
-import { AccountSidebar } from "./components/Sidebar/AccountSidebar";
-import { MobileSidebar } from "./components/Sidebar/MobileSidebar";
+import { SettingsSidebar } from "./components/Sidebar";
 import { BackgroundGradient } from "./components/BackgroundGradient";
 
 import NProgress from "nprogress";
@@ -50,8 +48,6 @@ export const Layout: FC<ChildrenProps> = ({ children }) => {
         <AppSnackBar />
         <SubdomainOperationModal />
         <SettingsSidebar />
-        <AccountSidebar />
-        <MobileSidebar />
         <Header />
         {children}
         <Footer />

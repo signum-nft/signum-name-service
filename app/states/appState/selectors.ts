@@ -23,17 +23,8 @@ export const selectIsOpenWalletWrongNetworkModal = (
 export const selectIsOpenSignTransactionModal = (state: RootState): boolean =>
   state.appState.isOpenSignTransactionModal;
 
-export const selectIsOpenAccountSidebar = (state: RootState): boolean =>
-  state.appState.isOpenAccountSidebar;
-
-export const selectIsOpenSettingsSidebar = (state: RootState): boolean =>
-  state.appState.isOpenSettingsSidebar;
-
-export const selectIsOpenMobileSidebar = (state: RootState): boolean =>
-  state.appState.isOpenMobileSidebar;
-
-export const selectIsOpenPhishingAlert = (state: RootState): boolean =>
-  state.appState.isOpenPhishingAlert;
+export const selectIsOpenSidebar = (state: RootState): boolean =>
+  state.appState.isOpenSidebar;
 
 export const selectSnackbarState = (state: RootState): SnackBarState =>
   state.appState.snackBar;

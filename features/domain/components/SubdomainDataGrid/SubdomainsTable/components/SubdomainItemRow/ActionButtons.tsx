@@ -22,6 +22,7 @@ import { useMonitoredTransaction } from "@/app/hooks/useMonitoredTransaction";
 import { createAliasNameForSubdomain } from "@/app/createAliasNameForSubdomain";
 import { Config } from "@/app/config";
 import { useCallback } from "react";
+import { asDomainString } from "@/app/asDomainString";
 
 interface Props {
   subdomain: MappedSubdomain;
@@ -34,15 +35,15 @@ export const ActionButtons = ({ subdomain }: Props) => {
   const { isPending } = useMonitoredTransaction({
     referenceId: subdomain.aliasId,
   });
+  const fullDomainName = asDomainString({
+    tld: subdomain.aliasTld,
+    name: subdomain.domainName,
+  });
   const { isPending: isAddingAliases } = useMonitoredTransaction({
-    type: `alias-new-${subdomain.domainName}:${
-      subdomain.aliasTld ?? Config.Signum.DefaultTld
-    }`,
+    type: `alias-new-${fullDomainName}`,
   });
   const { isPending: isDeletingAliases } = useMonitoredTransaction({
-    type: `alias-delete-${subdomain.domainName}:${
-      subdomain.aliasTld ?? Config.Signum.DefaultTld
-    }`,
+    type: `alias-delete-${fullDomainName}`,
   });
 
   const openModal = (action: SubdomainAction, subdomain: MappedSubdomain) => {

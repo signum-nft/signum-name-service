@@ -99,25 +99,13 @@ export const ActionButtons = ({ domain }: Props) => {
     }
 
     return items;
-  }, [domain.data?.account, domain.data?.url, t]);
-
-  if (isProcessing) {
-    return (
-      <Stack
-        direction="row"
-        spacing={0}
-        justifyContent="end"
-        alignItems="center"
-      >
-        <ProcessingIndicatorChip />
-      </Stack>
-    );
-  }
+  }, [openModal, domain, t]);
 
   const iconColor = isDarkMode ? "secondary" : "primary";
   const signumswapUrl = `${SignumSwap}me/alias?search=${domain.name}`;
   return (
     <Stack direction="row" spacing={0} justifyContent="end" alignItems="center">
+      {isProcessing && <ProcessingIndicatorChip />}
       <Tooltip
         title={t("openDomain", { domain: domain.name })}
         arrow
@@ -132,59 +120,66 @@ export const ActionButtons = ({ domain }: Props) => {
         </IconButton>
       </Tooltip>
 
-      <Tooltip
-        title={t("editDomain", { domain: domain.name })}
-        arrow
-        placement="top"
-      >
-        <IconButton
-          color={iconColor}
-          sx={{ minWidth: { sm: "24px", md: "px" }, px: { sm: 0, md: 1 } }}
-          onClick={() => openModal("edit-domain", domain)}
-        >
-          <EditIcon />
-        </IconButton>
-      </Tooltip>
-      <MenuOptions
-        links={[
-          {
-            icon: <RemoveRedEyeIcon />,
-            label: t("view"),
-            tooltip: t("viewContent"),
-            onClick: () => openModal("view", domain),
-          },
-          {
-            icon: <ConvertToSubdomain />,
-            label: t("convertToSubdomain"),
-            tooltip: t("convertToSubdomainHint"),
-            onClick: () => openModal("convert", domain),
-          },
-          ...dynamicMenuItems,
-          {
-            icon: <DeleteIcon />,
-            label: t("delete"),
-            tooltip: t("deleteDomainHint"),
-            onClick: () => openModal("delete-domain", domain),
-          },
-          {
-            icon: <ControlIcon />,
-            label: t("manage"),
-            tooltip: t("manageAlias", { signumSwapUrl: SignumSwap }),
-            onClick: (event) => {
-              openExternalUrl(signumswapUrl);
-            },
-          },
-        ]}
-      >
-        <Tooltip title={t("moreOptions")} arrow placement="top">
-          <IconButton
-            color={iconColor}
-            sx={{ minWidth: { sm: "24px", md: "px" }, px: { sm: 0, md: 1 } }}
+      {!isProcessing && (
+        <>
+          <Tooltip
+            title={t("editDomain", { domain: domain.name })}
+            arrow
+            placement="top"
           >
-            <MoreVert />
-          </IconButton>
-        </Tooltip>
-      </MenuOptions>
+            <IconButton
+              color={iconColor}
+              sx={{ minWidth: { sm: "24px", md: "px" }, px: { sm: 0, md: 1 } }}
+              onClick={() => openModal("edit-domain", domain)}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+          <MenuOptions
+            links={[
+              {
+                icon: <RemoveRedEyeIcon />,
+                label: t("view"),
+                tooltip: t("viewContent"),
+                onClick: () => openModal("view", domain),
+              },
+              {
+                icon: <ConvertToSubdomain />,
+                label: t("convertToSubdomain"),
+                tooltip: t("convertToSubdomainHint"),
+                onClick: () => openModal("convert", domain),
+              },
+              ...dynamicMenuItems,
+              {
+                icon: <DeleteIcon />,
+                label: t("delete"),
+                tooltip: t("deleteDomainHint"),
+                onClick: () => openModal("delete-domain", domain),
+              },
+              {
+                icon: <ControlIcon />,
+                label: t("manage"),
+                tooltip: t("manageAlias", { signumSwapUrl: SignumSwap }),
+                onClick: (event) => {
+                  openExternalUrl(signumswapUrl);
+                },
+              },
+            ]}
+          >
+            <Tooltip title={t("moreOptions")} arrow placement="top">
+              <IconButton
+                color={iconColor}
+                sx={{
+                  minWidth: { sm: "24px", md: "px" },
+                  px: { sm: 0, md: 1 },
+                }}
+              >
+                <MoreVert />
+              </IconButton>
+            </Tooltip>
+          </MenuOptions>
+        </>
+      )}
     </Stack>
   );
 };

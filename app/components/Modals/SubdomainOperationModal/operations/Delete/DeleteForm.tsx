@@ -47,13 +47,15 @@ export const DeleteForm = ({
       const confirmation = await ledgerService.alias
         .with(alias)
         .cancelSubscription();
+      const fullDomainName = asDomainString({
+        tld: subdomainOperation.alias.aliasTld,
+        name: subdomainOperation.domainName,
+      });
       dispatch(
         transactionActions.addMonitor({
           transactionId: confirmation.transactionId,
           referenceId: alias.alias,
-          type: `alias-delete-${subdomainOperation.domainName}:${
-            subdomainOperation.alias.aliasTld ?? Config.Signum.DefaultTld
-          }`,
+          type: `alias-delete-${fullDomainName}`,
         })
       );
       onComplete(true);

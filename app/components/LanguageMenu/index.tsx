@@ -11,13 +11,13 @@ interface LanguageMenuProps {
 }
 
 export const LanguageMenu = ({ children }: LanguageMenuProps) => {
-  const { setSettingsSidebar } = appActions;
+  const { setSidebarOpen } = appActions;
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { pathname, asPath, query } = router;
 
   const switchLanguage = (locale: string) => {
-    dispatch(setSettingsSidebar(false));
+    dispatch(setSidebarOpen(false));
 
     document.cookie = `NEXT_LOCALE=${locale}; expires=${new Date(
       new Date().getTime() + 2000 * 120 * 120 * 48 * 730

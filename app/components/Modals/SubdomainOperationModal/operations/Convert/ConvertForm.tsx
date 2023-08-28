@@ -109,13 +109,15 @@ export const ConvertForm = ({
         type: "alias-content-update",
       })
     );
+    const fullDomainName = asDomainString({
+      tld: operation.alias.aliasTld,
+      name: operation.domainName,
+    });
     dispatch(
       transactionActions.addMonitor({
         transactionId: confirmation.transactionId,
         referenceId: alias.alias,
-        type: `alias-new-${operation.domainName}:${
-          operation.alias.aliasTld ?? Config.Signum.DefaultTld
-        }`,
+        type: `alias-new-${fullDomainName}`,
       })
     );
   }

@@ -28,6 +28,7 @@ import { Address, Alias } from "@signumjs/core";
 import { transactionActions } from "@/app/states/transactionState";
 import { Config } from "@/app/config";
 import { SubdomainOperation } from "@/app/states/subdomainOperationState";
+import { asDomainString } from "@/app/asDomainString";
 
 interface Props {
   onComplete: (ok: boolean) => void;
@@ -187,13 +188,15 @@ export const SubdomainEditForm = ({
       tldName: aliasTld,
       content: builder.build().stringify(),
     });
+    const fullDomainName = asDomainString({
+      tld: subdomainOperation.alias.aliasTld,
+      name: subdomainOperation.domainName,
+    });
     dispatch(
       transactionActions.addMonitor({
         transactionId: confirmation.transactionId,
         referenceId: confirmation.transactionId,
-        type: `alias-new-${subdomainOperation.domainName}:${
-          subdomainOperation.alias.aliasTld ?? Config.Signum.DefaultTld
-        }`,
+        type: `alias-new-${fullDomainName}`,
       })
     );
   }

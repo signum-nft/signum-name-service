@@ -13,9 +13,7 @@ export interface AppState {
   isOpenWalletModal: boolean;
   isOpenWalletWrongNetworkModal: boolean;
   isOpenSignTransactionModal: boolean;
-  isOpenAccountSidebar: boolean;
-  isOpenSettingsSidebar: boolean;
-  isOpenMobileSidebar: boolean;
+  isOpenSidebar: boolean;
   snackBar: SnackBarState;
 }
 
@@ -25,9 +23,7 @@ const initialState: AppState = {
   isOpenWalletModal: false,
   isOpenWalletWrongNetworkModal: false,
   isOpenSignTransactionModal: false,
-  isOpenAccountSidebar: false,
-  isOpenSettingsSidebar: false,
-  isOpenMobileSidebar: false,
+  isOpenSidebar: false,
   snackBar: { show: false, label: "", severity: "" },
 };
 
@@ -51,14 +47,8 @@ export const appSlice = createSlice({
     setSignTransactionModal: (state, action: PayloadAction<boolean>) => {
       state.isOpenSignTransactionModal = action.payload;
     },
-    setAccountSidebar: (state, action: PayloadAction<boolean>) => {
-      state.isOpenAccountSidebar = action.payload;
-    },
-    setSettingsSidebar: (state, action: PayloadAction<boolean>) => {
-      state.isOpenSettingsSidebar = action.payload;
-    },
-    setMobileSidebar: (state, action: PayloadAction<boolean>) => {
-      state.isOpenMobileSidebar = action.payload;
+    setSidebarOpen: (state, action: PayloadAction<boolean>) => {
+      state.isOpenSidebar = action.payload;
     },
     setSnackbar: (state, action: PayloadAction<SnackBarState>) => {
       state.snackBar = action.payload;

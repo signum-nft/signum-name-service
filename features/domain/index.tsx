@@ -37,8 +37,12 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
   } = useAppContext();
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useAppDispatch();
-  const { isPending } = useMonitoredTransaction({
+
+  const { isPending: isAddingPending } = useMonitoredTransaction({
     type: `alias-new-${domainName}`,
+  });
+  const { isPending: isDeletingPending } = useMonitoredTransaction({
+    type: `alias-delete-${domainName}`,
   });
 
   const { filteredSubdomains } = useMemo(() => {
@@ -175,7 +179,7 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
               />
             </Box>
             <Box height="100%">
-              {isPending ? (
+              {isAddingPending || isDeletingPending ? (
                 <Tooltip title={t("processingHint")} arrow placement="top">
                   <Button
                     variant="contained"
@@ -204,7 +208,12 @@ export const Domain: NextPage<Props> = ({ domainName }) => {
                     disabled={true}
                     onClick={voidFn}
                   >
-                    {t("addingNewSubdomain")}
+                    {isDeletingPending &&
+                      !isAddingPending &&
+                      t("deletingSubdomain")}
+                    {isAddingPending &&
+                      !isDeletingPending &&
+                      t("addingNewSubdomain")}
                   </Button>
                 </Tooltip>
               ) : (

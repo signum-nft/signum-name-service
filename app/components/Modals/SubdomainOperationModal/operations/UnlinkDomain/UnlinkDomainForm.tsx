@@ -15,6 +15,7 @@ import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import { asDomainString } from "@/app/asDomainString";
 
 interface Props {
   subdomainOperation: SubdomainOperation;
@@ -53,7 +54,10 @@ export const UnlinkDomainForm = ({
       const confirmation = await ledgerService.alias
         .with(ledgerAlias)
         .updateAlias(builder.build().stringify());
-
+      const fullDomainName = asDomainString({
+        tld: alias.aliasTld,
+        name: domainName,
+      });
       dispatch(
         transactionActions.addMonitor({
           transactionId: confirmation.transactionId,
@@ -65,9 +69,7 @@ export const UnlinkDomainForm = ({
         transactionActions.addMonitor({
           transactionId: confirmation.transactionId,
           referenceId: ledgerAlias.alias,
-          type: `alias-delete-${domainName}:${
-            alias.aliasTld ?? Config.Signum.DefaultTld
-          }`,
+          type: `alias-delete-${fullDomainName}`,
         })
       );
 
