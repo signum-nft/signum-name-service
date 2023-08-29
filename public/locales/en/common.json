@@ -972,5 +972,7 @@
   "aliasInfoHint": "The total number of Signum Aliases you own.",
   "subscriptionInfoHint": "Each alias requires a subscription of 12.5 SIGNA per quarter. The stats are only estimates with upper limits as legacy aliases are not accounted.",
   "minPayment": "Minimum Payment",
-  "maxPayment": "Maximum Payment"
+  "maxPayment": "Maximum Payment",
+  "dashboard": "Dashboard",
+  "home": "Home"
 }

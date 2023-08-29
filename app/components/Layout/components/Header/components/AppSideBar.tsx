@@ -13,7 +13,7 @@ import { useXTWallet } from "@/features/xtWallet/useXTWallet";
 import { selectAmountSuffix } from "@/app/states/ledgerState";
 import { FormattedNumber } from "@/app/components/FormattedNumber";
 
-export const Options = () => {
+export const AppSideBar = () => {
   const { t } = useTranslation();
   const { setSidebarOpen } = appActions;
   const { balance } = useAccount();

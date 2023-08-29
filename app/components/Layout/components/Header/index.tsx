@@ -1,10 +1,10 @@
 import { useAppContext } from "@/app/hooks/useAppContext";
 import { useAppSelector } from "@/states/hooks";
 import { selectIsDarkMode } from "@/app/states/appState";
-import { NavigationMenu } from "./components/NavigationMenu";
-import { Options } from "./components/Options";
+import { AppSideBar } from "./components/AppSideBar";
 import { Stamp } from "./components/Stamp";
 import { LogoLabel } from "./components/LogoLabel";
+import { Breadcrumbs } from "./components/BreadCrumbs";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -47,6 +47,9 @@ export const Header = () => {
           justifyContent: "space-between",
         }}
       >
+        <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Breadcrumbs />
+        </Box>
         {IsTestnet && <Stamp label="Testnet 😊" />}
 
         <Box display="flex">
@@ -75,9 +78,8 @@ export const Header = () => {
 
         {!IsMaintenance && (
           <>
-            {/*<NavigationMenu />*/}
             <Box display="flex">
-              <Options />
+              <AppSideBar />
             </Box>
           </>
         )}

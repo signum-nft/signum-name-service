@@ -1,13 +1,9 @@
-/* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { useTheme } from "@mui/material/styles";
 import { useAppContext } from "@/app/hooks/useAppContext";
 import { useAppSelector } from "@/states/hooks";
 import { selectIsDarkMode } from "@/app/states/appState";
-
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { css } from "@emotion/react";
 
 export const LogoLabel = () => {
   const { IsMobile } = useAppContext();
@@ -23,10 +19,11 @@ export const LogoLabel = () => {
       fontWeight={700}
       fontFamily="Montserrat, sans-serif"
     >
-      {IsMobile && "SignumSwap"}
+      {IsMobile && "SignumNS"}
 
       {!IsMobile && (
         <Box sx={{ position: "relative" }}>
+          {/* @ts-ignore */}
           <Typography
             component="span"
             variant="inherit"
@@ -42,9 +39,7 @@ export const LogoLabel = () => {
               background-size: 400% 100%;
               background-clip: text;
               -webkit-background-clip: text;
-              -moz-background-clip: text;
               -webkit-text-fill-color: transparent;
-              -moz-text-fill-color: transparent;
               animation: gradient 60s ease infinite;
 
               @keyframes gradient {
