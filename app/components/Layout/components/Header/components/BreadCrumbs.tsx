@@ -59,15 +59,22 @@ export const Breadcrumbs = () => {
     }
 
     if (fragments[1] === "domain" && fragments[2]) {
-      newItems.push({
-        label: fragments[2],
-        href: "#",
-        icon: LanguageIcon,
-      });
+      newItems.push(
+        {
+          label: t("dashboard"),
+          href: "/dashboard",
+          icon: TableChartIcon,
+        },
+        {
+          label: fragments[2],
+          href: "#",
+          icon: LanguageIcon,
+        }
+      );
     }
 
     setItems(newItems);
-  }, [route]); // use route as trigger
+  }, [t, route]); // use route as trigger
 
   return (
     <MUIBreadcrumbs aria-label="breadcrumb">

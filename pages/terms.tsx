@@ -12,7 +12,7 @@ export default function TermsPage() {
   return (
     <>
       <SEOMetaTags
-        clientSideTitle={`${t("termsOfService")} • Signum Name Service`}
+        clientSideTitle={`${t("termsOfService")} • Signum Name System`}
       />
       <Terms />
     </>

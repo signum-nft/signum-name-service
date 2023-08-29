@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getSystemTheme } from "@/app/getSystemTheme";
-import { table } from "@multiformats/multiaddr/protocols-table";
 
 export interface TableSettings {
   sortBy: string;

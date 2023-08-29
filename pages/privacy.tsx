@@ -13,7 +13,7 @@ export default function PrivacyPage() {
   return (
     <>
       <SEOMetaTags
-        clientSideTitle={`${t("privacyPolicy")} • Signum Name Service`}
+        clientSideTitle={`${t("privacyPolicy")} • Signum Name System`}
       />
       <Privacy />
     </>

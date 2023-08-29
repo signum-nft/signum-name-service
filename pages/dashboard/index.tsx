@@ -14,7 +14,7 @@ export default function DashboardPage() {
   return (
     <WithConnectedWalletOnly redirectUrl="/">
       <SEOMetaTags
-        clientSideTitle={`${t("domain_other")} • Signum Name Service`}
+        clientSideTitle={`${t("domain_other")} • Signum Name System`}
       />
       <Dashboard />
     </WithConnectedWalletOnly>

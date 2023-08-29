@@ -41,7 +41,7 @@ export const Layout: FC<ChildrenProps> = ({ children }) => {
     });
 
     hideSnackbar();
-  }, [router.events]);
+  }, [router.events]); // don't add hideSnackbar here
 
   return (
     <>

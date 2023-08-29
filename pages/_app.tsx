@@ -16,7 +16,7 @@ import nextI18nConfig from "../next-i18next.config";
 import "../styles/globals.css";
 import { SignumXTWalletProvider } from "@/features/xtWallet/SignumXTWalletProvider";
 
-const DefaultTitle = "Signum Name Service - Decentralized URL Resolution";
+const DefaultTitle = "Signum Name System - Decentralized URL Resolution";
 
 const App = (props: AppProps) => {
   const { Component, pageProps, router } = props;

@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { useFormContext, Controller } from "react-hook-form";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 import { useRef, useEffect, useState } from "react";
 import { useLedgerService } from "@/app/hooks/useLedgerService";
 import { useAccount } from "@/app/hooks/useAccount";
@@ -45,8 +45,7 @@ export const AccountAddressField = ({
 
   useEffect(() => {
     return () => {
-      debouncedCheckAccountFn.current &&
-        debouncedCheckAccountFn.current.cancel();
+      debouncedCheckAccountFn.current?.cancel();
     };
   }, []);
 
@@ -79,7 +78,7 @@ export const AccountAddressField = ({
         t(mapValidationError(errors.receiverAddress?.message))
       );
     }
-  }, [receiverAddress, errors[name]?.message]);
+  }, [receiverAddress, errors, name, setIsAccountValid, t]);
 
   useEffect(() => {
     const invalidAddressFeedback = () => {

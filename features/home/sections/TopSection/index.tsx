@@ -14,6 +14,7 @@ import { appActions } from "@/app/states/appState";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import { AttentionSeeker, Fade, Slide } from "react-awesome-reveal";
 
 export const TopSection = () => {
   const { t } = useTranslation();
@@ -125,85 +126,111 @@ export const TopSection = () => {
           color="white"
           sx={{
             fontSize: { xs: 32, md: 52 },
+            flexDirection: "row",
+            display: "flex",
+            position: "relative",
           }}
         >
-          {t("topSectionTitle")}
-        </Typography>
-        <Typography
-          component="h1"
-          fontWeight={700}
-          color="white"
-          sx={{
-            fontSize: { xs: 26, md: 42 },
-          }}
-        >
-          {t("topSectionSubTitle")}
+          <Fade cascade triggerOnce={true} duration={200}>
+            {t("topSectionTitle")}
+          </Fade>
+
+          <Fade delay={2_250}>
+            <Slide direction="up" delay={2_000}>
+              <Typography
+                fontWeight={800}
+                color="secondary"
+                sx={{
+                  top: 0,
+                  fontSize: "2rem",
+                  filter: "drop-shadow(0px 2px 3px rgba(0,0,0,0.5))",
+                }}
+              >
+                beta
+              </Typography>
+            </Slide>
+          </Fade>
         </Typography>
 
-        <Typography fontWeight={700} color="white" sx={{ mb: 2 }}>
-          {t("topSectionDescription")}
-        </Typography>
+        <Fade>
+          <Typography
+            component="h1"
+            fontWeight={700}
+            color="white"
+            sx={{
+              fontSize: { xs: 26, md: 42 },
+            }}
+          >
+            {t("topSectionSubTitle")}
+          </Typography>
 
-        <Stack
-          direction="row"
-          flexWrap="nowrap"
-          alignItems="stretch"
-          justifyContent="center"
-          mt={2}
-          width="100%"
-        >
-          {isWalletConnected ? (
-            <Button
-              variant="contained"
-              sx={{
-                px: 3,
-                py: 1,
-                borderRadius: { xs: "22px", sm: "28px" },
-                color: "white",
-                fontSize: { xs: "18px", sm: "24px" },
-                filter: "drop-shadow(0px 2px 3px white)",
-                backgroundColor: "#ec38bc",
-              }}
-              className="glance-effect"
-              onClick={goToDashboard}
-              startIcon={
-                isConnecting ? (
-                  <CircularProgress variant="indeterminate" size={20} />
-                ) : (
-                  <DashboardIcon />
-                )
-              }
-              disabled={isConnecting}
-            >
-              {t("gotoDashboard")}
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={{
-                px: 3,
-                py: 1,
-                borderRadius: { xs: "22px", sm: "28px" },
-                color: "white",
-                fontSize: { xs: "18px", sm: "24px" },
-                filter: "drop-shadow(0px 2px 3px #f3b167)",
-              }}
-              className="glance-effect"
-              onClick={handleOnWalletConnect}
-              startIcon={
-                isConnecting ? (
-                  <CircularProgress variant="indeterminate" size={20} />
-                ) : (
-                  <AccountBalanceWalletIcon />
-                )
-              }
-              disabled={isConnecting}
-            >
-              {t("connectWallet")}
-            </Button>
-          )}
-        </Stack>
+          <Typography fontWeight={700} color="white" sx={{ mb: 2 }}>
+            {t("topSectionDescription")}
+          </Typography>
+        </Fade>
+
+        <AttentionSeeker effect="tada">
+          <Stack
+            direction="row"
+            flexWrap="nowrap"
+            alignItems="stretch"
+            justifyContent="center"
+            mt={2}
+            width="100%"
+          >
+            {isWalletConnected ? (
+              <Button
+                variant="contained"
+                sx={{
+                  px: 3,
+                  py: 1,
+                  borderRadius: { xs: "22px", sm: "28px" },
+                  color: "white",
+                  fontSize: { xs: "18px", sm: "24px" },
+                  filter: "drop-shadow(0px 2px 3px white)",
+                  backgroundColor: "#ec38bc",
+                }}
+                className="glance-effect"
+                onClick={goToDashboard}
+                startIcon={
+                  isConnecting ? (
+                    <CircularProgress variant="indeterminate" size={20} />
+                  ) : (
+                    <DashboardIcon />
+                  )
+                }
+                disabled={isConnecting}
+              >
+                {t("gotoDashboard")}
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                color="secondary"
+                sx={{
+                  px: 3,
+                  py: 1,
+                  borderRadius: { xs: "22px", sm: "28px" },
+                  color: "white",
+                  fontSize: { xs: "18px", sm: "24px" },
+                  filter: "drop-shadow(0px 2px 3px #f3b167)",
+                }}
+                className="glance-effect"
+                onClick={handleOnWalletConnect}
+                startIcon={
+                  isConnecting ? (
+                    <CircularProgress variant="indeterminate" size={20} />
+                  ) : (
+                    <AccountBalanceWalletIcon />
+                  )
+                }
+                disabled={isConnecting}
+              >
+                {t("connectWallet")}
+              </Button>
+            )}
+          </Stack>
+        </AttentionSeeker>
       </Stack>
     </Box>
   );
