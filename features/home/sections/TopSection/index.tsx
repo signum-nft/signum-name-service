@@ -20,7 +20,6 @@ export const TopSection = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const {
-    Platform,
     Ledger: { Network },
   } = useAppContext();
   const dispatch = useAppDispatch();
@@ -77,11 +76,11 @@ export const TopSection = () => {
         width="100%"
         height="100%"
         position="absolute"
-        top={0}
+        top={"-64px"}
         left={0}
         zIndex={-2}
         sx={{
-          height: "440px",
+          height: "504px",
           background: `linear-gradient(to bottom, #f3b167, #ec38bc, #7303c0, #03001e)`,
           clipPath: "url(#myCurve)",
         }}

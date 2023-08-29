@@ -42,10 +42,6 @@ export const DomainItemRow = ({ domain }: Props) => {
       </TableCell>
 
       <TableCell>
-        <Typography variant="body2">{subdomainCount}</Typography>
-      </TableCell>
-
-      <TableCell>
         <WithNoValueSet hasValue={Boolean(accountId)}>
           <CopyableText
             variant="body2"
@@ -62,6 +58,10 @@ export const DomainItemRow = ({ domain }: Props) => {
             {url}
           </Link>
         </WithNoValueSet>
+      </TableCell>
+
+      <TableCell>
+        <Typography variant="body2">{subdomainCount}</Typography>
       </TableCell>
 
       <TableCell

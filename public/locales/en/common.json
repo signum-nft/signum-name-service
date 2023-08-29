@@ -974,5 +974,7 @@
   "minPayment": "Minimum Payment",
   "maxPayment": "Maximum Payment",
   "dashboard": "Dashboard",
-  "home": "Home"
+  "home": "Home",
+  "terms": "Terms of Service",
+  "privacy": "Privacy Policy"
 }

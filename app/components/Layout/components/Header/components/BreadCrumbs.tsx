@@ -4,6 +4,8 @@ import MUIBreadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import HomeIcon from "@mui/icons-material/Home";
 import TableChartIcon from "@mui/icons-material/TableChart";
+import TermsIcon from "@mui/icons-material/Gavel";
+import PolicyIcon from "@mui/icons-material/Policy";
 import LanguageIcon from "@mui/icons-material/Language";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -33,13 +35,29 @@ export const Breadcrumbs = () => {
       },
     ];
 
-    if (fragments[1]) {
+    if (fragments[1] === "dashboard") {
       newItems.push({
         label: t("dashboard"),
         href: "/dashboard",
         icon: TableChartIcon,
       });
     }
+
+    if (fragments[1] === "terms") {
+      newItems.push({
+        label: t("terms"),
+        href: "/terms",
+        icon: TermsIcon,
+      });
+    }
+    if (fragments[1] === "privacy") {
+      newItems.push({
+        label: t("privacy"),
+        href: "/privacy",
+        icon: PolicyIcon,
+      });
+    }
+
     if (fragments[1] === "domain" && fragments[2]) {
       newItems.push({
         label: fragments[2],

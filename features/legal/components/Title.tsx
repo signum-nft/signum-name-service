@@ -1,5 +1,6 @@
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 
 interface Props {
   content: string;
@@ -7,7 +8,10 @@ interface Props {
 }
 
 export const Title = ({ content, date }: Props) => (
-  <Paper sx={{ p: 2, mb: 4, borderRadius: 2 }} variant="outlined">
+  <Paper
+    sx={{ p: 2, mb: 4, borderRadius: 2, opacity: 0.85 }}
+    variant="outlined"
+  >
     <Typography
       variant="h2"
       fontWeight={400}

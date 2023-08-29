@@ -7,6 +7,7 @@ import TelegramIcon from "@mui/icons-material/Telegram";
 import RedditIcon from "@mui/icons-material/Reddit";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import PublicIcon from "@mui/icons-material/Public";
+import GithubIcon from "@mui/icons-material/GitHub";
 
 export const SocialLinks = () => {
   return (
@@ -20,7 +21,16 @@ export const SocialLinks = () => {
       }}
     >
       <IconButton
-        rel="nofollow"
+        rel="nofollow noreferrer noopener"
+        aria-label="Github Repository"
+        href="https://github.com/signum-nft/signum-name-service"
+        target="_blank"
+      >
+        <GithubIcon />
+      </IconButton>
+
+      <IconButton
+        rel="nofollow noreferrer noopener"
         aria-label="Signum official page"
         href="https://www.signum.network"
         target="_blank"
@@ -29,7 +39,7 @@ export const SocialLinks = () => {
       </IconButton>
 
       <IconButton
-        rel="nofollow"
+        rel="nofollow noreferrer noopener"
         aria-label="Twitter"
         href="https://twitter.com/signum_official"
         target="_blank"
@@ -38,7 +48,7 @@ export const SocialLinks = () => {
       </IconButton>
 
       <IconButton
-        rel="nofollow"
+        rel="nofollow noreferrer noopener"
         aria-label="Telegram"
         href="https://t.me/signumnetwork"
         target="_blank"
@@ -47,7 +57,7 @@ export const SocialLinks = () => {
       </IconButton>
 
       <IconButton
-        rel="nofollow"
+        rel="nofollow noreferrer noopener"
         aria-label="Reddit"
         href="https://www.reddit.com/r/Signum"
         target="_blank"
@@ -56,7 +66,7 @@ export const SocialLinks = () => {
       </IconButton>
 
       <IconButton
-        rel="nofollow"
+        rel="nofollow noreferrer noopener"
         aria-label="Reddit"
         href="https://discord.gg/psCkePs4Aq"
         target="_blank"
@@ -65,7 +75,7 @@ export const SocialLinks = () => {
       </IconButton>
 
       <IconButton
-        rel="nofollow"
+        rel="nofollow noreferrer noopener"
         aria-label="Youtube"
         href="https://www.youtube.com/c/SignumNetwork/featured"
         target="_blank"

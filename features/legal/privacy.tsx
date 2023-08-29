@@ -8,10 +8,7 @@ import Typography from "@mui/material/Typography";
 export const Privacy: NextPage = () => {
   return (
     <Grid container direction="column" maxWidth={1200} mx="auto" my={10}>
-      <Title
-        content="Privacy Policy"
-        date="Last updated - September 20, 2022"
-      />
+      <Title content="Privacy Policy" date="Last updated - August 29, 2023" />
 
       <Grid item container direction="column" rowSpacing={1} sx={{ px: 2 }}>
         <Grid item>
@@ -21,7 +18,7 @@ export const Privacy: NextPage = () => {
             (“website”, “Interface”,“we”, “us”, or “our”) collects, protects,
             and uses the personally identifiable information (“personal
             information”) that you (“user”, “you”, or “your”) may provide on the
-            signumswap.com website and any of its products or services
+            sns.signum.network website and any of its products or services
             (collectively, “website”, or “services”). It also describes the
             choices available to you regarding our use of your personal
             information and how you can access and update this information. This
@@ -35,14 +32,14 @@ export const Privacy: NextPage = () => {
           <Typography gutterBottom>
             When you use the Interface, the only information we collect from you
             is your blockchain wallet address, completed transaction hashes, and
-            the token names, symbols, or other blockchain identifiers of the
-            tokens that you swap. We do not collect any personal information
-            from you (e.g., your name or other identifiers that can be linked to
-            you). We do, however, use third-party service providers, like
-            Cloudflare which may receive or independently obtain your personal
-            information from publicly-available sources. We do not control how
-            these third parties handle your data and you should review their
-            privacy policies to understand how they collect, use, and share your
+            the token names, symbols, or other blockchain identifiers. We do not
+            collect any personal information from you (e.g., your name or other
+            identifiers that can be linked to you). We do, however, use
+            third-party service providers, like Cloudflare which may receive or
+            independently obtain your personal information from
+            publicly-available sources. We do not control how these third
+            parties handle your data and you should review their privacy
+            policies to understand how they collect, use, and share your
             personal information.
           </Typography>
 

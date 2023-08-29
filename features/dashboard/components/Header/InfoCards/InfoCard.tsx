@@ -10,7 +10,6 @@ import Tooltip from "@mui/material/Tooltip";
 import Stack from "@mui/material/Stack";
 import { useAppSelector } from "@/states/hooks";
 import { selectIsDarkMode } from "@/app/states/appState";
-
 const FancyIcon = styled(Box)`
   position: absolute;
   top: -48px;
@@ -31,6 +30,7 @@ const FancyPaper = styled(Paper)<{ isDark: boolean }>(({ isDark, theme }) => ({
   padding: theme.spacing(2),
   borderRadius: "4px",
   opacity: 0.9,
+  width: "100%",
 }));
 
 interface Props extends ChildrenProps {

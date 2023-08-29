@@ -28,16 +28,16 @@ const getHeadCells = (): HeadCell[] => [
     label: "STLD",
   },
   {
-    id: "subdomainCount",
-    label: "subdomainCount",
-  },
-  {
     id: "accountId",
     label: "account",
   },
   {
     id: "url",
     label: "linkedUrl",
+  },
+  {
+    id: "subdomainCount",
+    label: "subdomainCount",
   },
 ];
 

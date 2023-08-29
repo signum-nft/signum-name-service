@@ -131,7 +131,13 @@ export const SubdomainOperationModal = () => {
   });
 
   return (
-    <Dialog onClose={closeModal} open={true} fullWidth maxWidth="sm">
+    <Dialog
+      onClose={closeModal}
+      open={true}
+      fullWidth
+      maxWidth="sm"
+      sx={{ opacity: { sx: 1, md: 0.97 } }}
+    >
       <DialogTitle sx={{ m: 0, p: 2 }}>
         <Box
           display="flex"

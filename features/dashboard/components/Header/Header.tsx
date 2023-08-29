@@ -8,7 +8,7 @@ import { SubscriptionsInfoCard } from "./InfoCards/SubscriptionsInfoCard";
 import { AliasInfoCard } from "./InfoCards/AliasInfoCard";
 import { useAppSelector } from "@/states/hooks";
 import { selectCurrentAccountsDomainStats } from "@/app/states/accountState";
-
+import Stack from "@mui/material/Stack";
 interface Props {
   domainLists: LinkedList<AccountDomain>[];
   onFiltered: (domains: MappedDomain[]) => void;
@@ -22,32 +22,27 @@ export const Header = ({ domainLists, onFiltered }: Props) => {
   const tldCount = stats?.tldCount ?? 0;
 
   return (
-    <Grid container>
+    <Grid container gap={2}>
       <Grid item xs={12}>
         <DomainFilterSection
           domainLists={domainLists}
           onFiltered={onFiltered}
         />
       </Grid>
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        mt={4}
-        gap={2}
-      >
-        <Grid item xs={12} sm={5} md={3}>
+      <Grid item xs={12}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          alignItems="center"
+          justifyContent="space-between"
+          gap={{ xs: 2, md: 4, lg: 8 }}
+        >
           <AliasInfoCard aliasCount={aliasCount} tldCount={tldCount} />
-        </Grid>
-        <Grid item xs={12} sm={5} md={3}>
           <DomainsInfoCard
             domainCount={domainCount}
             subdomainCount={subdomainCount}
           />
-        </Grid>
-        <Grid item xs={12} sm={5} md={3}>
           <SubscriptionsInfoCard totalCount={aliasCount} />
-        </Grid>
+        </Stack>
       </Grid>
     </Grid>
   );

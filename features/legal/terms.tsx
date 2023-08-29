@@ -8,20 +8,18 @@ import Typography from "@mui/material/Typography";
 export const Terms: NextPage = () => {
   return (
     <Grid container direction="column" maxWidth={1200} mx="auto" my={10}>
-      <Title
-        content="Terms of Service"
-        date="Last updated - September 20, 2022"
-      />
+      <Title content="Terms of Service" date="Last updated - August 29, 2023" />
 
       <Grid item container direction="column" rowSpacing={1} sx={{ px: 2 }}>
         <Grid item>
           <SubTitle content="Welcome" />
           <Typography gutterBottom>
-            Welcome to signumswap.com. A website-hosted user interface (the
-            "Interface" or "App" or ”we”). The Interface provides access to a
-            decentralized protocol on the Signum blockchain that allows users to
-            trade certain digital assets (the "Protocol"). The Interface is one,
-            but not the exclusive, means of accessing the Protocol.
+            Welcome to <em>sns.signum.network</em>. A website-hosted user
+            interface (the "Interface" or "App" or ”we”). The Interface provides
+            access to a decentralized protocol on the Signum blockchain that
+            allows users to trade certain digital assets (the "Protocol"). The
+            Interface is one, but not the exclusive, means of accessing the
+            Protocol.
           </Typography>
 
           <Typography gutterBottom>
@@ -53,12 +51,12 @@ export const Terms: NextPage = () => {
             Agreement from time to time. If we make any modifications, we will
             notify you by updating the date at the top of the Agreement and by
             maintaining a current version of the Agreement at{" "}
-            <a href="/terms">signumswap.com/terms</a>. All modifications will be
-            effective when they are posted, and your continued accessing or use
-            of the Interface will serve as confirmation of your acceptance of
-            those modifications. If you do not agree with any modifications to
-            this Agreement, you must immediately stop accessing and using the
-            Interface.
+            <a href="/terms">sns.signum.network/terms</a>. All modifications
+            will be effective when they are posted, and your continued accessing
+            or use of the Interface will serve as confirmation of your
+            acceptance of those modifications. If you do not agree with any
+            modifications to this Agreement, you must immediately stop accessing
+            and using the Interface.
           </Typography>
         </Grid>
 
@@ -109,14 +107,14 @@ export const Terms: NextPage = () => {
           <Typography gutterBottom>
             When you use the Interface, the only information we collect from you
             is your blockchain wallet address, completed transaction hashes, and
-            the token names, symbols, or other blockchain identifiers of the
-            tokens that you swap. We do not collect any personal information
-            from you (e.g., your name or other identifiers that can be linked to
-            you). We do, however, use third-party service providers, like
-            Cloudflare which may receive or independently obtain your personal
-            information from publicly-available sources. We do not control how
-            these third parties handle your data and you should review their
-            privacy policies to understand how they collect, use, and share your
+            the token names, symbols, or other blockchain identifiers. We do not
+            collect any personal information from you (e.g., your name or other
+            identifiers that can be linked to you). We do, however, use
+            third-party service providers, like Cloudflare or Vercel which may
+            receive or independently obtain your personal information from
+            publicly-available sources. We do not control how these third
+            parties handle your data and you should review their privacy
+            policies to understand how they collect, use, and share your
             personal information.
           </Typography>
 
