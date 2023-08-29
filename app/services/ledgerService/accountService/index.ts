@@ -1,13 +1,7 @@
-import { LedgerSubService } from "@/app/services/ledgerService/LedgerSubService";
-import { LedgerServiceContext } from "@/app/services/ledgerService/LedgerServiceContext";
-import { handleError } from "@/app/services/ledgerService/handleError";
-import { AccountInstanceService } from "@/app/services/ledgerService/accountService/AccountInstanceService";
+import { LedgerSubService } from "../LedgerSubService";
+import { handleError } from "../handleError";
 
 export class AccountService extends LedgerSubService {
-  constructor(context: LedgerServiceContext) {
-    super(context);
-  }
-
   fetchAccount(accountId: string) {
     return handleError(async () =>
       this.context.ledger.account.getAccount({
@@ -24,9 +18,5 @@ export class AccountService extends LedgerSubService {
     } catch (e: any) {
       return false;
     }
-  }
-
-  with(accountId: string) {
-    return new AccountInstanceService(accountId, this.context);
   }
 }

@@ -1,13 +1,10 @@
 import { useTranslation } from "next-i18next";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useAppSelector, useAppDispatch } from "@/states/hooks";
 import {
   selectIsOpenSidebar,
   selectIsDarkMode,
   appActions,
 } from "@/app/states/appState";
-import { selectTickerSymbol, marketActions } from "@/app/states/marketState";
-import { DefaultAllowedTickers } from "@/app/types/supportedTickerSymbol";
 import { LanguageMenu } from "@/app/components/LanguageMenu";
 import { ClearDataWizard } from "@/app/components/Layout/components/Sidebar/components/ClearDataWizard";
 
@@ -29,7 +26,6 @@ export const SettingsSidebar = () => {
   const { t } = useTranslation();
   const { disconnect, isWalletConnected } = useXTWallet();
   const { setSidebarOpen, setTheme } = appActions;
-  const { setSelectedTickerSymbol } = marketActions;
   const dispatch = useAppDispatch();
   const isDarkMode = useAppSelector(selectIsDarkMode);
   const isOpenSettingsSidebar = useAppSelector(selectIsOpenSidebar);

@@ -5,7 +5,6 @@ import { useAppDispatch } from "@/states/hooks";
 
 import { accountActions } from "@/app/states/accountState";
 import { appActions } from "@/app/states/appState";
-import { marketActions } from "@/app/states/marketState";
 import { portfolioActions } from "@/app/states/portfolioState";
 import { transactionActions } from "@/app/states/transactionState";
 import { walletActions } from "@/app/states/walletState";
@@ -41,7 +40,6 @@ export const ClearDataWizard = ({ handleClose }: Props) => {
 
     dispatch(accountActions.reset());
     dispatch(appActions.reset());
-    dispatch(marketActions.reset());
     dispatch(portfolioActions.reset());
     dispatch(transactionActions.reset());
     dispatch(walletActions.reset());

@@ -22,7 +22,6 @@ import { appSlice } from "@/app/states/appState";
 import { walletSlice } from "@/app/states/walletState";
 import { transactionSlice } from "@/app/states/transactionState";
 import { accountSlice } from "@/app/states/accountState";
-import { marketSlice } from "@/app/states/marketState";
 import { portfolioSlice } from "@/app/states/portfolioState";
 import { subdomainOperationSlice } from "@/app/states/subdomainOperationState";
 import { ledgerSlice } from "@/app/states/ledgerState";
@@ -44,12 +43,6 @@ const appPersistConfig: PersistConfig<any> = {
 const ledgerPersistConfig: PersistConfig<any> = {
   key: "ledger",
   version: 1,
-  storage,
-};
-
-const marketPersistConfig: PersistConfig<any> = {
-  key: "market",
-  version: 4,
   storage,
 };
 
@@ -95,10 +88,6 @@ const rootReducer = combineReducers({
     ledgerPersistConfig,
     ledgerSlice.reducer
   ),
-  marketState: persist<ReturnType<typeof marketSlice.reducer>>(
-    marketPersistConfig,
-    marketSlice.reducer
-  ),
   walletState: persist<ReturnType<typeof walletSlice.reducer>>(
     walletPersistConfig,
     walletSlice.reducer
@@ -116,9 +105,6 @@ const rootReducer = combineReducers({
     transactionSlice.reducer
   ),
   subdomainOperationState: subdomainOperationSlice.reducer,
-  // subdomainOperationState: persist<
-  //   ReturnType<typeof subdomainOperationSlice.reducer>
-  // >(subdomainOperationPersistConfig, subdomainOperationSlice.reducer),
 });
 
 export const store = configureStore({

@@ -1,10 +1,8 @@
 import { FC, createContext } from "react";
 import { isMobile, isFirefox } from "react-device-detect";
-import { DeeplinkableWallet, GenericExtensionWallet } from "@signumjs/wallets";
 import { isClientSide } from "../isClientSide";
 import { Config } from "../config";
 import { ChildrenProps } from "@/types/ChildrenProps";
-import { MarketService } from "@/app/services/marketService";
 
 export interface AppContextType {
   IsClientSide: boolean;
@@ -17,9 +15,6 @@ export interface AppContextType {
   Platform: typeof Config.Platform;
   Explorer: string;
   SignumSwap: string;
-  Services: {
-    Market: MarketService;
-  };
 }
 
 const config: AppContextType = {
@@ -33,9 +28,6 @@ const config: AppContextType = {
   },
   Explorer: Config.Signum.Explorer,
   SignumSwap: Config.Signum.SignumSwap,
-  Services: {
-    Market: new MarketService(),
-  },
 };
 
 export const AppContext = createContext<AppContextType>(config);

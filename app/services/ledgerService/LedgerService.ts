@@ -6,7 +6,6 @@ import { NodeService } from "./nodeService";
 import { AccountService } from "./accountService";
 import { TransactionService } from "./transactionService";
 import { AliasService } from "./aliasService";
-import { SubscriptionService } from "./subscriptionService";
 
 export class LedgerService {
   private readonly ledger: Ledger;
@@ -15,7 +14,6 @@ export class LedgerService {
   private readonly accountService: AccountService;
   private readonly transactionService: TransactionService;
   private readonly aliasService: AliasService;
-  private readonly subscriptionService: SubscriptionService;
 
   constructor(
     private nodeHost: string,
@@ -36,7 +34,6 @@ export class LedgerService {
     this.accountService = new AccountService(context);
     this.transactionService = new TransactionService(context);
     this.aliasService = new AliasService(context);
-    this.subscriptionService = new SubscriptionService(context);
   }
 
   get ledgerInstance() {
@@ -60,9 +57,5 @@ export class LedgerService {
 
   get alias(): AliasService {
     return this.aliasService;
-  }
-
-  get subscription(): SubscriptionService {
-    return this.subscriptionService;
   }
 }

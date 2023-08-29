@@ -1,12 +1,7 @@
-import { LedgerSubService } from "@/app/services/ledgerService/LedgerSubService";
-import { LedgerServiceContext } from "@/app/services/ledgerService/LedgerServiceContext";
-import { handleError } from "@/app/services/ledgerService/handleError";
+import { LedgerSubService } from "../LedgerSubService";
+import { handleError } from "../handleError";
 
 export class TransactionService extends LedgerSubService {
-  constructor(context: LedgerServiceContext) {
-    super(context);
-  }
-
   fetchPendingTransactions() {
     return handleError(async () => {
       const { unconfirmedTransactions } =

@@ -18,9 +18,6 @@ export const ledgerSlice = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
-    setCurrentBlockHeight: (state, action: PayloadAction<number>) => {
-      state.currentBlockHeight = action.payload;
-    },
     setNetworkMetaData: (state, action: PayloadAction<NetworkInfo>) => {
       state.networkMetaData = action.payload;
     },
