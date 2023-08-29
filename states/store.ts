@@ -19,10 +19,8 @@ import { isClientSide } from "@/app/isClientSide";
 import { storage } from "./storage";
 
 import { appSlice } from "@/app/states/appState";
-import { walletSlice } from "@/app/states/walletState";
 import { transactionSlice } from "@/app/states/transactionState";
 import { accountSlice } from "@/app/states/accountState";
-import { portfolioSlice } from "@/app/states/portfolioState";
 import { subdomainOperationSlice } from "@/app/states/subdomainOperationState";
 import { ledgerSlice } from "@/app/states/ledgerState";
 
@@ -46,30 +44,11 @@ const ledgerPersistConfig: PersistConfig<any> = {
   storage,
 };
 
-const walletPersistConfig: PersistConfig<any> = {
-  key: "wallet",
-  version: 5,
-  storage,
-  whitelist: [
-    "rememberWalletConnection",
-    "publicKey",
-    "blockHeight",
-    "isWalletConnected",
-    "nodeHost",
-  ],
-};
-
 const accountPersistConfig: PersistConfig<any> = {
   key: "account",
   version: 1,
   storage,
   blacklist: ["isLoadingData"],
-};
-
-const portfolioPersistConfig: PersistConfig<any> = {
-  key: "portfolio",
-  version: 5,
-  storage,
 };
 
 const transactionPersistConfig: PersistConfig<any> = {
@@ -88,17 +67,9 @@ const rootReducer = combineReducers({
     ledgerPersistConfig,
     ledgerSlice.reducer
   ),
-  walletState: persist<ReturnType<typeof walletSlice.reducer>>(
-    walletPersistConfig,
-    walletSlice.reducer
-  ),
   accountState: persist<ReturnType<typeof accountSlice.reducer>>(
     accountPersistConfig,
     accountSlice.reducer
-  ),
-  portfolioState: persist<ReturnType<typeof portfolioSlice.reducer>>(
-    portfolioPersistConfig,
-    portfolioSlice.reducer
   ),
   transactionState: persist<ReturnType<typeof transactionSlice.reducer>>(
     transactionPersistConfig,

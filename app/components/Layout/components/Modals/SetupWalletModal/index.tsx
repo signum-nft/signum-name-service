@@ -5,7 +5,6 @@ import {
   appActions,
   selectIsDarkMode,
 } from "@/app/states/appState";
-import { openExternalUrl } from "@/app/openExternalUrl";
 import { isFirefox, isMobile } from "react-device-detect";
 
 import Alert from "@mui/material/Alert";

@@ -1,8 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { useMemo } from "react";
 import { DescriptorData } from "@signumjs/standards";
-import { useAppSelector } from "@/states/hooks";
-import { selectAliasOperation } from "@/app/states/portfolioState";
 import { useAlias } from "@/app/hooks/useAlias";
 import { LoadingIndicator } from "@/app/components/LoadingIndicator";
 

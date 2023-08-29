@@ -7,7 +7,6 @@ const Colors = {
   Orange: (alpha = 1.0) => `rgb(243,177,103, ${alpha})`,
   Pink: (alpha = 1.0) => `rgb(236,56,188, ${alpha})`,
   Violet: (alpha = 1.0) => `rgb(115,3,192, ${alpha})`,
-  DarkViolet: (alpha = 1.0) => `rgb(3,0,30, ${alpha})`,
 };
 
 export const useFeatureBackgroundImage = (disableGradient = false) => {

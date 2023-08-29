@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useAppContext } from "@/app/hooks/useAppContext";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { useXTWallet } from "@/features/xtWallet/useXTWallet";
 import { useAppDispatch } from "@/states/hooks";

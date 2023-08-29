@@ -2,15 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NetworkInfo } from "@signumjs/core";
 
 export interface LedgerState {
-  currentBlockHeight: number;
   networkMetaData: NetworkInfo | null;
-  currentNodeHost: string;
 }
 
 const initialState: LedgerState = {
-  currentBlockHeight: 0,
   networkMetaData: null,
-  currentNodeHost: "",
 };
 
 export const ledgerSlice = createSlice({
@@ -20,9 +16,6 @@ export const ledgerSlice = createSlice({
     reset: () => initialState,
     setNetworkMetaData: (state, action: PayloadAction<NetworkInfo>) => {
       state.networkMetaData = action.payload;
-    },
-    setCurrentNodeHost: (state, action: PayloadAction<string>) => {
-      state.currentNodeHost = action.payload;
     },
   },
 });

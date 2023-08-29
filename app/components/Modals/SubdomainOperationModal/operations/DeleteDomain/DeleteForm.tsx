@@ -1,23 +1,15 @@
 import { useTranslation } from "next-i18next";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useLedgerService } from "@/app/hooks/useLedgerService";
 import { useSnackbar } from "@/app/hooks/useSnackbar";
-import { useAppSelector, useAppDispatch } from "@/states/hooks";
-import { selectAliasOperation } from "@/app/states/portfolioState";
-import {
-  transactionActions,
-  selectMonitoredTransactions,
-} from "@/app/states/transactionState";
+import { useAppDispatch } from "@/states/hooks";
+import { transactionActions } from "@/app/states/transactionState";
 
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import DialogContent from "@mui/material/DialogContent";
-import DeleteIcon from "@mui/icons-material/DeleteForever";
 import { SubdomainOperation } from "@/app/states/subdomainOperationState";
 import { WizardSubmitter } from "@/app/components/Modals/SubdomainOperationModal/components/WizardSubmitter";
 import { asDomainString } from "@/app/asDomainString";
-import { Config } from "@/app/config";
 
 interface Props {
   onComplete: (ok?: boolean) => void;

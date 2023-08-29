@@ -5,9 +5,7 @@ import { useAppDispatch } from "@/states/hooks";
 
 import { accountActions } from "@/app/states/accountState";
 import { appActions } from "@/app/states/appState";
-import { portfolioActions } from "@/app/states/portfolioState";
 import { transactionActions } from "@/app/states/transactionState";
-import { walletActions } from "@/app/states/walletState";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -16,6 +14,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { useXTWallet } from "@/features/xtWallet";
 
 interface Props {
   handleClose: () => void;
@@ -23,6 +22,7 @@ interface Props {
 
 export const ClearDataWizard = ({ handleClose }: Props) => {
   const { t } = useTranslation();
+  const { disconnect } = useXTWallet();
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -38,12 +38,10 @@ export const ClearDataWizard = ({ handleClose }: Props) => {
   const wipeData = () => {
     router.replace("/");
 
+    disconnect();
     dispatch(accountActions.reset());
     dispatch(appActions.reset());
-    dispatch(portfolioActions.reset());
     dispatch(transactionActions.reset());
-    dispatch(walletActions.reset());
-
     closeWizard();
   };
 
