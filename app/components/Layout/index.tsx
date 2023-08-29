@@ -11,7 +11,7 @@ import { SetupWalletModal } from "./components/Modals/SetupWalletModal";
 import { SignTransactionModal } from "./components/Modals/SignTransactionModal";
 import { WalletWrongNetworkModal } from "./components/Modals/WalletWrongNetworkModal";
 import { SettingsSidebar } from "./components/Sidebar";
-import { BackgroundGradient } from "./components/BackgroundGradient";
+import { BackgroundGradient, BackgroundSymbol } from "./components/Background";
 
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
@@ -75,6 +75,7 @@ export const Layout: FC<ChildrenProps> = ({ children }) => {
       </Fragment>
 
       <BackgroundGradient />
+      {router.route !== "/" && <BackgroundSymbol />}
     </>
   );
 };

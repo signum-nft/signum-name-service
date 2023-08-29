@@ -79,7 +79,7 @@ export const TopSection = () => {
         position="absolute"
         top={0}
         left={0}
-        zIndex={-1}
+        zIndex={-2}
         sx={{
           height: "440px",
           background: `linear-gradient(to bottom, #f3b167, #ec38bc, #7303c0, #03001e)`,
@@ -101,6 +101,21 @@ export const TopSection = () => {
           </clipPath>
         </defs>
       </svg>
+
+      <Box
+        width={"360px"}
+        height={"360px"}
+        position="fixed"
+        top={0}
+        left={{ xs: "-20%", sm: "20%" }}
+        zIndex={-2}
+        sx={{
+          display: "block",
+          opacity: 0.1,
+        }}
+      >
+        <img src="/assets/img/signum_node_white.svg" alt="Signum Node Logo" />
+      </Box>
 
       <Stack
         direction="column"
