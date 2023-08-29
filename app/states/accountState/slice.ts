@@ -31,7 +31,7 @@ export const accountSlice = createSlice({
       state.accounts[publicKey] = action.payload;
       state.isInitialLoadingData = false;
     },
-    resetAccountData: (state) => {
+    resetAccountData: () => {
       return initialState;
     },
   },

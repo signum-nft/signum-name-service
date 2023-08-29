@@ -6,11 +6,10 @@ import {
   FormProvider,
   SubmitHandler,
   Controller,
-  useFormContext,
 } from "react-hook-form";
 import { useLedgerService } from "@/app/hooks/useLedgerService";
 import { useSnackbar } from "@/app/hooks/useSnackbar";
-import { useAppSelector, useAppDispatch } from "@/states/hooks";
+import { useAppDispatch } from "@/states/hooks";
 import { useAlias } from "@/app/hooks/useAlias";
 
 import Stack from "@mui/material/Stack";
@@ -73,10 +72,7 @@ export const SubdomainEditForm = ({
       url: "",
     },
   });
-  const { alias, isLoading } = useAlias(
-    subdomainOperation.alias.aliasId,
-    false
-  );
+  const { alias } = useAlias(subdomainOperation.alias.aliasId, false);
 
   const {
     control,

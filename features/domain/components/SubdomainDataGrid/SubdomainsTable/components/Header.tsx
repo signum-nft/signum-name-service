@@ -51,7 +51,6 @@ interface Props {
 export const Header = ({ orderBy, order, onRequestSort }: Props) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const amountSuffix = useAppSelector(selectAmountSuffix);
 
   const createSortHandler =
     (property: keyof MappedSubdomain) => (event: MouseEvent<unknown>) => {

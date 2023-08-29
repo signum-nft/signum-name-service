@@ -1,4 +1,3 @@
-import { useTranslation } from "next-i18next";
 import { StyledTableRow } from "@/app/components/Table/StyledTableRow";
 import TableCell from "@mui/material/TableCell";
 import Typography from "@mui/material/Typography";
@@ -14,7 +13,6 @@ interface Props {
 }
 
 export const SubdomainItemRow = ({ subdomain }: Props) => {
-  const { t } = useTranslation();
   const {
     aliasId,
     name,

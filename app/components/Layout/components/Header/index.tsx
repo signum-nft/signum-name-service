@@ -17,7 +17,6 @@ export const Header = () => {
   const {
     IsFirefox,
     Platform: { IsMaintenance },
-    Ledger: { IsTestnet },
   } = useAppContext();
   const isDarkMode = useAppSelector(selectIsDarkMode);
 

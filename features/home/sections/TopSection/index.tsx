@@ -19,12 +19,9 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 export const TopSection = () => {
   const { t } = useTranslation();
   const router = useRouter();
-  const {
-    Ledger: { Network },
-  } = useAppContext();
   const dispatch = useAppDispatch();
   const { showError } = useSnackbar();
-  const { connect, isWalletConnected, error, status, wallet } = useXTWallet();
+  const { connect, isWalletConnected, error } = useXTWallet();
   const [isConnecting, setIsConnecting] = useState(false);
 
   useEffect(() => {

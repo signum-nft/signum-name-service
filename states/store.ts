@@ -86,12 +86,6 @@ const transactionPersistConfig: PersistConfig<any> = {
   whitelist: ["monitoredTransactions", "pendingTransactions"],
 };
 
-const subdomainOperationPersistConfig: PersistConfig<any> = {
-  key: "subdomainOperation",
-  version: 1,
-  storage,
-};
-
 const rootReducer = combineReducers({
   appState: persist<ReturnType<typeof appSlice.reducer>>(
     appPersistConfig,

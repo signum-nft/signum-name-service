@@ -66,10 +66,7 @@ export const DomainEditForm = ({
       url: "",
     },
   });
-  const { alias, isLoading } = useAlias(
-    subdomainOperation.alias.aliasId,
-    false
-  );
+  const { alias } = useAlias(subdomainOperation.alias.aliasId, false);
 
   const {
     control,

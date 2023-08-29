@@ -32,17 +32,6 @@ export const SetupWalletModal = () => {
 
   const handleClose = () => dispatch(appActions.setWalletModal(false));
 
-  const openStore = () => {
-    let url =
-      "https://addons.mozilla.org/en-US/firefox/addon/signum-xt-wallet/";
-
-    if (!isFirefox)
-      url =
-        "https://chrome.google.com/webstore/detail/signum-xt-wallet/kdgponmicjmjiejhifbjgembdcaclcib";
-
-    openExternalUrl(url);
-  };
-
   const resetWebsite = () => window.location.reload();
 
   if (isMobile) return <></>;

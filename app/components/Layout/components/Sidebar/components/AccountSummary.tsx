@@ -32,8 +32,6 @@ export const AccountSummary = () => {
 
   const viewAccountInExplorer = () => openExplorer("address/" + accountId);
 
-  const avatarStyles = { width: 28, height: 28, mr: 1 };
-
   if (!isWalletConnected) {
     return (
       <Button fullWidth color="secondary" variant="contained" onClick={connect}>

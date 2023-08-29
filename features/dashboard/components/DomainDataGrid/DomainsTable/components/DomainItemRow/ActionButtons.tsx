@@ -83,7 +83,7 @@ export const ActionButtons = ({ domain }: Props) => {
         icon: <OpenInBrowserIcon />,
         label: t("openInBrowser"),
         tooltip: t("openInBrowserHint", { domain: domainStr }),
-        onClick: (event) => {
+        onClick: () => {
           openExternalUrl(`https://${domainStr}`);
         },
       });
@@ -160,7 +160,7 @@ export const ActionButtons = ({ domain }: Props) => {
                 icon: <ControlIcon />,
                 label: t("manage"),
                 tooltip: t("manageAlias", { signumSwapUrl: SignumSwap }),
-                onClick: (event) => {
+                onClick: () => {
                   openExternalUrl(signumswapUrl);
                 },
               },

@@ -15,12 +15,6 @@ import { transactionActions } from "@/app/states/transactionState";
 import { useAppDispatch } from "@/states/hooks";
 import { AliasLinkCard } from "@/app/components/Modals/SubdomainOperationModal/components/AliasLinkCard";
 
-interface AliasCardProps {
-  alias: AliasProxy;
-  title: string;
-  newName?: string;
-}
-
 interface Props {
   subdomainOperation: SubdomainOperation;
   newName: string;

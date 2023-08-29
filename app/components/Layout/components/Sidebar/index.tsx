@@ -32,7 +32,6 @@ export const SettingsSidebar = () => {
   const { setSelectedTickerSymbol } = marketActions;
   const dispatch = useAppDispatch();
   const isDarkMode = useAppSelector(selectIsDarkMode);
-  const activeTickerSymbol = useAppSelector(selectTickerSymbol);
   const isOpenSettingsSidebar = useAppSelector(selectIsOpenSidebar);
 
   const closeSidebar = () => dispatch(setSidebarOpen(false));
@@ -42,19 +41,6 @@ export const SettingsSidebar = () => {
   const logOut = () => {
     closeSidebar();
     disconnect();
-  };
-
-  const setCurrency = (event: SelectChangeEvent) => {
-    const { value } = event.target;
-
-    // @ts-ignore
-    if (!DefaultAllowedTickers.includes(value)) return;
-
-    // @ts-ignore
-    dispatch(setSelectedTickerSymbol(value));
-    localStorage.setItem("selectedTickerSymbol", value);
-
-    closeSidebar();
   };
 
   return (
