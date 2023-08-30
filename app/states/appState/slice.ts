@@ -1,5 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getSystemTheme } from "@/app/getSystemTheme";
+import SvgIcon from "@mui/material/SvgIcon";
+
+export interface BreadCrumbItem {
+  label: string;
+  href: string;
+  icon: typeof SvgIcon;
+}
 
 export interface TableSettings {
   sortBy: string;
@@ -23,6 +30,7 @@ export interface AppState {
   snackBar: SnackBarState;
   domainTableSettings: TableSettings;
   subdomainTableSettings: TableSettings;
+  breadcrumbs: BreadCrumbItem[];
 }
 
 const initialState: AppState = {
@@ -44,6 +52,7 @@ const initialState: AppState = {
   isOpenSidebar: false,
   showConfettiExplosion: false,
   snackBar: { show: false, label: "", severity: "" },
+  breadcrumbs: [],
 };
 
 export const appSlice = createSlice({
@@ -74,6 +83,9 @@ export const appSlice = createSlice({
     },
     showConfettiExplosion: (state, action: PayloadAction<boolean>) => {
       state.showConfettiExplosion = action.payload;
+    },
+    setBreadcrumbs: (state, action: PayloadAction<BreadCrumbItem[]>) => {
+      state.breadcrumbs = action.payload;
     },
     setTableSettings: (
       state,

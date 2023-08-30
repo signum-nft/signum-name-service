@@ -10,6 +10,7 @@ import { Header } from "./components/Header";
 const ContainerMaxWidth = 1500;
 export const Dashboard: NextPage = () => {
   const { domainLists, isLoading } = useAccountDomains();
+
   const [filteredDomains, setFilteredDomains] = useState<MappedDomain[]>([]);
   return (
     <Box

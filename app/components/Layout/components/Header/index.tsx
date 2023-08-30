@@ -3,7 +3,7 @@ import { useAppSelector } from "@/states/hooks";
 import { selectIsDarkMode } from "@/app/states/appState";
 import { AppSideBar } from "./components/AppSideBar";
 import { Stamp } from "./components/Stamp";
-import { Breadcrumbs } from "./components/BreadCrumbs";
+import { Breadcrumbs } from "../Breadcrumbs/BreadCrumbs";
 
 import Link from "next/link";
 import Image from "next/image";

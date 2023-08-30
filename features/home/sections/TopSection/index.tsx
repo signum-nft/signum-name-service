@@ -132,7 +132,7 @@ export const TopSection = () => {
           }}
         >
           <Fade cascade triggerOnce={true} duration={200}>
-            {t("topSectionTitle")}
+            Signum Name System
           </Fade>
 
           <Fade delay={2_250}>
