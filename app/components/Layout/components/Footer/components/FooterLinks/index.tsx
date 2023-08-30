@@ -1,19 +1,14 @@
 import { useTranslation } from "next-i18next";
 import { useAppContext } from "@/app/hooks/useAppContext";
 import { FooterNavLinks } from "./components/FooterNavLinks";
-import { useAppSelector } from "@/states/hooks";
-import { selectIsDarkMode } from "@/app/states/appState";
 
-import Image from "next/image";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 
 export const FooterLinks = () => {
   const { t } = useTranslation();
   const {
     Platform: { DocumentationUrl },
   } = useAppContext();
-  const isDarkMode = useAppSelector(selectIsDarkMode);
 
   const resourceSection = [
     { label: "Signum", url: "https://signum.network/", newTab: true },
