@@ -1,7 +1,7 @@
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { GenericExtensionWallet } from "@signumjs/wallets";
 import { NetworkNameType, StatusReason, WalletConnectionStatus } from "./types";
-import { ChildrenProps } from "@/types/ChildrenProps";
+import { ChildrenProps } from "@/app/types/ChildrenProps";
 import { Address } from "@signumjs/core";
 
 const StorageKeys = {

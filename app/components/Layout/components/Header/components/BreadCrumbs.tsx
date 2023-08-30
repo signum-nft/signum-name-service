@@ -26,7 +26,6 @@ export const Breadcrumbs = () => {
 
   useEffect(() => {
     const fragments = location.pathname.split("/");
-    console.log("route", fragments);
     const newItems: Item[] = [
       {
         label: t("home"),

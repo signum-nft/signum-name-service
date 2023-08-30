@@ -1,6 +1,6 @@
 import { Fragment, FC, useEffect } from "react";
 import { useRouter } from "next/router";
-import { ChildrenProps } from "@/types/ChildrenProps";
+import { ChildrenProps } from "@/app/types/ChildrenProps";
 import { useSnackbar } from "@/app/hooks/useSnackbar";
 import { SubdomainOperationModal } from "@/app/components/Modals/SubdomainOperationModal";
 import { AppSnackBar } from "./components/SnackBar";

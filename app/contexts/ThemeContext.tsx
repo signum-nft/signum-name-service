@@ -5,7 +5,7 @@ import { CacheProvider } from "@emotion/react";
 import { createEmotionCache } from "@/app/createEmotionCache";
 import { useAppSelector } from "@/states/hooks";
 import { selectThemeMode } from "@/app/states/appState";
-import { ChildrenProps } from "@/types/ChildrenProps";
+import { ChildrenProps } from "@/app/types/ChildrenProps";
 
 import CssBaseline from "@mui/material/CssBaseline";
 

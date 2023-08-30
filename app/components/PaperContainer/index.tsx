@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ChildrenProps } from "@/types/ChildrenProps";
+import { ChildrenProps } from "@/app/types/ChildrenProps";
 import Grid from "@mui/material/Grid";
 
 export const PaperContainer: FC<ChildrenProps> = ({ children }) => (

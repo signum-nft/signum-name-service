@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ChildrenProps } from "@/types/ChildrenProps";
+import { ChildrenProps } from "@/app/types/ChildrenProps";
 import { useXTWallet } from "./useXTWallet";
 import { WalletConnectionStatus } from "./types";
 import { useRouter } from "next/router";

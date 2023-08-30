@@ -1,4 +1,4 @@
-import { ChildrenProps } from "@/types/ChildrenProps";
+import { ChildrenProps } from "@/app/types/ChildrenProps";
 import { useTranslation } from "next-i18next";
 import Typography from "@mui/material/Typography";
 
