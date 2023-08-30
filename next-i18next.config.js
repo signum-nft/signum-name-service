@@ -1,3 +1,4 @@
+const path = require("path");
 // const HttpBackend = require("i18next-http-backend");
 // const ChainedBackend = require("i18next-chained-backend");
 // const LanguageDetector = require("i18next-browser-languagedetector");
@@ -53,5 +54,6 @@ module.exports = {
   i18n: {
     defaultLocale: "en",
     locales: ["en", "de", "pt", "es", "ru", "uk"],
+    localePath: path.resolve("./public/locales"),
   },
 };
