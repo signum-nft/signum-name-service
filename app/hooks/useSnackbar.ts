@@ -8,6 +8,7 @@ export const useSnackbar = () => {
   const dispatch = useAppDispatch();
 
   const showSnackbar = (msg: string, type: SnackbarType) => {
+    console.log("showSnackbar");
     dispatch(
       appActions.setSnackbar({
         show: true,

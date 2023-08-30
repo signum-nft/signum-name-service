@@ -5,7 +5,6 @@ import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import AddLinkIcon from "@mui/icons-material/AddLink";
-import { AliasProxy } from "@/app/types/aliasProxy";
 import { SubdomainOperation } from "@/app/states/subdomainOperationState";
 import { useLedgerService } from "@/app/hooks/useLedgerService";
 import { Config } from "@/app/config";

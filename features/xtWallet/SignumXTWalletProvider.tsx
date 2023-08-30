@@ -61,6 +61,7 @@ export const SignumXTWalletProvider = ({
   autoConnect,
 }: Props) => {
   const wallet = useRef(new GenericExtensionWallet());
+  const isMounted = useRef(false);
   const [account, setAccount] = useState<WalletAccount | null>(null);
   const [node, setNode] = useState<WalletNode | null>(null);
   const [status, setStatus] = useState({
@@ -169,7 +170,7 @@ export const SignumXTWalletProvider = ({
       const info = window.localStorage.getItem(StorageKeys.ConnectionInfo);
       if (info) {
         const json = JSON.parse(info);
-        if (Boolean(json.autoConnect)) {
+        if (json.autoConnect) {
           await connect();
         } else {
           setStatus({
@@ -184,8 +185,11 @@ export const SignumXTWalletProvider = ({
         });
       }
     }
-    init();
-  }, [connect]);
+    if (!isMounted.current) {
+      init();
+    }
+    isMounted.current = true;
+  }, []);
 
   return (
     <SignumXTWalletContext.Provider

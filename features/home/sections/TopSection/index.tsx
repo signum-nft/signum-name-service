@@ -41,7 +41,7 @@ export const TopSection = () => {
           showError(error.message);
       }
     }
-  }, [dispatch, error, showError]);
+  }, [dispatch, error]); // don't add showError! - loops
 
   const handleOnWalletConnect = async () => {
     setIsConnecting(true);

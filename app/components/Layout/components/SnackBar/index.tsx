@@ -1,7 +1,7 @@
 import { SyntheticEvent, forwardRef } from "react";
 import { useSnackbar } from "@/app/hooks/useSnackbar";
 import { useAppSelector } from "@/states/hooks";
-import { selectIsDarkMode, selectSnackbarState } from "@/app/states/appState";
+import { selectSnackbarState } from "@/app/states/appState";
 
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
