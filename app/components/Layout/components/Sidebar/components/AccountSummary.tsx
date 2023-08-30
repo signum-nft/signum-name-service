@@ -81,14 +81,24 @@ export const AccountSummary = () => {
         </Box>
       </Box>
 
-      <Box display="flex" flexDirection="row" alignItems="center" mb={2}>
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={2}
+      >
         <Box mr={0.25}>
           <AccountAvatar size={48} />
         </Box>
-
-        <Typography fontWeight={500} variant="h6">
-          <FormattedAmount value={balance.availableBalance.getSigna()} />
-        </Typography>
+        <div>
+          <Typography variant="caption" color="text.secondary">
+            {t("availableBalance")}
+          </Typography>
+          <Typography fontWeight={500} variant="h6">
+            <FormattedAmount value={balance.availableBalance.getSigna()} />
+          </Typography>
+        </div>
       </Box>
     </Paper>
   );

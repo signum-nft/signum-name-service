@@ -187,7 +187,7 @@ export const TopSection = () => {
                   borderRadius: { xs: "22px", sm: "28px" },
                   color: "white",
                   fontSize: { xs: "18px", sm: "24px" },
-                  filter: "drop-shadow(0px 2px 3px white)",
+                  filter: "drop-shadow(0px 2px 3px rgba(0,0,0,0.5))",
                   backgroundColor: "#ec38bc",
                 }}
                 className="glance-effect"

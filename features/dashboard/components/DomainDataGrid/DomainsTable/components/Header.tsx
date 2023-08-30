@@ -107,7 +107,7 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
           </TableCell>
         ))}
 
-        <TableCell sx={{ display: stylingColumnInMobile.display }}>
+        <TableCell sx={{ display: "table-cell" }}>
           <Typography variant="body2">{t("action_other")}</Typography>
         </TableCell>
       </TableRow>
