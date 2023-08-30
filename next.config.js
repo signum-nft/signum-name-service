@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 
 const { i18n } = require("./next-i18next.config");
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE_BUNDLE === "true",
-});
 
 const securityHeaders = [
   {
@@ -24,7 +21,7 @@ const securityHeaders = [
   },
 ];
 
-const nextConfig = withBundleAnalyzer({
+const nextConfig = {
   reactStrictMode: true,
   i18n,
   async headers() {
@@ -36,6 +33,6 @@ const nextConfig = withBundleAnalyzer({
       },
     ];
   },
-});
+};
 
 module.exports = nextConfig;
