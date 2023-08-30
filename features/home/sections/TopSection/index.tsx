@@ -136,7 +136,7 @@ export const TopSection = () => {
           </Fade>
 
           <Fade delay={2_250}>
-            <Slide direction="up" delay={2_000}>
+            <Slide direction="up" delay={2_000} triggerOnce={true}>
               <Typography
                 fontWeight={800}
                 color="secondary"
@@ -152,7 +152,7 @@ export const TopSection = () => {
           </Fade>
         </Typography>
 
-        <Fade>
+        <Fade triggerOnce={true}>
           <Typography
             component="h1"
             fontWeight={700}
