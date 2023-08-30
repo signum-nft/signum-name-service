@@ -25,6 +25,10 @@ export const Breadcrumbs = () => {
   const [items, setItems] = useState<Item[]>([]);
 
   useEffect(() => {
+    if (route === "/") {
+      return;
+    }
+
     const fragments = location.pathname.split("/");
     const newItems: Item[] = [
       {
@@ -51,7 +55,7 @@ export const Breadcrumbs = () => {
     }
     if (fragments[1] === "privacy") {
       newItems.push({
-        label: t("privacy"),
+        label: t("privacyPolicy"),
         href: "/privacy",
         icon: PolicyIcon,
       });

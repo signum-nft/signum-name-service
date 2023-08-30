@@ -59,9 +59,9 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
       onRequestSort(event, property);
     };
 
-  const stylingColumnInMobile = {
-    display: { xs: "none", lg: "table-cell" },
-  };
+  // const stylingColumnInMobile = {
+  //   display: { xs: "none", lg: "table-cell" },
+  // };
 
   return (
     <TableHead>
@@ -75,7 +75,7 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
             key={headCell.id}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
-              display: stylingColumnInMobile.display,
+              display: "table-cell",
             }}
           >
             <TableSortLabel
