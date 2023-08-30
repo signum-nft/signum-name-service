@@ -142,7 +142,7 @@ export const TopSection = () => {
                 color="secondary"
                 sx={{
                   top: 0,
-                  fontSize: "2rem",
+                  fontSize: { xs: "1rem", md: "2rem" },
                   filter: "drop-shadow(0px 2px 3px rgba(0,0,0,0.5))",
                 }}
               >
