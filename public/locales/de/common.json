@@ -9,7 +9,7 @@
   "addSubdomainBefore": "Füge vorher hinzu",
   "addSubdomainBeforeHint": "Füge vor dieser Subdomain eine neue Subdomain hinzu",
   "addedSubdomainSuccessfully": "Neue Subdomain hinzugefügt",
-  "addedSubdomainSuccessfullyDescription": "Neue Subdomain {{subdomain}} wurde erfolgreich zur Domain {{domain}} hinzugefügt",
+  "addedSubdomainSuccessfullyDescription": "Die neue Subdomain {{subdomain}} für die Domain {{domain}} wurde erfolgreich übermittelt. Die neue Subdomain wird in wenigen Augenblicken angezeigt.",
   "addingNewSubdomain": "Hinzufügen...",
   "addressOrAccountId": "Adresse oder Konto-ID",
   "alias": "Alias",
@@ -35,7 +35,7 @@
   "aliasName": "Alias",
   "aliasSecondStep": "Wähle aus, wie Du den Alias verwenden möchtest",
   "aliasThirdStep": "Besitze deine gany individuelle Identität in der digitalen Welt",
-  "aliasUpdateSuccesfull": "Alias wurde erfolgreich aktualisiert!",
+  "aliasUpdateSuccesfull": "Alias-Update erfolgreich übermittelt!",
   "aliasUpdateSuccesfullDescription": "Dein Alias-Update wird verarbeitet. Das Blockchain-Netzwerk validiert deine Transaktion und wird in wenigen Augenblicken abgeschlossen sein.",
   "alias_other": "Aliasse",
   "amount": "Menge",
@@ -154,7 +154,7 @@
   "receiverAddress": "Empfängeradresse",
   "releaseSubdomain": "Subdomain freigeben",
   "releaseSubdomainSuccessful": "Subdomain freigegeben",
-  "releaseSubdomainSuccessfulDescription": "Die Subdomain wurde erfolgreich freigegeben, d. h. das Abonnement wurde gekündigt und der Alias gehört dir nicht mehr. Dies wird ab dem nächsten Block wirksam",
+  "releaseSubdomainSuccessfulDescription": "Die Subdomain-Freigabe wurde erfolgreich übermittelt. Das Abonnement wird gekündigt und der Alias gehört dir nicht mehr. Dies wird ab dem nächsten Block wirksam.",
   "relinkAlias": "Alias neu verknüpfen",
   "relinkageSummary": "Mit dem Entfernen der Subdomain ist es notwendig, die Subdomain-Liste neu zu verknüpfen. Nur noch eine Bestätigung und der Vorgang ist abgeschlossen.",
   "resource": "Ressource",
@@ -249,5 +249,6 @@
   "xtWalletSecondBenefit": "Dein privater Schlüssel wird ausschliesslich lokal im Browser gespeichert",
   "yes": "Ja",
   "yesCancelOrder": "Ja, Bestellung abbrechen",
-  "youWillPay": "Du hast zu zahlen"
+  "youWillPay": "Du hast zu zahlen",
+  "enterTheReceiverAddress": "Geben Sie die aufzulösende Adresse oder ID ein"
 }

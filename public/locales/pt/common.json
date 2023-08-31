@@ -9,7 +9,7 @@
   "addSubdomainBefore": "Inserir antes",
   "addSubdomainBeforeHint": "Adicionar novo subdomínio antes deste subdomínio",
   "addedSubdomainSuccessfully": "Novo subdomínio adicionado",
-  "addedSubdomainSuccessfullyDescription": "Novo subdomínio {{subdomain}} adicionado com sucesso ao domínio {{domain}}",
+  "addedSubdomainSuccessfullyDescription": "A adição do novo subdomínio {{subdomain}} para o domínio {{domain}} foi enviada com sucesso. O novo subdomínio aparecerá em alguns instantes.",
   "addingNewSubdomain": "Adicionando...",
   "addressOrAccountId": "Endereço ou ID da conta",
   "alias": "Alias",
@@ -35,7 +35,7 @@
   "aliasName": "Nome alternativo",
   "aliasSecondStep": "Escolha como você deseja usar o Alias",
   "aliasThirdStep": "Tenha sua identidade no mundo digital",
-  "aliasUpdateSuccesfull": "Alias atualizado com sucesso!",
+  "aliasUpdateSuccesfull": "Atualização de Alias enviada com sucesso!",
   "aliasUpdateSuccesfullDescription": "A atualização do seu alias está sendo processada. Aguarde a confirmação e deixe o blockchain fazer tudo por você 😀",
   "alias_other": "Apelido",
   "amount": "Quantia",
@@ -154,7 +154,7 @@
   "receiverAddress": "Endereço do destinatário",
   "releaseSubdomain": "Liberar subdomínio",
   "releaseSubdomainSuccessful": "Subdomínio lançado",
-  "releaseSubdomainSuccessfulDescription": "O subdomínio foi lançado com sucesso, ou seja, a assinatura foi cancelada e o alias não pertence mais a você. Isso entrará em vigor no próximo bloco",
+  "releaseSubdomainSuccessfulDescription": "A versão do subdomínio foi enviada com sucesso. A assinatura será cancelada e o alias não será mais de sua propriedade. Isso entrará em vigor no próximo bloco.",
   "relinkAlias": "Vincular novamente o alias",
   "relinkageSummary": "Com a remoção do subdomínio é necessário vincular novamente a lista de subdomínios. Basta mais uma confirmação e a operação estará concluída.",
   "resource": "Recurso",
@@ -249,5 +249,6 @@
   "xtWalletSecondBenefit": "Sua chave privada será armazenada localmente em seu navegador",
   "yes": "Sim",
   "yesCancelOrder": "Sim, cancelar o pedido",
-  "youWillPay": "Você pagará"
+  "youWillPay": "Você pagará",
+  "enterTheReceiverAddress": "Digite o endereço ou ID a ser resolvido"
 }

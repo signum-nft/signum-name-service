@@ -9,7 +9,7 @@
   "addSubdomainBefore": "Agregar antes",
   "addSubdomainBeforeHint": "Agregar un nuevo subdominio antes de este subdominio",
   "addedSubdomainSuccessfully": "Nuevo subdominio agregado",
-  "addedSubdomainSuccessfullyDescription": "Nuevo subdominio {{subdomain}} agregado correctamente al dominio {{domain}}",
+  "addedSubdomainSuccessfullyDescription": "Se ha enviado correctamente el nuevo subdominio {{subdomain}} para el dominio {{domain}}. El nuevo subdominio aparecerá en unos momentos.",
   "addingNewSubdomain": "Añadiendo...",
   "addressOrAccountId": "Dirección o ID de cuenta",
   "alias": "Alias",
@@ -35,7 +35,7 @@
   "aliasName": "Apodo",
   "aliasSecondStep": "Elige cómo quieres usar el Alias",
   "aliasThirdStep": "Sea dueño de su identidad en el mundo digital",
-  "aliasUpdateSuccesfull": "¡Alias actualizado exitosamente!",
+  "aliasUpdateSuccesfull": "¡Actualización de alias enviada correctamente!",
   "aliasUpdateSuccesfullDescription": "La actualización de tu alias se está procesando. Espera la confirmación y deja que blockchain haga todo por ti 😀",
   "alias_other": "Alias",
   "amount": "Cantidad",
@@ -154,7 +154,7 @@
   "receiverAddress": "Dirección del destinatario",
   "releaseSubdomain": "Lanzar subdominio",
   "releaseSubdomainSuccessful": "Subdominio liberado",
-  "releaseSubdomainSuccessfulDescription": "El subdominio se ha liberado correctamente, es decir, la suscripción se canceló y el alias ya no es de su propiedad. Esto entrará en vigor en el siguiente bloque.",
+  "releaseSubdomainSuccessfulDescription": "La versión del subdominio se envió correctamente. La suscripción se cancelará y el alias ya no será de tu propiedad. Esto entrará en vigor en el siguiente bloque.",
   "relinkAlias": "Volver a vincular alias",
   "relinkageSummary": "Con la eliminación del subdominio es necesario volver a vincular la lista de subdominios. Sólo una confirmación más y la operación estará completa.",
   "resource": "Recurso",
@@ -249,5 +249,6 @@
   "xtWalletSecondBenefit": "Su clave privada se almacenará localmente en su navegador",
   "yes": "Sí",
   "yesCancelOrder": "Sí, cancelar el pedido",
-  "youWillPay": "Tu vas a pagar"
+  "youWillPay": "Tu vas a pagar",
+  "enterTheReceiverAddress": "Ingrese Dirección o DNI a resolver"
 }
