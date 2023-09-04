@@ -13,6 +13,19 @@ export interface TableSettings {
   sortDirection: "asc" | "desc";
   itemsPerPage: number;
 }
+
+interface TableSettingsArgs {
+  sortBy?: string;
+  sortDirection?: "asc" | "desc";
+  itemsPerPage?: number;
+}
+
+export const DefaultTableSettings: TableSettings = {
+  itemsPerPage: 10,
+  sortBy: "name",
+  sortDirection: "asc",
+};
+
 export type SnackBarState = {
   show: boolean;
   label: string;
@@ -34,16 +47,8 @@ export interface AppState {
 }
 
 const initialState: AppState = {
-  domainTableSettings: {
-    itemsPerPage: 10,
-    sortBy: "name",
-    sortDirection: "asc",
-  },
-  subdomainTableSettings: {
-    itemsPerPage: 10,
-    sortBy: "name",
-    sortDirection: "asc",
-  },
+  domainTableSettings: DefaultTableSettings,
+  subdomainTableSettings: DefaultTableSettings,
   themeMode: getSystemTheme(),
   isOpenShareModal: false,
   isOpenWalletModal: false,
@@ -89,13 +94,21 @@ export const appSlice = createSlice({
     },
     setTableSettings: (
       state,
-      action: PayloadAction<TableSettings & { table: "domains" | "subdomains" }>
+      action: PayloadAction<
+        TableSettingsArgs & { table: "domains" | "subdomains" }
+      >
     ) => {
       const { table, ...payload } = action.payload;
       if (table === "domains") {
-        state.domainTableSettings = payload;
+        state.domainTableSettings = {
+          ...state.domainTableSettings,
+          ...payload,
+        };
       } else {
-        state.subdomainTableSettings = payload;
+        state.subdomainTableSettings = {
+          ...state.subdomainTableSettings,
+          ...payload,
+        };
       }
     },
   },

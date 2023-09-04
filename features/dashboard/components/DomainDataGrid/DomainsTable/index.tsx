@@ -1,5 +1,4 @@
 import { useMemo, useState, MouseEvent, useRef } from "react";
-import { Order } from "@/app/types/order";
 import { stableSort, getComparator } from "@/app/tableMethods";
 import { PaperCard } from "@/app/components/PaperCard";
 import { Header as TableHeader } from "./components/Header";
@@ -13,51 +12,68 @@ import { TablePagination } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "next-i18next";
 import chunk from "lodash/chunk";
-
+import { useAppDispatch, useAppSelector } from "@/states/hooks";
+import { appActions, TableSettings } from "@/app/states/appState";
 interface Props {
   domains: MappedDomain[];
 }
 
-const DefaultRowsPerPage = 10;
-
 export const DomainsTable = ({ domains }: Props) => {
-  const rowsPerPage = useRef(DefaultRowsPerPage);
+  const dispatch = useAppDispatch();
+  const tableSettings = useAppSelector<TableSettings>(
+    (state) => state.appState.domainTableSettings
+  );
   const page = useRef(0);
   const { t } = useTranslation();
-  const [orderBy, setOrderBy] = useState<keyof MappedDomain>("name");
-  const [order, setOrder] = useState<Order>("asc");
-  const [paginationChanged, setPaginationChanged] = useState(0);
+  // const [orderBy, setOrderBy] = useState<keyof MappedDomain>("name");
+  // const [order, setOrder] = useState<Order>("asc");
+  const [pageChange, setPageChange] = useState(0);
 
+  function forceUpdate() {
+    setPageChange(pageChange + 1);
+  }
   const handleRequestSort = (
     _event: MouseEvent<unknown>,
     property: keyof MappedDomain
   ) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
+    const { sortBy, sortDirection } = tableSettings;
+    dispatch(
+      appActions.setTableSettings({
+        table: "domains",
+        sortBy: property,
+        sortDirection:
+          sortBy === property && sortDirection === "asc" ? "desc" : "asc",
+      })
+    );
   };
 
   const handleChangePage = (_: any, p: any) => {
     page.current = p;
-    setPaginationChanged(paginationChanged + 1); // forcing re-render
+    forceUpdate();
   };
 
   const handleChangeRowsPerPage = (e: any) => {
-    rowsPerPage.current = e.target.value;
+    dispatch(
+      appActions.setTableSettings({
+        table: "domains",
+        itemsPerPage: e.target.value,
+      })
+    );
     page.current = 0;
-    setPaginationChanged(paginationChanged + 1); // forcing re-render
   };
 
   const sortedRows = useMemo(() => {
+    const { sortBy, sortDirection } = tableSettings;
     // @ts-ignore
-    return stableSort<MappedDomain>(domains, getComparator(order, orderBy)).map(
-      (domain) => <DomainItemRow key={domain.id} domain={domain} />
-    );
-  }, [order, orderBy, domains]);
+    return stableSort<MappedDomain>(
+      domains,
+      getComparator(sortDirection, sortBy)
+    ).map((domain) => <DomainItemRow key={domain.id} domain={domain} />);
+  }, [tableSettings, domains]);
 
   const pagedRows = useMemo(() => {
-    return chunk(sortedRows, rowsPerPage.current);
-  }, [paginationChanged, sortedRows]); // keep paginationChanged as trigger!
+    return chunk(sortedRows, tableSettings.itemsPerPage);
+  }, [pageChange, sortedRows, tableSettings]); // keep pageChange as trigger!
 
   return (
     <PaperCard>
@@ -65,8 +81,8 @@ export const DomainsTable = ({ domains }: Props) => {
         <Table sx={{ minWidth: 550 }}>
           <TableHeader
             onRequestSort={handleRequestSort}
-            order={order}
-            orderBy={orderBy}
+            order={tableSettings.sortDirection}
+            orderBy={tableSettings.sortBy}
           />
 
           <TableBody>{pagedRows[page.current]}</TableBody>
@@ -76,7 +92,7 @@ export const DomainsTable = ({ domains }: Props) => {
         rowsPerPageOptions={[5, 10, 25, 50]}
         component="div"
         count={sortedRows.length}
-        rowsPerPage={rowsPerPage.current}
+        rowsPerPage={tableSettings.itemsPerPage}
         page={page.current}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}

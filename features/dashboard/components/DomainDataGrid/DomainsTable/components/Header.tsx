@@ -42,7 +42,7 @@ const getHeadCells = (): HeadCell[] => [
 ];
 
 interface Props {
-  orderBy: keyof MappedDomain;
+  orderBy: string;
   order: Order;
   onRequestSort: (
     event: MouseEvent<unknown>,
@@ -58,10 +58,6 @@ export const Header = ({ orderBy, order, onRequestSort }: Props) => {
     (property: keyof MappedDomain) => (event: MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
-
-  // const stylingColumnInMobile = {
-  //   display: { xs: "none", lg: "table-cell" },
-  // };
 
   return (
     <TableHead>
