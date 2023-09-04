@@ -25,8 +25,6 @@ export const DomainsTable = ({ domains }: Props) => {
   );
   const page = useRef(0);
   const { t } = useTranslation();
-  // const [orderBy, setOrderBy] = useState<keyof MappedDomain>("name");
-  // const [order, setOrder] = useState<Order>("asc");
   const [pageChange, setPageChange] = useState(0);
 
   function forceUpdate() {
@@ -64,9 +62,9 @@ export const DomainsTable = ({ domains }: Props) => {
 
   const sortedRows = useMemo(() => {
     const { sortBy, sortDirection } = tableSettings;
-    // @ts-ignore
     return stableSort<MappedDomain>(
       domains,
+      // @ts-ignore
       getComparator(sortDirection, sortBy)
     ).map((domain) => <DomainItemRow key={domain.id} domain={domain} />);
   }, [tableSettings, domains]);

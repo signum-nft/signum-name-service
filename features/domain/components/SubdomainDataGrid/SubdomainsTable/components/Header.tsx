@@ -10,8 +10,6 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import Typography from "@mui/material/Typography";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { useAppSelector } from "@/states/hooks";
-import { selectAmountSuffix } from "@/app/states/ledgerState";
 import { MappedSubdomain } from "@/app/types/mappedSubdomain";
 
 interface HeadCell {
@@ -40,7 +38,7 @@ const getHeadCells = (): HeadCell[] => [
 ];
 
 interface Props {
-  orderBy: keyof MappedSubdomain | "";
+  orderBy: string;
   order: Order;
   onRequestSort: (
     event: MouseEvent<unknown>,
