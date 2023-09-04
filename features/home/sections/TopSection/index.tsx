@@ -135,7 +135,7 @@ export const TopSection = () => {
             Signum Name System
           </Fade>
 
-          <Fade delay={2_250}>
+          <Fade delay={2_250} triggerOnce={true}>
             <Slide direction="up" delay={2_000} triggerOnce={true}>
               <Typography
                 fontWeight={800}

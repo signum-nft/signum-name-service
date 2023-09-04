@@ -14,7 +14,6 @@ export const Home: NextPage = () => {
       <AliasSection />
       <Slide triggerOnce direction="up">
         <HowToSection />
-        <WhySignumSection />
         <FAQSection />
       </Slide>
     </Box>
