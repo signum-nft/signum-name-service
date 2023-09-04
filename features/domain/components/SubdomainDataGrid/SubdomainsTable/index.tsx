@@ -19,8 +19,6 @@ interface Props {
   domains: MappedSubdomain[];
 }
 
-const DefaultRowsPerPage = 10;
-
 export const SubdomainsTable = ({ domains }: Props) => {
   const page = useRef(0);
   const { t } = useTranslation();
