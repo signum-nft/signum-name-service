@@ -2,7 +2,6 @@ import { useTranslation } from "next-i18next";
 import { SEOMetaTags } from "@/app/components/SEOMetaTags";
 import { Privacy } from "@/features/legal/privacy";
 import { GetServerSidePropsI18N, withTranslations } from "@/app/i18n/server";
-import PrivacyIcon from "@mui/icons-material/Policy";
 import { WithBreadcrumbs } from "@/app/components/Layout/components/Breadcrumbs";
 
 export async function getServerSideProps({ locale }: GetServerSidePropsI18N) {
@@ -18,7 +17,7 @@ export default function PrivacyPage() {
         {
           label: t("privacyPolicy"),
           href: "/privacy",
-          icon: PrivacyIcon,
+          icon: "privacy",
         },
       ]}
     >

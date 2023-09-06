@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getSystemTheme } from "@/app/getSystemTheme";
 
-export type BreadCrumbIcon = "home" | "dashboard" | "subdomain";
+export type BreadCrumbIcon =
+  | "home"
+  | "dashboard"
+  | "subdomain"
+  | "privacy"
+  | "terms";
 export interface BreadCrumbItem {
   label: string;
   href: string;

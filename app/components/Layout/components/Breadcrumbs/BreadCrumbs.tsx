@@ -8,6 +8,8 @@ import { BreadCrumbIcon, selectBreadcrumbs } from "@/app/states/appState";
 import DasboardIcon from "@mui/icons-material/TableChart";
 import HomeIcon from "@mui/icons-material/Home";
 import DomainIcon from "@mui/icons-material/Language";
+import PrivacyIcon from "@mui/icons-material/Policy";
+import TermsIcon from "@mui/icons-material/Gavel";
 
 function getBreadcrumbIcon(icon: BreadCrumbIcon) {
   switch (icon) {
@@ -17,6 +19,10 @@ function getBreadcrumbIcon(icon: BreadCrumbIcon) {
       return <DomainIcon />;
     case "home":
       return <HomeIcon />;
+    case "privacy":
+      return <PrivacyIcon />;
+    case "terms":
+      return <TermsIcon />;
     default:
       return null;
   }
