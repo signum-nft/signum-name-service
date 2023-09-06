@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getSystemTheme } from "@/app/getSystemTheme";
-import SvgIcon from "@mui/material/SvgIcon";
 
+export type BreadCrumbIcon = "home" | "dashboard" | "subdomain";
 export interface BreadCrumbItem {
   label: string;
   href: string;
-  icon: typeof SvgIcon;
+  icon: BreadCrumbIcon;
 }
 
 export interface TableSettings {

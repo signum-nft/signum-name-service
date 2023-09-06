@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { useAppSelector, useAppDispatch } from "@/states/hooks";
-import { MenuOptions } from "@/app/components/MenuOptions";
+import { Link, MenuOptions } from "@/app/components/MenuOptions";
 import { ProcessingIndicatorChip } from "@/app/components/ProcessingIndicatorChip";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -21,8 +21,11 @@ import { SubdomainAction } from "@/app/types/subdomainAction";
 import { useMonitoredTransaction } from "@/app/hooks/useMonitoredTransaction";
 import { createAliasNameForSubdomain } from "@/app/createAliasNameForSubdomain";
 import { Config } from "@/app/config";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { asDomainString } from "@/app/asDomainString";
+import OpenInBrowserIcon from "@mui/icons-material/OpenInBrowser";
+import { openExternalUrl } from "@/app/openExternalUrl";
+import { asSubdomainString } from "@/app/asSubdomainString";
 
 interface Props {
   subdomain: MappedSubdomain;
@@ -72,6 +75,29 @@ export const ActionButtons = ({ subdomain }: Props) => {
     });
   };
 
+  const dynamicMenuItems = useMemo(() => {
+    const items: Link[] = [];
+
+    if (subdomain.url) {
+      const urlString = asSubdomainString({
+        domain: subdomain.domainName,
+        tld: subdomain.aliasTld,
+        subdomain: subdomain.name,
+      });
+
+      items.push({
+        icon: <OpenInBrowserIcon />,
+        label: t("openInBrowser"),
+        tooltip: t("openInBrowserHint", { domain: urlString }),
+        onClick: () => {
+          openExternalUrl(`https://${urlString}`);
+        },
+      });
+    }
+
+    return items;
+  }, [subdomain, t]);
+
   if (isPending) {
     return <ProcessingIndicatorChip />;
   }
@@ -106,6 +132,7 @@ export const ActionButtons = ({ subdomain }: Props) => {
             disabled: disabledListAction,
             onClick: handleAddBefore,
           },
+          ...dynamicMenuItems,
           {
             icon: <UnlinkIcon />,
             label: t("unlink"),

@@ -5,9 +5,6 @@ import { SEOMetaTags } from "@/app/components/SEOMetaTags";
 import { useRouter } from "next/router";
 import { Domain } from "@/features/domain";
 import { asSingleQueryParam } from "@/app/asSingleQueryParam";
-import HomeIcon from "@mui/icons-material/Home";
-import DashboardIcon from "@mui/icons-material/TableChart";
-import DomainIcon from "@mui/icons-material/Language";
 import { WithBreadcrumbs } from "@/app/components/Layout/components/Breadcrumbs";
 
 export async function getServerSideProps({ locale }: GetServerSidePropsI18N) {
@@ -26,9 +23,9 @@ export default function DomainPage() {
       />
       <WithBreadcrumbs
         breadcrumbs={[
-          { label: t("home"), href: "/", icon: HomeIcon },
-          { label: t("dashboard"), href: "/dashboard", icon: DashboardIcon },
-          { label: domainName, href: "#", icon: DomainIcon },
+          { label: t("home"), href: "/", icon: "home" },
+          { label: t("dashboard"), href: "/dashboard", icon: "dashboard" },
+          { label: domainName, href: "#", icon: "subdomain" },
         ]}
       >
         <Domain domainName={domainName} />

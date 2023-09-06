@@ -83,7 +83,10 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActionPaths: ["payload.subdomain.__listElement", "payload.icon"],
+        ignoredActionPaths: [
+          "payload.subdomain.__listElement",
+          "payload.breadcrumbs",
+        ],
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),

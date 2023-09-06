@@ -16,7 +16,7 @@ import nextI18nConfig from "../next-i18next.config";
 import "../styles/globals.css";
 import { SignumXTWalletProvider } from "@/features/xtWallet/SignumXTWalletProvider";
 
-const DefaultTitle = "Signum Name System - Decentralized URL Resolution";
+const DefaultTitle = "Signum Name System";
 
 const App = (props: AppProps) => {
   const { Component, pageProps, router } = props;
@@ -39,7 +39,7 @@ const App = (props: AppProps) => {
         serverSideTitle={DefaultTitle}
         canonical={Config.Platform.CanonicalUrl + router.asPath}
         imgUrl={Config.Platform.CanonicalUrl + "assets/img/SEO.jpg"}
-        keywords="signum, blockchain, web3, decentralization, dns, ens"
+        keywords="signum, blockchain, web3, decentralization, dns, ens, sns"
         description="Create custom URLs and resolve them using the Signum Blockchain Platform"
         viewport="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
       />
