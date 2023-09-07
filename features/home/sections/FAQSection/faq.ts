@@ -39,4 +39,9 @@ export const FAQs = [
     question: "faqQuestion7",
     answer: "faqQuestion7_answer",
   },
+  {
+    id: "9",
+    question: "faqQuestion9",
+    answer: "faqQuestion9_answer",
+  },
 ];

@@ -37,6 +37,8 @@
   "faqQuestion7_answer": "Aliases are not meant to be private. The data stored in the Aliases is public and can be read by anyone. So, never keep sensible information in your Aliases.",
   "faqQuestion8": "Which STLDs exist?",
   "faqQuestion8_answer": "At this time of writing 18 default STLDs and one custom STLD are available. Those are: blockchain, coin, crypto, dao, decentral, dex, free, nft, nostr, p2p, signa, signum (Default), sns, w3, wallet, web3, x, y,z. To check the currently available STLDs, go to https://signumswap.com or copy the following link in your browser: https://europe.signum.network/api?requestType=getTLDs",
+  "faqQuestion9": "What is NostriChat and how can I use it?",
+  "faqQuestion9_answer": "The NostriChat is a chat application that is used to communicate with other users using the decentral nostr protocol. It is totally free without any costs. To use the chat you need to import your Signum account into XT Wallet with the Nostr option turned on. How this works exactly you can learn on https://www.youtube.com/watch?v=MRlj90ZA2Dc",
   "aliasHasNoContent": "This Alias does not have content assigned",
   "aliasInfoHint": "The total number of Signum Aliases you own.",
   "aliasLandingTopSectionDescription": "Type your desired name and check if it's still available. Claim your ",
