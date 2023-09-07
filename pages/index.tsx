@@ -9,7 +9,7 @@ export async function getServerSideProps({ locale }: GetServerSidePropsI18N) {
 export default function HomePage() {
   return (
     <WithBreadcrumbs breadcrumbs={[]}>
-      <Home />;
+      <Home />
     </WithBreadcrumbs>
   );
 }
