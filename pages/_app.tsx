@@ -40,7 +40,7 @@ const App = (props: AppProps) => {
         canonical={Config.Platform.CanonicalUrl + router.asPath}
         imgUrl={Config.Platform.CanonicalUrl + "/assets/img/SEO.jpg"}
         keywords="signum, blockchain, web3, decentralization, dns, ens, sns"
-        description="Create custom URLs and resolve them using the Signum Blockchain Platform"
+        description={t("seoDescription")}
         viewport="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
       />
 

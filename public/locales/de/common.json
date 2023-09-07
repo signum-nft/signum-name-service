@@ -263,5 +263,6 @@
   "getNostrAccount": "Ein Nostr-Konto erstellen",
   "nostrumNetwork": "Nostrum-Netzwerk",
   "faqQuestion9": "Was ist NostriChat und wie kann ich es nutzen?",
-  "faqQuestion9_answer": "Um den Chat benutzen zu können musst du in der XT Wallet dein Signum Konto mit eingeschalteter Nostr-Option importieren. Wie dies genau funktioniert kannst du auf https://www.youtube.com/watch?v=MRlj90ZA2Dc erfahren"
+  "faqQuestion9_answer": "Um den Chat benutzen zu können musst du in der XT Wallet dein Signum Konto mit eingeschalteter Nostr-Option importieren. Wie dies genau funktioniert kannst du auf https://www.youtube.com/watch?v=MRlj90ZA2Dc erfahren",
+  "seoDescription": "Erschließe die Zukunft mit dem dezentralen Namenssystem von Signum: Hole dir deine personalisierte URL wie z.B. https://nfts.signum und verknüpfe mit Signum-Wallets und/oder Webadressen. Nie mehr komplexe und schwer zu erinnernde URLs und Konto-IDs!"
 }

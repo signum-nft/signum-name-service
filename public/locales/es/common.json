@@ -263,5 +263,6 @@
   "getNostrAccount": "Obtener una cuenta Nostr",
   "nostrumNetwork": "Red Nostrum",
   "faqQuestion9": "¿Qué es NostriChat y cómo puedo utilizarlo?",
-  "faqQuestion9_answer": "NostriChat es una aplicación de chat que se utiliza para comunicarse con otros usuarios mediante el protocolo descentralizado nostr. Es totalmente gratis sin ningún coste. Para usar el chat, debe importar su cuenta Signum a XT Wallet con la opción Nostr activada. Cómo funciona esto exactamente, puedes aprenderlo en https://www.youtube.com/watch?v=MRlj90ZA2Dc"
+  "faqQuestion9_answer": "NostriChat es una aplicación de chat que se utiliza para comunicarse con otros usuarios mediante el protocolo descentralizado nostr. Es totalmente gratis sin ningún coste. Para usar el chat, debe importar su cuenta Signum a XT Wallet con la opción Nostr activada. Cómo funciona esto exactamente, puedes aprenderlo en https://www.youtube.com/watch?v=MRlj90ZA2Dc",
+  "seoDescription": "Desbloquee el futuro con el sistema de nombres descentralizado de Signum: solicite su URL personalizada como https://nfts.signum y vincule perfectamente a las billeteras y direcciones web de Signum. ¡Diga adiós a las URL complejas y a los ID de cuenta!"
 }
