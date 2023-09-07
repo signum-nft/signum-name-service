@@ -68,7 +68,7 @@
   "doYouWantToDeleteDomainDescription": "Sobald du fortfährst, gehört der zugrunde liegende Alias „{{aliasName}}“ nicht mehr dir und kann von anderen beansprucht werden.",
   "doYouWantToDeleteSubdomain": "Möchtest du diese Subdomain wirklich loswerden?",
   "document": "Dokumentieren",
-  "document_other": "Unterlagen",
+  "document_other": "Dokumentation",
   "documentation": "Dokumentation",
   "domainInfoHint": "Domains und Subdomains, die dir gehören.",
   "domain_one": "Domain",
@@ -259,5 +259,7 @@
   "faqQuestion7": "Wie sieht es mit dem Datenschutz bei Aliassen aus?",
   "faqQuestion7_answer": "Aliasse sind nicht privat. Die in den Aliassen gespeicherten Daten sind öffentlich und für jedermann lesbar. Bewahre daher niemals vertrauliche Informationen im Alias auf.",
   "faqQuestion8": "Welche STLDs gibt es?",
-  "faqQuestion8_answer": "Zum jetzigen Zeitpunkt sind 18 Standard-STLDs und ein benutzerdefinierter STLD verfügbar. Das sind: blockchain, coin, krypto, dao, dezentral, dex, free, nft, nostr, p2p, signa, signum (default), sns, w3, wallet, web3, x, y, z. Um die aktuell verfügbaren STLDs zu checken, gehe zu https://signumswap.com oder kopiere den folgenden Link in den Browser: https://europe.signum.network/api?requestType=getTLDs"
+  "faqQuestion8_answer": "Zum jetzigen Zeitpunkt sind 18 Standard-STLDs und ein benutzerdefinierter STLD verfügbar. Das sind: blockchain, coin, krypto, dao, dezentral, dex, free, nft, nostr, p2p, signa, signum (default), sns, w3, wallet, web3, x, y, z. Um die aktuell verfügbaren STLDs zu checken, gehe zu https://signumswap.com oder kopiere den folgenden Link in den Browser: https://europe.signum.network/api?requestType=getTLDs",
+  "getNostrAccount": "Ein Nostr-Konto erstellen",
+  "nostrumNetwork": "Nostrum-Netzwerk"
 }

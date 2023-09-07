@@ -259,5 +259,7 @@
   "faqQuestion7": "Як щодо конфіденційності в псевдонімах?",
   "faqQuestion7_answer": "Псевдоніми не повинні бути приватними. Дані, що зберігаються в Псевдонімах, є загальнодоступними та можуть бути прочитані будь-ким. Тому ніколи не зберігайте розумну інформацію у своїх псевдонімах.",
   "faqQuestion8": "Які STLD існують?",
-  "faqQuestion8_answer": "На даний момент доступно 18 STLD за замовчуванням і один спеціальний STLD. Це: blockchain, coin, crypto, dao, decentral, dex, free, nft, nostr, p2p, signa, signum (за замовчуванням), sns, w3, wallet, web3, x, y,z. Щоб перевірити поточні доступні STLD, перейдіть на сторінку https://signumswap.com або скопіюйте таке посилання у своєму браузері: https://europe.signum.network/api?requestType=getTLDs"
+  "faqQuestion8_answer": "На даний момент доступно 18 STLD за замовчуванням і один спеціальний STLD. Це: blockchain, coin, crypto, dao, decentral, dex, free, nft, nostr, p2p, signa, signum (за замовчуванням), sns, w3, wallet, web3, x, y,z. Щоб перевірити поточні доступні STLD, перейдіть на сторінку https://signumswap.com або скопіюйте таке посилання у своєму браузері: https://europe.signum.network/api?requestType=getTLDs",
+  "getNostrAccount": "Отримання облікового запису Nostr",
+  "nostrumNetwork": "Мережа Nostrum"
 }

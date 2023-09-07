@@ -259,5 +259,7 @@
   "faqQuestion7": "E quanto à privacidade em Aliases?",
   "faqQuestion7_answer": "Os aliases não devem ser privados. Os dados armazenados nos Aliases são públicos e podem ser lidos por qualquer pessoa. Portanto, nunca guarde informações confidenciais em seus aliases.",
   "faqQuestion8": "Quais DSTs existem?",
-  "faqQuestion8_answer": "No momento em que este artigo foi escrito, 18 STLDs padrão e um STLD personalizado estão disponíveis. São eles: blockchain, moeda, criptografia, dao, descentralizado, dex, grátis, nft, nostr, p2p, signa, signum (padrão), sns, w3, carteira, web3, x, y,z. Para verificar os STLDs atualmente disponíveis, acesse https://signumswap.com ou copie o seguinte link em seu navegador: https://europe.signum.network/api?requestType=getTLDs"
+  "faqQuestion8_answer": "No momento em que este artigo foi escrito, 18 STLDs padrão e um STLD personalizado estão disponíveis. São eles: blockchain, moeda, criptografia, dao, descentralizado, dex, grátis, nft, nostr, p2p, signa, signum (padrão), sns, w3, carteira, web3, x, y,z. Para verificar os STLDs atualmente disponíveis, acesse https://signumswap.com ou copie o seguinte link em seu navegador: https://europe.signum.network/api?requestType=getTLDs",
+  "getNostrAccount": "Obtendo uma conta Nostr",
+  "nostrumNetwork": "Rede Nostrum"
 }

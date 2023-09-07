@@ -17,6 +17,11 @@ export const FooterLinks = () => {
       url: "https://www.signum.network/wallet.html#XTWallet",
       newTab: true,
     },
+    {
+      label: t("nostrumNetwork"),
+      url: "https://www.nostrum.network",
+      newTab: true,
+    },
   ];
 
   const documentSection = [
@@ -28,6 +33,11 @@ export const FooterLinks = () => {
     {
       label: t("getStarted"),
       url: DocumentationUrl + "/get-started",
+      newTab: true,
+    },
+    {
+      label: t("getNostrAccount"),
+      url: "https://www.youtube.com/watch?v=MRlj90ZA2Dc",
       newTab: true,
     },
   ];

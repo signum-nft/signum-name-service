@@ -259,5 +259,7 @@
   "yes": "Yes",
   "yesCancelOrder": "Yes, cancel the order",
   "youWillPay": "You will pay",
-  "chooseOutOfTLDs": "Choose out of 18 preset Top Level Domains, e.g. signum, crypto, web3, etc. or even buy your very own one!"
+  "chooseOutOfTLDs": "Choose out of 18 preset Top Level Domains, e.g. signum, crypto, web3, etc. or even buy your very own one!",
+  "getNostrAccount": "Getting a Nostr Account",
+  "nostrumNetwork": "Nostrum Network"
 }
