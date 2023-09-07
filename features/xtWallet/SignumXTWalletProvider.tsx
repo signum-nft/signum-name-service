@@ -1,5 +1,5 @@
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
-import { GenericExtensionWallet } from "@signumjs/wallets";
+import { InvalidNetworkError, GenericExtensionWallet } from "@signumjs/wallets";
 import { NetworkNameType, StatusReason, WalletConnectionStatus } from "./types";
 import { ChildrenProps } from "@/app/types/ChildrenProps";
 import { Address } from "@signumjs/core";
@@ -78,6 +78,7 @@ export const SignumXTWalletProvider = ({
     }
 
     try {
+      setError(null);
       setStatus({
         code: WalletConnectionStatus.Connecting,
         reason: "",
@@ -106,16 +107,24 @@ export const SignumXTWalletProvider = ({
       );
 
       connection.listen({
-        onNetworkChanged: ({ networkName, networkHost }) => {
-          setNode({
-            host: networkHost,
-            network: networkName,
-          });
+        onNetworkChanged: ({ networkName: network, networkHost: host }) => {
+          if (network !== networkName) {
+            setStatus({
+              code: WalletConnectionStatus.Disconnected,
+              reason: "wrong-network",
+            });
+            setError(new InvalidNetworkError());
+          } else {
+            setNode({
+              host,
+              network,
+            });
+          }
         },
         onAccountChanged: ({ accountPublicKey }) => {
           setAccount({
             address: Address.fromPublicKey(accountPublicKey),
-            isWatchOnly: connection.watchOnly, // missing in signumjs
+            isWatchOnly: connection.watchOnly,
           });
         },
         onPermissionRemoved: () => {

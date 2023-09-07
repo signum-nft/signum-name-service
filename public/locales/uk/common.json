@@ -261,5 +261,7 @@
   "faqQuestion8": "Які STLD існують?",
   "faqQuestion8_answer": "На даний момент доступно 18 STLD за замовчуванням і один спеціальний STLD. Це: blockchain, coin, crypto, dao, decentral, dex, free, nft, nostr, p2p, signa, signum (за замовчуванням), sns, w3, wallet, web3, x, y,z. Щоб перевірити поточні доступні STLD, перейдіть на сторінку https://signumswap.com або скопіюйте таке посилання у своєму браузері: https://europe.signum.network/api?requestType=getTLDs",
   "getNostrAccount": "Отримання облікового запису Nostr",
-  "nostrumNetwork": "Мережа Nostrum"
+  "nostrumNetwork": "Мережа Nostrum",
+  "faqQuestion9": "Що таке NostriChat і як ним користуватися?",
+  "faqQuestion9_answer": "NostriChat — це програма чату, яка використовується для спілкування з іншими користувачами за допомогою децентрального протоколу nostr. Це абсолютно безкоштовно без будь-яких витрат. Щоб користуватися чатом, вам потрібно імпортувати обліковий запис Signum у XT Wallet із увімкненою опцією Nostr. Як саме це працює, ви можете дізнатися на https://www.youtube.com/watch?v=MRlj90ZA2Dc"
 }

@@ -261,5 +261,7 @@
   "faqQuestion8": "Quais DSTs existem?",
   "faqQuestion8_answer": "No momento em que este artigo foi escrito, 18 STLDs padrão e um STLD personalizado estão disponíveis. São eles: blockchain, moeda, criptografia, dao, descentralizado, dex, grátis, nft, nostr, p2p, signa, signum (padrão), sns, w3, carteira, web3, x, y,z. Para verificar os STLDs atualmente disponíveis, acesse https://signumswap.com ou copie o seguinte link em seu navegador: https://europe.signum.network/api?requestType=getTLDs",
   "getNostrAccount": "Obtendo uma conta Nostr",
-  "nostrumNetwork": "Rede Nostrum"
+  "nostrumNetwork": "Rede Nostrum",
+  "faqQuestion9": "O que é NostriChat e como posso usá-lo?",
+  "faqQuestion9_answer": "O NostriChat é um aplicativo de chat que serve para se comunicar com outros usuários utilizando o protocolo descentralizado nostr. É totalmente gratuito e sem nenhum custo. Para usar o chat você precisa importar sua conta Signum para a XT Wallet com a opção Nostr ativada. Como isso funciona exatamente você pode aprender em https://www.youtube.com/watch?v=MRlj90ZA2Dc"
 }
