@@ -1445,3 +1445,9 @@ svg.svelte-1byyxb6 {
 }
 @media (min-width: 1280px) {
 }
+
+/* dont let background color be affected by dark theme */
+#message-input {
+  color: #222 !important;
+  background-color: #e5e7eb !important;
+}

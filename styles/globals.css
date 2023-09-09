@@ -1,10 +1,5 @@
 @import url("public/vendors/nostri.chat/bundle.css");
 
-/* dont let background color be affected by dark theme */
-#message-input {
-  background-color: #e5e7eb !important;
-}
-
 a {
   text-decoration: none;
 }
